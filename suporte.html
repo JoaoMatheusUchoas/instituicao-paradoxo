@@ -113,8 +113,8 @@
         <p>Sim. Senhas provisórias seguem um padrão comum (nome da sua área de atuação, seguido de @ e do ano vigente) e devem ser alteradas no primeiro acesso. Colaboradores que mantêm a senha provisória colocam a segurança de todos em risco.</p>
       </details>
       <details>
-        <summary>Quando o cadastro de novos colaboradores volta a funcionar?</summary>
-        <p>O cadastro está em manutenção e ainda não tem data de retorno. Novos acessos devem ser solicitados diretamente ao setor responsável.</p>
+        <summary>Como faço meu cadastro no portal?</summary>
+        <p>Desde 24/11 o cadastro voltou a funcionar. Na tela de acesso, clique em "Cadastrar" e informe usuário, e-mail e senha. Seu cadastro é encaminhado à Dra. Slone e fica com nível de acesso 0 até ser aprovado.</p>
       </details>
       <details>
         <summary>Errei a senha várias vezes. O que acontece?</summary>
@@ -158,7 +158,7 @@
     <div class="caixa-corpo">
       <ul class="lista">
         <li><b>Ramal</b>2214</li>
-        <li><b>E-mail</b>suporte@paradoxo.org</li>
+        <li><b>E-mail</b>suporteparadoxo114@gmail.com</li>
         <li><b>Atendimento</b>Segunda a sexta, das 8h às 18h</li>
       </ul>
     </div>
@@ -169,7 +169,7 @@
       <ul class="lista">
         <li><b>Portal do Colaborador</b><span style="color:#2f6a14">Operacional</span></li>
         <li><b>E-mail corporativo</b><span style="color:#2f6a14">Operacional</span></li>
-        <li><b>Cadastro de colaboradores</b><span style="color:#9a0000">Em manutenção</span></li>
+        <li><b>Cadastro de colaboradores</b><span style="color:#2f6a14">Operacional</span></li>
         <li><b>Câmeras e monitoramento</b><span style="color:#8a6d00">Instabilidade parcial</span></li>
       </ul>
     </div>
@@ -179,9 +179,10 @@
 <footer>
   <div class="footer-inner">
     <span>© 2023 Instituição Paradoxo. Todos os direitos reservados.</span>
-    <span>Última atualização: 23/11/2023 · Melhor visualizado em 1024x768</span>
+    <span>Última atualização: 24/11/2023 · Melhor visualizado em 1024x768</span>
   </div>
 </footer>
+<script src="correio.js"></script>
 <script>
   document.getElementById("form-suporte").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -195,9 +196,28 @@
       }
     }
     var protocolo = "2023" + String(Math.floor(100000 + Math.random() * 900000));
+    var form = this;
+    var botao = form.querySelector("button[type=submit]");
+    botao.disabled = true;
     msg.className = "msg ok";
-    msg.textContent = "Solicitação enviada. Protocolo nº " + protocolo + ". O setor responsável vai responder em até 5 dias úteis.";
-    this.reset();
+    msg.textContent = "Enviando solicitação...";
+    Correio.enviar("Suporte nº " + protocolo + ": " + document.getElementById("assunto").value, {
+      "Protocolo": protocolo,
+      "Nome": document.getElementById("nome").value.trim(),
+      "E-mail": document.getElementById("email").value.trim(),
+      "Assunto": document.getElementById("assunto").value,
+      "Mensagem": document.getElementById("mensagem").value.trim()
+    }, document.getElementById("email").value.trim()).then(function (ok) {
+      botao.disabled = false;
+      if (ok) {
+        msg.className = "msg ok";
+        msg.textContent = "Solicitação enviada. Protocolo nº " + protocolo + ". A resposta chegará no e-mail informado em até 5 dias úteis.";
+        form.reset();
+      } else {
+        msg.className = "msg erro";
+        msg.textContent = "Não foi possível enviar agora. Tente novamente em alguns instantes.";
+      }
+    });
   });
 </script>
 </body>

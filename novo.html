@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instituição Paradoxo | Portal do Colaborador</title>
+<link rel="icon" type="image/png" href="simbolo.png">
+<script src="correio.js"></script>
+<script>
+  /* Só entra quem tem uma conta criada pelo cadastro neste navegador */
+  var USUARIO_ATUAL = null;
+  try { USUARIO_ATUAL = sessionStorage.getItem("paradoxo_usuario"); } catch (e) {}
+  var CONTA_ATUAL = USUARIO_ATUAL ? Correio.buscarConta(USUARIO_ATUAL) : null;
+  if (!CONTA_ATUAL) window.location.replace("index.html");
+</script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e4e4e4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23e4e4e4'/%3E%3Crect width='1' height='1' fill='%23dadada'/%3E%3C/svg%3E");
+    font-family: Tahoma, Verdana, "Segoe UI", Arial, sans-serif; font-size: 13px; color: #222;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  .topo { background: linear-gradient(to bottom, #3a3a3a 0%, #1a1a1a 50%, #000 51%, #111 100%); border-bottom: 3px solid #b00000; }
+  .topo-inner { max-width: 1000px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 12px; }
+  .topo img { width: 46px; height: 46px; }
+  .topo h1 { margin: 0; font-family: Georgia, serif; font-weight: normal; font-size: 23px; color: #fff; line-height: 1.1; }
+  .topo h1 small { display: block; font-family: Tahoma, sans-serif; font-size: 11px; color: #999; }
+  .usuario-box { margin-left: auto; text-align: right; color: #aaa; font-size: 11px; line-height: 1.5; }
+  .usuario-box strong { color: #fff; font-size: 12px; }
+  .usuario-box a { color: #ddd; }
+  .nav { background: linear-gradient(to bottom, #fafafa, #dcdcdc); border-bottom: 1px solid #aaa; }
+  .nav-inner { max-width: 1000px; margin: 0 auto; padding: 0 16px; display: flex; overflow-x: auto; }
+  .nav span { padding: 10px 13px; font-size: 12px; color: #aaa; border-right: 1px solid #c4c4c4; white-space: nowrap; }
+  .nav span.ativo { background: #fff; color: #000; font-weight: bold; box-shadow: inset 0 -3px 0 #b00000; }
+  .migalha { max-width: 1000px; margin: 0 auto; padding: 10px 16px 0; font-size: 11px; color: #777; width: 100%; }
+  main { flex: 1; max-width: 1000px; width: 100%; margin: 0 auto; padding: 12px 16px 28px; }
+  .caixa { background: #fff; border: 1px solid #aaa; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,.18); }
+  .caixa-topo { background: linear-gradient(to bottom, #2e2e2e, #050505); color: #fff; padding: 8px 12px; font-weight: bold; font-size: 12px; border-radius: 3px 3px 0 0; }
+  .caixa-corpo { padding: 18px; }
+  h2 { font-family: Georgia, serif; font-weight: normal; font-size: 22px; margin: 0 0 10px; }
+  p { line-height: 1.65; margin: 0 0 10px; max-width: 70ch; }
+  .aviso { background: #fffbe0; border: 1px solid #e6d77a; color: #665c1e; padding: 10px 12px; font-size: 12px; line-height: 1.5; margin: 14px 0; max-width: 70ch; }
+  table { border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+  td { padding: 7px 10px; border: 1px solid #d6d6d6; }
+  td:first-child { font-weight: bold; background: #f6f6f6; }
+  .vazio { text-align: center; color: #999; padding: 40px 10px; border: 1px dashed #ccc; margin-top: 16px; font-size: 12px; }
+  footer { background: #111; color: #888; font-size: 11px; }
+  .footer-inner { max-width: 1000px; margin: 0 auto; padding: 12px 16px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+  @media (max-width: 700px) { .topo h1 { font-size: 18px; } }
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="topo-inner">
+    <img src="simbolo.png" alt="Símbolo da Instituição Paradoxo">
+    <h1>Instituição Paradoxo<small>Portal do Colaborador · Unidade Pedra Branca</small></h1>
+    <div class="usuario-box"><strong id="nome-topo">colaborador</strong><br>Cadastro em análise · <a href="index.html" id="sair">Sair</a></div>
+  </div>
+</header>
+<nav class="nav" aria-label="Seções do portal">
+  <div class="nav-inner">
+    <span class="ativo">Início</span><span>Notícias</span><span>Calendário</span><span>E-mail</span><span>Arquivos internos</span>
+  </div>
+</nav>
+<div class="migalha">Portal do Colaborador › Início · Sexta-feira, 24 de novembro de 2023</div>
+<main>
+  <div class="caixa">
+    <div class="caixa-topo">Bem-vindo</div>
+    <div class="caixa-corpo">
+      <h2>Olá, <span id="nome-texto">colaborador</span>.</h2>
+      <p>Seu cadastro foi recebido e encaminhado à Diretoria de Instalações e Colaboradores. Até a liberação do seu acesso, nenhum conteúdo está disponível para o seu perfil.</p>
+      <table>
+        <tr><td>Usuário</td><td id="t-usuario"></td></tr>
+        <tr><td>E-mail</td><td id="t-email"></td></tr>
+        <tr><td>Cadastro</td><td id="t-data"></td></tr>
+        <tr><td>Nível de acesso</td><td>0 · Pendente</td></tr>
+        <tr><td>Responsável</td><td>Dra. Slone</td></tr>
+      </table>
+      <div class="aviso">Você será contatado pelo e-mail informado quando houver uma atualização sobre o seu acesso.</div>
+      <div class="vazio">Nenhum conteúdo disponível.</div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-inner">
+    <span>© 2023 Instituição Paradoxo. Todos os direitos reservados.</span>
+    <span>Portal do Colaborador v2.3</span>
+  </div>
+</footer>
+<script>
+  if (CONTA_ATUAL) {
+    document.getElementById("nome-topo").textContent = CONTA_ATUAL.usuario;
+    document.getElementById("nome-texto").textContent = CONTA_ATUAL.usuario;
+    document.getElementById("t-usuario").textContent = CONTA_ATUAL.usuario;
+    document.getElementById("t-email").textContent = CONTA_ATUAL.email;
+    document.getElementById("t-data").textContent = CONTA_ATUAL.criado;
+    window.VERA_CONFIG = { nome: CONTA_ATUAL.usuario, nivel: 0, perfil: "novo" };
+  }
+  document.getElementById("sair").addEventListener("click", function () {
+    try { sessionStorage.removeItem("paradoxo_usuario"); } catch (e) {}
+  });
+</script>
+<script src="vera.js"></script>
+</body>
+</html>

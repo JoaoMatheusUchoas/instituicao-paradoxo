@@ -230,6 +230,8 @@
     color: #2f6a14;
   }
 
+  .cad-info { font-size: 11px; color: #666; margin: 0 0 12px; line-height: 1.5; }
+  .btn:disabled { opacity: .6; cursor: wait; }
   .login-rodape {
     border-top: 1px solid #e2e2e2;
     background: #f7f7f7;
@@ -358,7 +360,30 @@
 
       <div class="botoes">
         <button type="submit" class="btn btn-entrar">Entrar</button>
-        <button type="button" class="btn btn-cadastro" id="btn-cadastro">Cadastro</button>
+        <button type="button" class="btn btn-cadastro" id="btn-cadastro">Cadastrar</button>
+      </div>
+    </form>
+    <form id="form-cadastro" autocomplete="off" hidden novalidate>
+      <div id="msg-cad" class="msg" role="alert"></div>
+      <p class="cad-info">Novos cadastros são analisados pela Diretoria de Instalações e Colaboradores (Dra. Slone).</p>
+
+      <label for="cad-usuario">Usuário</label>
+      <input type="text" id="cad-usuario" autocapitalize="off" spellcheck="false" placeholder="nome.sobrenome">
+
+      <label for="cad-email">E-mail</label>
+      <input type="email" id="cad-email" autocapitalize="off" spellcheck="false">
+
+      <label for="cad-senha">Senha</label>
+      <input type="password" id="cad-senha">
+
+      <label for="cad-senha2">Confirmar senha</label>
+      <input type="password" id="cad-senha2">
+
+      <p class="cad-info">Utilize uma senha exclusiva para este portal.</p>
+
+      <div class="botoes">
+        <button type="submit" class="btn btn-entrar" id="cad-enviar">Cadastrar</button>
+        <button type="button" class="btn btn-cadastro" id="cad-voltar">Voltar</button>
       </div>
     </form>
     <div class="login-rodape">Problemas com o acesso? Contate o suporte do seu setor.</div>
@@ -368,9 +393,11 @@
 <footer>
   <div class="footer-inner">
     <span>© 2023 Instituição Paradoxo. Todos os direitos reservados.</span>
-    <span>Última atualização: 23/11/2023 · Melhor visualizado em 1024x768</span>
+    <span>Última atualização: 24/11/2023 · Melhor visualizado em 1024x768</span>
   </div>
 </footer>
+
+<script src="correio.js"></script>
 
 <div id="fim" role="alertdialog" aria-live="assertive">
   <p id="fim-texto"></p>
@@ -414,15 +441,20 @@
       }
     }
 
-    if (achou) {
-      erros = 0;
-      mostrar("ok", "Acesso autorizado. Redirecionando...");
-      try { sessionStorage.setItem("paradoxo_usuario", achou.usuario); } catch (err) {}
-      setTimeout(function () { window.location.href = achou.destino; }, 1200);
-    } else {
-      errou();
-    }
+    if (achou) { entrar(achou.usuario, achou.destino); return; }
+
+    Correio.conferirSenha(u, s).then(function (conta) {
+      if (conta) entrar(conta.usuario, "novo.html");
+      else errou();
+    });
   });
+
+  function entrar(usuario, destino) {
+    erros = 0;
+    mostrar("ok", "Acesso autorizado. Redirecionando...");
+    try { sessionStorage.setItem("paradoxo_usuario", usuario); } catch (err) {}
+    setTimeout(function () { window.location.href = destino; }, 1200);
+  }
 
   /* ==========================================================
      TENTATIVAS ERRADAS
@@ -435,7 +467,7 @@
     "Acesso negado. Níveis elevados de WE-30 detectados no seu teclado.",
     "Usuário não encontrado. Talvez ele tenha virado Chimera.",
     "Sua sessão foi transferida para uma White-Zone. Aguarde em quarentena.",
-    "Anomalia temporal detectada. Tente novamente em 23/11/2023.",
+    "Anomalia temporal detectada. Tente novamente em 24/11/2023.",
     "O que aconteceu com as waves anteriores é desconhecido. Não vire uma delas.",
     "Você não vai a lugar nenhum, a não ser pro inferno... espero que goste de lá."
   ];
@@ -503,8 +535,67 @@
     campoSenha.focus();
   });
 
-  document.getElementById("btn-cadastro").addEventListener("click", function () {
-    mostrar("manut", "Cadastro temporariamente indisponível. O sistema está em manutenção. Novos acessos devem ser solicitados ao seu setor.");
+  /* ==========================================================
+     CADASTRO
+     A conta fica salva no navegador da pessoa e um aviso
+     (usuário e e-mail, nunca a senha) é enviado ao mestre.
+     ========================================================== */
+  var formCad = document.getElementById("form-cadastro");
+  var msgCad = document.getElementById("msg-cad");
+  var tituloLogin = document.getElementById("titulo-login");
+
+  function mostrarCad(tipo, texto) {
+    msgCad.className = "msg " + tipo;
+    msgCad.textContent = texto;
+  }
+  function trocarPainel(cadastro) {
+    form.hidden = cadastro;
+    formCad.hidden = !cadastro;
+    tituloLogin.textContent = cadastro ? "Cadastro de colaborador" : "Identificação";
+    msg.className = "msg"; msgCad.className = "msg";
+    document.getElementById(cadastro ? "cad-usuario" : "usuario").focus();
+  }
+  document.getElementById("btn-cadastro").addEventListener("click", function () { trocarPainel(true); });
+  document.getElementById("cad-voltar").addEventListener("click", function () { trocarPainel(false); });
+
+  formCad.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var u = document.getElementById("cad-usuario").value.trim().toLowerCase();
+    var em = document.getElementById("cad-email").value.trim();
+    var s1 = document.getElementById("cad-senha").value;
+    var s2 = document.getElementById("cad-senha2").value;
+
+    if (!u || !em || !s1 || !s2) return mostrarCad("erro", "Preencha todos os campos.");
+    if (!/^[a-z0-9._-]{3,30}$/.test(u)) return mostrarCad("erro", "Usuário inválido. Use de 3 a 30 caracteres: letras minúsculas, números, ponto, hífen ou sublinhado.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) return mostrarCad("erro", "Informe um e-mail válido.");
+    if (s1.length < 6) return mostrarCad("erro", "A senha precisa ter pelo menos 6 caracteres.");
+    if (s1 !== s2) return mostrarCad("erro", "As senhas não conferem.");
+    for (var i = 0; i < USUARIOS.length; i++) {
+      if (USUARIOS[i].usuario.toLowerCase() === u) return mostrarCad("erro", "Este usuário já está em uso.");
+    }
+    if (Correio.buscarConta(u)) return mostrarCad("erro", "Este usuário já está em uso.");
+
+    var botaoCad = document.getElementById("cad-enviar");
+    botaoCad.disabled = true;
+    mostrarCad("manut", "Registrando cadastro...");
+
+    Correio.enviar("Novo cadastro: " + u, {
+      "Usuário": u,
+      "E-mail informado": em,
+      "Encaminhado para": "Dra. Slone (Instalações e Colaboradores)"
+    }, em).then(function (ok) {
+      if (!ok) {
+        botaoCad.disabled = false;
+        return mostrarCad("erro", "Não foi possível registrar o cadastro agora. Tente novamente em alguns instantes.");
+      }
+      Correio.criarConta(u, em, s1).then(function () {
+        botaoCad.disabled = false;
+        formCad.reset();
+        trocarPainel(false);
+        document.getElementById("usuario").value = u;
+        mostrar("ok", "Cadastro registrado e encaminhado à Dra. Slone. Você já pode entrar com seu usuário e senha.");
+      });
+    });
   });
 </script>
 </body>

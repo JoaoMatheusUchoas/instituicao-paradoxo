@@ -217,6 +217,45 @@
     .cal td { height: 58px; }
     .cal .ev { font-size: 9px; }
   }
+  /* E-mail */
+  .email-layout { display: flex; gap: 0; padding: 0; min-height: 360px; }
+  .email-lista { list-style: none; margin: 0; padding: 0; width: 240px; flex-shrink: 0; border-right: 1px solid #ccc; background: #f7f7f7; }
+  .email-item {
+    display: block; width: 100%; text-align: left; background: none; border: none; border-bottom: 1px solid #ddd;
+    padding: 9px 12px; font-family: inherit; font-size: 12px; color: #444; cursor: pointer; position: relative;
+  }
+  .email-item b { display: block; font-weight: normal; color: #222; padding-right: 36px; }
+  .email-item span { display: block; color: #666; font-size: 11px; margin-top: 2px; }
+  .email-item i { position: absolute; right: 10px; top: 9px; font-style: normal; font-size: 10px; color: #888; }
+  .email-item.nao-lido b, .email-item.nao-lido span { font-weight: bold; color: #000; }
+  .email-item.nao-lido { box-shadow: inset 3px 0 0 #b00000; }
+  .email-item.aberto { background: #fff; }
+  .email-item:hover { background: #fff; }
+  .email-item:focus-visible { outline: 2px dotted #b00000; outline-offset: -3px; }
+  .email-leitura { flex: 1; min-width: 0; padding: 16px; }
+  .email-cab { font-size: 12px; color: #555; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 12px; line-height: 1.6; }
+
+  /* Escrever e-mail */
+  .correio-form label { display: block; font-weight: bold; font-size: 12px; margin-bottom: 4px; }
+  .correio-form select, .correio-form input, .correio-form textarea {
+    width: 100%; padding: 6px 7px; font-family: inherit; font-size: 13px; border: 1px solid #999; border-top-color: #777;
+    border-radius: 2px; box-shadow: inset 0 1px 2px rgba(0,0,0,.15); margin-bottom: 12px; background: #fff;
+  }
+  .correio-form textarea { min-height: 120px; resize: vertical; }
+  .correio-form select:focus, .correio-form input:focus, .correio-form textarea:focus { outline: none; border-color: #b00000; box-shadow: inset 0 1px 2px rgba(0,0,0,.15), 0 0 4px rgba(200,0,0,.45); }
+  .btn-enviar { padding: 7px 18px; font-family: inherit; font-size: 13px; font-weight: bold; border-radius: 3px; cursor: pointer; color: #fff; background: linear-gradient(to bottom, #4a4a4a, #111); border: 1px solid #000; }
+  .btn-enviar:disabled { opacity: .6; cursor: wait; }
+  .btn-enviar:focus-visible { outline: 2px dotted #b00000; outline-offset: 2px; }
+  .correio-status { display: none; margin-bottom: 12px; padding: 8px 10px; font-size: 12px; border-radius: 2px; }
+  .correio-status.ok { display: block; background: #eef7e8; border: 1px solid #a9cf93; color: #2f6a14; }
+  .correio-status.erro { display: block; background: #ffecec; border: 1px solid #e3a1a1; color: #9a0000; }
+  .correio-status.enviando { display: block; background: #f2f2f2; border: 1px solid #c8c8c8; color: #444; }
+  .correio-enviados { list-style: none; margin: 0; padding: 0; font-size: 12px; }
+  .correio-enviados li { padding: 7px 0; border-bottom: 1px dotted #ccc; }
+  .correio-enviados li:last-child { border-bottom: none; }
+  .correio-enviados b { display: block; }
+  .correio-enviados span { color: #888; font-size: 11px; }
+  .correio-vazio { color: #999; }
 </style>
 </head>
 <body>
@@ -238,6 +277,7 @@
 <nav class="nav" aria-label="Seções do portal">
   <div class="nav-inner">
     <button data-aba="inicio" class="ativo">Início</button>
+    <button data-aba="email" id="nav-email">E-mail (2)</button>
     <button data-aba="noticias">Notícias</button>
     <button data-aba="calendario">Calendário</button>
     <button data-aba="ocorrencias">Ocorrências</button>
@@ -250,7 +290,7 @@
   </div>
 </nav>
 
-<div class="migalha" id="migalha">Portal do Colaborador › Início · Quinta-feira, 23 de novembro de 2023</div>
+<div class="migalha" id="migalha">Portal do Colaborador › Início · Sexta-feira, 24 de novembro de 2023</div>
 
 <div class="corpo">
 <div class="principal">
@@ -270,6 +310,10 @@
       </div>
     </div>
 
+    <div class="aviso">
+      Você tem <b>2 e-mails não lidos</b>. <button class="btn-link" data-ir="email">Abrir caixa de entrada</button>
+    </div>
+
     <div class="aviso vermelho">
       <b>Atenção:</b> o acesso ao Setor Alpha segue restrito. Colaboradores sem autorização da Segurança não devem circular pelo corredor de acesso ao setor. <button class="btn-link" data-ir="noticias" data-alvo="n-alpha">Saiba mais</button>
     </div>
@@ -278,6 +322,7 @@
       <div class="caixa-topo claro">Últimas notícias internas</div>
       <div class="caixa-corpo">
         <ul class="lista-noticias">
+          <li><span class="data">24/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-cadastro">Cadastro de novos colaboradores é reativado</button></div></li>
           <li><span class="data">23/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-omega">Instituição apresenta a Equipe Omega</button></div></li>
           <li><span class="data">22/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-alpha">Setor Alpha opera com restrições após falhas nas contenções</button></div></li>
           <li><span class="data">21/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-financeiro">Diretoria Financeira anuncia medidas de contenção de despesas</button></div></li>
@@ -299,11 +344,113 @@
     </div>
   </div>
 
+  <!-- ================= E-MAIL ================= -->
+  <div class="aba" id="aba-email">
+    <div class="caixa">
+      <div class="caixa-topo">Caixa de entrada <span>m.duarte@paradoxo.org</span></div>
+      <div class="caixa-corpo email-layout">
+        <ul class="email-lista">
+          <li><button class="email-item nao-lido" data-email="0"><b>Dra. Slone</b><span>Cadastro de colaboradores reativado</span><i>24/11</i></button></li>
+          <li><button class="email-item nao-lido" data-email="1"><b>Renata Siqueira</b><span>Plantão de sábado</span><i>24/11</i></button></li>
+          <li><button class="email-item" data-email="2"><b>Paulo Lemos</b><span>Gravação do corredor B</span><i>23/11</i></button></li>
+          <li><button class="email-item" data-email="3"><b>Recursos Humanos</b><span>Confraternização de fim de ano</span><i>10/11</i></button></li>
+        </ul>
+        <div class="email-leitura">
+          <div class="email-msg" id="email-vazio"><p style="color:#888">Selecione uma mensagem para ler.</p></div>
+          <div class="email-msg" id="email-0" hidden>
+            <h3>Cadastro de colaboradores reativado</h3>
+            <div class="email-cab">
+              <div><b>De:</b> Dra. Slone &lt;slone@paradoxo.org&gt;</div>
+              <div><b>Para:</b> Todos os colaboradores</div>
+              <div><b>Data:</b> 24/11/2023, 07:30</div>
+            </div>
+            <p>Prezados colaboradores,</p>
+            <p>A partir de hoje, 24/11, o cadastro de novos colaboradores pelo Portal está novamente disponível. Todo novo cadastro será encaminhado diretamente a mim e analisado antes da liberação de qualquer acesso. Contas novas permanecem com nível 0 até a aprovação.</p>
+            <p>Peço atenção redobrada: não compartilhem suas credenciais com ninguém e comuniquem imediatamente qualquer cadastro que vocês não reconheçam.</p>
+            <p>Dra. Slone<br><span style="color:#777;font-size:12px">Diretora de Instalações e Colaboradores · Ramal 2400</span></p>
+          </div>
+          <div class="email-msg" id="email-1" hidden>
+            <h3>Plantão de sábado</h3>
+            <div class="email-cab">
+              <div><b>De:</b> Renata Siqueira &lt;r.siqueira@paradoxo.org&gt;</div>
+              <div><b>Para:</b> Marcos Duarte &lt;m.duarte@paradoxo.org&gt;</div>
+              <div><b>Data:</b> 24/11/2023, 08:15</div>
+            </div>
+            <p>Marcos,</p>
+            <p>Preciso de você no plantão de amanhã, sábado, das 08h às 14h. O relógio do servidor principal voltou para 00:00 de novo esta madrugada, às 02:47, e eu quero alguém acompanhando o próximo reinício de perto.</p>
+            <p>Anota tudo o que aparecer no log, mesmo o que parecer bobagem. E não reinicia nada sem me avisar antes.</p>
+            <p>Obrigada,<br>Renata Siqueira<br><span style="color:#777;font-size:12px">Coordenadora de TI · Ramal 2210</span></p>
+          </div>
+          <div class="email-msg" id="email-2" hidden>
+            <h3>Gravação do corredor B</h3>
+            <div class="email-cab">
+              <div><b>De:</b> Paulo Lemos &lt;p.lemos@paradoxo.org&gt;</div>
+              <div><b>Para:</b> Marcos Duarte &lt;m.duarte@paradoxo.org&gt;</div>
+              <div><b>Data:</b> 23/11/2023, 16:40</div>
+            </div>
+            <p>Marcos,</p>
+            <p>Sobre o chamado 4486: preciso de qualquer coisa que você conseguir recuperar da gravação do corredor B entre 02:31 e 02:44 do dia 22. Nem que seja um quadro só.</p>
+            <p>Se conseguir, manda direto pra mim. Não abre o arquivo na frente de ninguém e não comenta com o pessoal da TI.</p>
+            <p>Paulo Lemos<br><span style="color:#777;font-size:12px">Supervisor de Segurança · Ramal 2100</span></p>
+          </div>
+          <div class="email-msg" id="email-3" hidden>
+            <h3>Confraternização de fim de ano</h3>
+            <div class="email-cab">
+              <div><b>De:</b> Recursos Humanos &lt;rh@paradoxo.org&gt;</div>
+              <div><b>Para:</b> Todos os colaboradores</div>
+              <div><b>Data:</b> 10/11/2023, 09:00</div>
+            </div>
+            <p>A confraternização acontecerá no dia 15/12, a partir das 18h, no salão principal. Confirme presença até 08/12.</p>
+            <p>Recursos Humanos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="aba-extra-email">
+    <div class="caixa">
+      <div class="caixa-topo claro">Escrever mensagem</div>
+      <div class="caixa-corpo">
+        <form id="correio-form" class="correio-form" data-remetente="marcos.duarte" data-nome="Marcos Duarte" novalidate>
+          <div id="correio-status" class="correio-status" role="status"></div>
+          <label for="correio-para">Para</label>
+          <select id="correio-para">
+            <option value="">Selecione o destinatário</option>
+            <option>Dra. Slone</option>
+            <option>Dr. Will</option>
+            <option>Brian Wester</option>
+            <option>Renata Siqueira (TI)</option>
+            <option>Paulo Lemos (Segurança)</option>
+            <option>Rykardo Viana</option>
+            <option>Osvaldo Ramos (Zeladoria)</option>
+            <option>Recursos Humanos</option>
+          </select>
+          <label for="correio-assunto">Assunto</label>
+          <input type="text" id="correio-assunto" maxlength="120">
+          <label for="correio-msg">Mensagem</label>
+          <textarea id="correio-msg"></textarea>
+          <button type="submit" class="btn-enviar">Enviar</button>
+        </form>
+        <h4>Enviados</h4>
+        <ul id="correio-enviados" class="correio-enviados"></ul>
+      </div>
+    </div>
+    </div>
+  </div>
+
   <!-- ================= NOTÍCIAS ================= -->
   <div class="aba" id="aba-noticias">
     <div class="caixa">
       <div class="caixa-topo">Notícias internas <span>Comunicação Institucional</span></div>
       <div class="caixa-corpo">
+
+        <article class="artigo" id="n-cadastro">
+          <span class="selo cinza">Sistemas</span>
+          <h3>Cadastro de novos colaboradores é reativado</h3>
+          <div class="meta">24/11/2023 · Dra. Slone, Diretora de Instalações e Colaboradores</div>
+          <p>Após a manutenção, o cadastro de novos colaboradores pelo Portal voltou a funcionar nesta sexta-feira. Cada solicitação é encaminhada à Diretoria de Instalações e Colaboradores e passa por análise antes da liberação do acesso.</p>
+          <p>Contas recém-criadas ficam com nível de acesso 0 até a aprovação. Em caso de dúvidas, procure o Suporte de TI pelo ramal 2214.</p>
+        </article>
 
         <article class="artigo" id="n-omega">
           <span class="selo">Novidade</span>
@@ -459,7 +606,7 @@
     <div class="caixa">
       <div class="caixa-topo">Refeitório <span>Cardápio da semana · 20 a 24/11</span></div>
       <div class="caixa-corpo">
-        <div class="aviso">Sexta-feira, 24/11: refeitório fechado para dedetização. O vale-refeição será creditado normalmente.</div>
+        <div class="aviso">Hoje, sexta-feira (24/11), o refeitório está fechado para dedetização. O vale-refeição será creditado normalmente.</div>
         <div class="tabela-wrap">
           <table class="dados cardapio">
             <thead><tr><th>Dia</th><th>Prato principal</th><th>Acompanhamentos</th><th>Sobremesa</th></tr></thead>
@@ -467,8 +614,8 @@
               <tr><td>Segunda, 20/11</td><td>Frango assado</td><td>Arroz, feijão, salada de alface</td><td>Gelatina</td></tr>
               <tr><td>Terça, 21/11</td><td>Carne de panela</td><td>Arroz, purê de batata, legumes</td><td>Banana</td></tr>
               <tr><td>Quarta, 22/11</td><td>Peixe empanado</td><td>Arroz, feijão, salada de tomate</td><td>Pudim</td></tr>
-              <tr class="hoje-linha"><td>Quinta, 23/11</td><td>Strogonoff de frango</td><td>Arroz, batata palha, salada verde</td><td>Doce de leite</td></tr>
-              <tr><td>Sexta, 24/11</td><td colspan="3"><span class="status st-esp">Fechado para dedetização</span></td></tr>
+              <tr><td>Quinta, 23/11</td><td>Strogonoff de frango</td><td>Arroz, batata palha, salada verde</td><td>Doce de leite</td></tr>
+              <tr class="hoje-linha"><td>Sexta, 24/11</td><td colspan="3"><span class="status st-esp">Fechado para dedetização</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -661,7 +808,7 @@
      NAVEGAÇÃO ENTRE SEÇÕES
      ========================================================== */
   var NOMES = {
-    inicio: "Início", noticias: "Notícias", calendario: "Calendário",
+    inicio: "Início", email: "E-mail", noticias: "Notícias", calendario: "Calendário",
     ocorrencias: "Ocorrências", financeiro: "Financeiro", refeitorio: "Refeitório",
     colaboradores: "Colaboradores", chamados: "Meus chamados",
     perfil: "Meu perfil", arquivos: "Arquivos internos"
@@ -676,7 +823,7 @@
     for (var j = 0; j < abas.length; j++) abas[j].classList.remove("ativa");
     document.getElementById("aba-" + aba).classList.add("ativa");
     document.getElementById("migalha").textContent =
-      "Portal do Colaborador › " + NOMES[aba] + " · Quinta-feira, 23 de novembro de 2023";
+      "Portal do Colaborador › " + NOMES[aba] + " · Sexta-feira, 24 de novembro de 2023";
     if (alvo) {
       document.getElementById(alvo).scrollIntoView();
     } else {
@@ -711,7 +858,7 @@
     "2023-11-18": [["Primeira falha no Setor Alpha", "alerta"]],
     "2023-11-20": [["Consciência Negra (ponto facultativo)", "feriado"]],
     "2023-11-22": [["Setor Alpha com acesso restrito", "alerta"]],
-    "2023-11-24": [["Refeitório fechado", "alerta"]],
+    "2023-11-24": [["Refeitório fechado", "alerta"], ["Cadastro reativado", "interno"]],
     "2023-11-27": [["Reunião geral · Equipe Omega", "interno"]],
     "2023-11-30": [["Fechamento da folha", "interno"]],
     "2023-12-01": [["Início da Equipe Omega", "interno"], ["Contenção de despesas", "alerta"]],
@@ -722,7 +869,7 @@
   };
   var MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
   var SEMANA = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
-  var HOJE = "2023-11-23";
+  var HOJE = "2023-11-24";
   var mesAtual = 10; // novembro (0 = janeiro)
   var MES_MIN = 9, MES_MAX = 11; // outubro a dezembro
 
@@ -769,11 +916,33 @@
   atualizarCalendario();
   desenhar(document.getElementById("cal-mini"), 10, true);
 
+  /* ==========================================================
+     E-MAIL
+     ========================================================== */
+  var itensEmail = document.querySelectorAll(".email-item");
+  function contarNaoLidos() {
+    var n = document.querySelectorAll(".email-item.nao-lido").length;
+    document.getElementById("nav-email").textContent = n ? "E-mail (" + n + ")" : "E-mail";
+  }
+  for (var m = 0; m < itensEmail.length; m++) {
+    itensEmail[m].addEventListener("click", function () {
+      var id = this.getAttribute("data-email");
+      var msgs = document.querySelectorAll(".email-msg");
+      for (var x = 0; x < msgs.length; x++) msgs[x].hidden = true;
+      document.getElementById("email-" + id).hidden = false;
+      for (var y = 0; y < itensEmail.length; y++) itensEmail[y].classList.remove("aberto");
+      this.classList.add("aberto");
+      this.classList.remove("nao-lido");
+      contarNaoLidos();
+    });
+  }
+
   document.getElementById("sair").addEventListener("click", function () {
     try { sessionStorage.removeItem("paradoxo_usuario"); } catch (e) {}
   });
 </script>
 <script>window.VERA_CONFIG = { nome: "Marcos", nivel: 1, perfil: "ti" };</script>
+<script src="correio.js"></script>
 <script src="vera.js"></script>
 </body>
 </html>
