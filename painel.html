@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instituição Paradoxo | Painel</title>
+<link rel="icon" type="image/png" href="simbolo.png">
+<style>
+  body { margin: 0; background: #e4e4e4; font-family: Tahoma, Verdana, Arial, sans-serif; font-size: 13px; color: #222; }
+  .topo { background: linear-gradient(to bottom, #3a3a3a 0%, #1a1a1a 50%, #000 51%, #111 100%); border-bottom: 3px solid #b00000; }
+  .topo div { max-width: 960px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 12px; }
+  .topo img { width: 44px; height: 44px; }
+  .topo h1 { margin: 0; font-family: Georgia, serif; font-weight: normal; font-size: 22px; color: #fff; }
+  .topo a { margin-left: auto; color: #ccc; font-size: 12px; }
+  main { max-width: 960px; margin: 40px auto; padding: 0 16px; }
+  .caixa { background: #fff; border: 1px solid #aaa; border-radius: 4px; padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+  h2 { font-family: Georgia, serif; font-weight: normal; margin-top: 0; }
+</style>
+</head>
+<body>
+<header class="topo">
+  <div>
+    <img src="simbolo.png" alt="Símbolo da Instituição Paradoxo">
+    <h1>Instituição Paradoxo</h1>
+    <a href="index.html">Sair</a>
+  </div>
+</header>
+<main>
+  <div class="caixa">
+    <h2>Bem-vindo, <span id="nome">colaborador</span>.</h2>
+    <p>Nenhum comunicado disponível no momento.</p>
+  </div>
+</main>
+<script>
+  try {
+    var n = sessionStorage.getItem("paradoxo_usuario");
+    if (n) document.getElementById("nome").textContent = n;
+  } catch (e) {}
+</script>
+</body>
+</html>
