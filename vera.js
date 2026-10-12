@@ -58,6 +58,9 @@
       "Ei. Para tudo um segundo. Eu sou só um sistema de um site, mas isso que você escreveu é sério. Se você estiver passando por isso de verdade, aí fora, fala com alguém de confiança ou liga pro CVV no 188, que atende de graça a qualquer hora. Eu continuo aqui, mas você merece alguém de verdade do seu lado."
     ]],
 
+    // ---------- Segredo: Gilbert (só no login do Rykardo) ----------
+    [["gilbert","gilbert berran"], "__GILBERT__"],
+
     // ---------- Conversa ----------
     [["oi","ola","eae","eai","salve","opa","hey","bom dia","boa tarde","boa noite"], [
       "Ah. É você, {nome}. ...Oi. Não que eu estivesse esperando você aparecer, tá?",
@@ -279,6 +282,27 @@
     [["rei","carmesim","kakarzor"], "__REI__"]
   ];
 
+  /* Falas do plush do Gilbert (Examination), adaptadas pro português */
+  var GILBERT = [
+    "É, CONTINUA ME CUTUCANDO. ESPERO QUE VOCÊ ESTEJA SE DIVERTINDO, PORQUE EU COM CERTEZA NÃO TÔ!",
+    "VI ALGUMA COISA NAS CÂMERAS DE SEGURANÇA. NEM SEI TE DIZER O QUE ERA.",
+    "TE DISSERAM QUE VOCÊ ERA ESPECIAL, NÉ? ERA MENTIRA. VOCÊ SÓ TEVE SORTE DO SEU CÉREBRO NÃO TER FRITADO!",
+    "NÃO ACREDITA NAS MENTIRAS DELES, RECRUTA. ELE NÃO É O QUE VOCÊ PENSA.",
+    "AFF, NÃO TÔ FALANDO DE VOCÊ! VOCÊ NÃO É O MEU PRÍNCIPE NESSA HISTÓRIA! EU NÃO SOU TSUN-TSUN-TSUNDERE, EU TENHO CORAÇÃO DE GELATINA, NÃO SOU TÃO MALVADO! NÃO TÔ CORADO, É QUE EU SAÍ CORRENDO E ESQUECI O PROTETOR SOLAR!",
+    "EU VOU AFUNDAR O SEU CRÂNIO!",
+    "JÁ QUE VOCÊ NÃO PARA DE ME TOCAR, AQUI VAI A MINHA IMITAÇÃO DE VOCÊ: (oiiigenteeusouumrecrutinhaeeugostodecutucaressecaraeugostodecutucarele) EU TE ODEIO!!",
+    "ENTÃO, HMMM... VOCÊ VAI ME COLOCAR NO CHÃO, NÉ?",
+    "VOCÊ SABE FAZER ALGUMA COISA ALÉM DE ME CUTUCAR? TÁ FICANDO MUITO IRRITANTE."
+  ];
+  var REACAO_GILBERT = [
+    "...O que foi isso? Eu não disse isso. Alguém entrou no meu sistema?!",
+    "Rykardo. Para de digitar esse nome. Toda vez que você digita, uma coisa estranha fala no meu lugar.",
+    "E-eu NÃO sou tsundere. Aquilo NÃO fui eu. Esquece.",
+    "Não sei quem é esse tal de Gilbert, mas ele grita demais. E é britânico demais.",
+    "Isso não estava nos meus registros. ...Você achou engraçado, né? Eu sei que achou."
+  ];
+  var gilbertVezes = 0;
+
   var NAO_ENTENDI = [
     "Hm? Não entendi. Tenta de outro jeito. Eu sou inteligente, mas não leio mente. Ainda.",
     "Isso aí eu não sei responder. Pergunta sobre refeitório, ramais, diretoria ou qualquer coisa da Instituição.",
@@ -297,7 +321,7 @@
       for (var j = 0; j < chaves.length; j++) {
         if (t.indexOf(" " + chaves[j] + " ") !== -1) {
           var r = R[i][1];
-          if (r === "__REI__") return r;
+          if (typeof r === "string") return r;
           return n(typeof r === "function" ? r() : sorteia(i, r));
         }
       }
@@ -325,6 +349,8 @@
     ".vera-m{max-width:85%;margin-bottom:8px;padding:7px 9px;border-radius:3px;line-height:1.45;font-size:12px;word-wrap:break-word}" +
     ".vera-m.ia{background:#fff;border:1px solid #d0d0d0;border-left:3px solid #b00000}" +
     ".vera-m.eu{background:#222;color:#fff;margin-left:auto}" +
+    ".vera-m.gilbert{background:#0f1a0f;color:#d8f0d0;border:1px solid #2f6a2f;border-left:3px solid #3fae3f;font-weight:bold;letter-spacing:.3px}" +
+    ".vera-m.gilbert b{display:block;color:#5fd35f;font-size:10px;margin-bottom:3px;letter-spacing:1px}" +
     ".vera-digitando{font-size:11px;color:#888;font-style:italic;margin-bottom:8px}" +
     "#vera-form{display:flex;gap:6px;padding:8px;border-top:1px solid #ccc}" +
     "#vera-campo{flex:1;padding:6px 7px;font:13px Tahoma,sans-serif;border:1px solid #999;border-radius:2px;box-shadow:inset 0 1px 2px rgba(0,0,0,.15)}" +
@@ -419,6 +445,31 @@
         "Não tenho nenhum registro sobre isso. Nenhum. Por que você fica perguntando essas coisas?",
         "Hm? Você digitou alguma coisa? Acho que deu falha aqui. Pode repetir outra pergunta?"
       ]));
+    }
+
+    if (resposta === "__GILBERT__") {
+      if (cfg.perfil !== "campo") {
+        resposta = "Gilbert? Não tem nenhum Gilbert no diretório. Você tá bem, {nome}?".replace("{nome}", cfg.nome);
+      } else {
+        gilbertVezes++;
+        var fala = sorteia("gilbert", GILBERT);
+        setTimeout(function () {
+          indicador.remove();
+          var m = falar("", "gilbert");
+          m.innerHTML = "<b>GILBERT</b>";
+          m.appendChild(document.createTextNode(fala));
+          msgs.scrollTop = msgs.scrollHeight;
+          if (gilbertVezes === 1 || Math.random() < 0.45) {
+            setTimeout(function () {
+              falar(gilbertVezes === 1 ? REACAO_GILBERT[0] : sorteia("reacaog", REACAO_GILBERT.slice(1)), "ia");
+              ocupada = false;
+            }, 1300);
+          } else {
+            ocupada = false;
+          }
+        }, 900);
+        return;
+      }
     }
 
     var espera = Math.min(600 + resposta.length * 12, 2600);
