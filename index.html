@@ -253,6 +253,50 @@
     gap: 6px;
   }
 
+  /* Mostrar senha */
+  .campo-senha { position: relative; }
+  .campo-senha input[type="password"],
+  .campo-senha input[type="text"] { padding-right: 64px; }
+  .btn-olho {
+    position: absolute; right: 4px; top: 4px;
+    height: 23px; padding: 0 8px;
+    font-family: inherit; font-size: 11px; color: #444;
+    background: linear-gradient(to bottom, #fafafa, #dedede);
+    border: 1px solid #b5b5b5; border-radius: 2px; cursor: pointer;
+  }
+  .btn-olho:hover { color: #000; }
+  .btn-olho:focus-visible { outline: 2px dotted #b00000; outline-offset: 1px; }
+
+  /* Tremida ao errar */
+  .tremer { animation: tremer .35s; }
+  @keyframes tremer {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  /* Tela final */
+  #fim {
+    display: none;
+    position: fixed; inset: 0; z-index: 999;
+    background: #000; color: #fff;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 24px; padding: 20px; text-align: center;
+  }
+  #fim.ativo { display: flex; }
+  #fim p {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 26px; margin: 0; min-height: 1.3em;
+  }
+  #fim img { max-width: min(640px, 100%); height: auto; display: none; }
+  #fim img.ativo { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tremer { animation: none; }
+  }
+
   @media (max-width: 720px) {
     main { flex-direction: column-reverse; padding: 24px 16px; }
     .login { width: 100%; }
@@ -299,7 +343,10 @@
       <input type="text" id="usuario" name="usuario" autocapitalize="off" spellcheck="false">
 
       <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha">
+      <div class="campo-senha">
+        <input type="password" id="senha" name="senha">
+        <button type="button" class="btn-olho" id="btn-olho" aria-label="Mostrar senha">Mostrar</button>
+      </div>
 
       <div class="lembrar">
         <input type="checkbox" id="lembrar">
@@ -321,6 +368,11 @@
     <span>Última atualização: 23/11/2023 · Melhor visualizado em 1024x768</span>
   </div>
 </footer>
+
+<div id="fim" role="alertdialog" aria-live="assertive">
+  <p id="fim-texto"></p>
+  <img id="fim-gif" alt="I have your location">
+</div>
 
 <script>
   /* ==========================================================
@@ -359,13 +411,92 @@
     }
 
     if (achou) {
+      erros = 0;
       mostrar("ok", "Acesso autorizado. Redirecionando...");
       try { sessionStorage.setItem("paradoxo_usuario", achou.usuario); } catch (err) {}
       setTimeout(function () { window.location.href = achou.destino; }, 1200);
     } else {
-      mostrar("erro", "Usuário ou senha inválidos. Verifique os dados e tente novamente.");
-      document.getElementById("senha").value = "";
+      errou();
     }
+  });
+
+  /* ==========================================================
+     TENTATIVAS ERRADAS
+     As 3 primeiras são normais. Depois disso aparecem as
+     mensagens abaixo, uma por erro. Quando acabarem, vem a
+     tela final com o GIF.
+     ========================================================== */
+  var MENSAGENS_ESTRANHAS = [
+    "Usuário ou senha inválidos. Você faz parte da próxima wave?",
+    "Acesso negado. Níveis elevados de WE-30 detectados no seu teclado.",
+    "Usuário não encontrado. Talvez ele tenha virado Chimera.",
+    "Sua sessão foi transferida para uma White-Zone. Aguarde em quarentena.",
+    "Anomalia temporal detectada. Tente novamente em 23/11/2023.",
+    "O que aconteceu com as waves anteriores é desconhecido. Não vire uma delas.",
+    "Você não vai a lugar nenhum, a não ser pro inferno... espero que goste de lá."
+  ];
+  var MENSAGEM_FINAL = "Bem... parece que você não trabalha aqui.";
+
+  var erros = 0;
+  var caixa = document.querySelector(".login");
+  var gifPrecarregado = false;
+
+  function errou() {
+    erros++;
+    document.getElementById("senha").value = "";
+
+    caixa.classList.remove("tremer");
+    void caixa.offsetWidth;
+    caixa.classList.add("tremer");
+
+    // Começa a baixar o GIF antes, pra ele aparecer na hora
+    if (erros >= 3 && !gifPrecarregado) {
+      new Image().src = "localizacao.gif";
+      gifPrecarregado = true;
+    }
+
+    if (erros <= 3) {
+      mostrar("erro", "Usuário ou senha inválidos. Verifique os dados e tente novamente.");
+      return;
+    }
+
+    var indice = erros - 4;
+    if (indice < MENSAGENS_ESTRANHAS.length) {
+      mostrar("erro", MENSAGENS_ESTRANHAS[indice]);
+    } else {
+      telaFinal();
+    }
+  }
+
+  function telaFinal() {
+    var fim = document.getElementById("fim");
+    var texto = document.getElementById("fim-texto");
+    var gif = document.getElementById("fim-gif");
+    fim.classList.add("ativo");
+    document.activeElement.blur();
+
+    var i = 0;
+    var digitar = setInterval(function () {
+      texto.textContent = MENSAGEM_FINAL.slice(0, ++i);
+      if (i >= MENSAGEM_FINAL.length) {
+        clearInterval(digitar);
+        setTimeout(function () {
+          gif.src = "localizacao.gif";
+          gif.classList.add("ativo");
+        }, 1500);
+      }
+    }, 70);
+  }
+
+  /* Mostrar / ocultar senha */
+  var olho = document.getElementById("btn-olho");
+  var campoSenha = document.getElementById("senha");
+  olho.addEventListener("click", function () {
+    var oculta = campoSenha.type === "password";
+    campoSenha.type = oculta ? "text" : "password";
+    olho.textContent = oculta ? "Ocultar" : "Mostrar";
+    olho.setAttribute("aria-label", oculta ? "Ocultar senha" : "Mostrar senha");
+    campoSenha.focus();
   });
 
   document.getElementById("btn-cadastro").addEventListener("click", function () {
