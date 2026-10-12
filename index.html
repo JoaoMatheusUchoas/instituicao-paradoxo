@@ -64,14 +64,17 @@
     display: flex;
     font-size: 12px;
   }
-  .nav span {
+  .nav a { text-decoration: none; }
+  .nav a:hover { background: rgba(255,255,255,.7); color: #000; }
+  .nav a:focus-visible { outline: 2px dotted #b00000; outline-offset: -3px; }
+  .nav span, .nav a {
     padding: 8px 14px;
     color: #555;
     border-right: 1px solid #ccc;
     border-left: 1px solid #fff;
   }
-  .nav span:first-child { border-left: none; }
-  .nav span.ativo { background: #fff; color: #000; font-weight: bold; }
+  .nav > div > :first-child { border-left: none; }
+  .nav .ativo { background: #fff; color: #000; font-weight: bold; }
 
   /* Conteúdo */
   main {
@@ -301,7 +304,7 @@
     main { flex-direction: column-reverse; padding: 24px 16px; }
     .login { width: 100%; }
     .topo .sub { display: none; }
-    .nav span { padding: 8px 10px; }
+    .nav span, .nav a { padding: 8px 10px; }
   }
 </style>
 </head>
@@ -315,14 +318,14 @@
   </div>
 </header>
 
-<div class="nav" aria-hidden="true">
+<nav class="nav" aria-label="Navegação">
   <div class="nav-inner">
-    <span class="ativo">Acesso</span>
-    <span>Institucional</span>
-    <span>Comunicados</span>
-    <span>Suporte</span>
+    <a href="index.html" class="ativo">Acesso</a>
+    <a href="institucional.html">Institucional</a>
+    <a href="comunicados.html">Comunicados</a>
+    <a href="suporte.html">Suporte</a>
   </div>
-</div>
+</nav>
 
 <main>
   <section class="intro">
