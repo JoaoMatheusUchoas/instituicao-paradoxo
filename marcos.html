@@ -19,101 +19,152 @@
   body {
     background: #e4e4e4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23e4e4e4'/%3E%3Crect width='1' height='1' fill='%23dadada'/%3E%3C/svg%3E");
     font-family: Tahoma, Verdana, "Segoe UI", Arial, sans-serif;
-    font-size: 13px;
-    color: #222;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    font-size: 13px; color: #222; min-height: 100vh;
+    display: flex; flex-direction: column;
   }
+  a { color: #8a0000; }
 
+  /* ---------- Topo ---------- */
   .topo {
     background: linear-gradient(to bottom, #3a3a3a 0%, #1a1a1a 50%, #000 51%, #111 100%);
     border-bottom: 3px solid #b00000;
-    box-shadow: 0 1px 4px rgba(0,0,0,.5);
   }
   .topo-inner {
-    max-width: 960px; margin: 0 auto; padding: 10px 16px;
+    max-width: 1000px; margin: 0 auto; padding: 10px 16px;
     display: flex; align-items: center; gap: 12px;
   }
-  .topo img { width: 44px; height: 44px; }
+  .topo img { width: 46px; height: 46px; }
   .topo h1 {
     margin: 0; font-family: Georgia, "Times New Roman", serif; font-weight: normal;
-    font-size: 22px; color: #fff; text-shadow: 0 1px 0 #000;
+    font-size: 23px; color: #fff; text-shadow: 0 1px 0 #000; line-height: 1.1;
   }
-  .usuario-box { margin-left: auto; text-align: right; color: #aaa; font-size: 11px; line-height: 1.5; }
+  .topo h1 small { display: block; font-family: Tahoma, Verdana, sans-serif; font-size: 11px; color: #999; }
+  .usuario-box { margin-left: auto; display: flex; align-items: center; gap: 10px; color: #aaa; font-size: 11px; text-align: right; line-height: 1.5; }
   .usuario-box strong { color: #fff; font-size: 12px; }
   .usuario-box a { color: #ddd; }
+  .usuario-box .avatar { width: 34px; height: 34px; border: 1px solid #555; background: #ccc; }
 
-  .barra-info {
-    background: linear-gradient(to bottom, #fafafa, #e1e1e1);
-    border-bottom: 1px solid #bbb;
-    font-size: 11px; color: #666;
+  /* ---------- Navegação ---------- */
+  .nav {
+    background: linear-gradient(to bottom, #fafafa, #dcdcdc);
+    border-bottom: 1px solid #aaa;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
   }
-  .barra-info div { max-width: 960px; margin: 0 auto; padding: 6px 16px; }
+  .nav-inner { max-width: 1000px; margin: 0 auto; padding: 0 16px; display: flex; overflow-x: auto; }
+  .nav button {
+    background: none; border: none; border-right: 1px solid #c4c4c4; border-left: 1px solid #fff;
+    padding: 10px 13px; font-family: inherit; font-size: 12px; color: #444; cursor: pointer; white-space: nowrap;
+  }
+  .nav button:first-child { border-left: none; }
+  .nav button:hover { background: rgba(255,255,255,.6); color: #000; }
+  .nav button.ativo { background: #fff; color: #000; font-weight: bold; box-shadow: inset 0 -3px 0 #b00000; }
+  .nav button:focus-visible, .btn-link:focus-visible { outline: 2px dotted #b00000; outline-offset: -3px; }
+  .nav .bloq { color: #999; }
 
+  .migalha { max-width: 1000px; margin: 0 auto; padding: 10px 16px 0; font-size: 11px; color: #777; width: 100%; }
+
+  /* ---------- Layout ---------- */
   .corpo {
-    flex: 1; max-width: 960px; width: 100%; margin: 0 auto;
-    padding: 24px 16px; display: flex; gap: 20px; align-items: flex-start;
+    flex: 1; max-width: 1000px; width: 100%; margin: 0 auto;
+    padding: 12px 16px 28px; display: flex; gap: 18px; align-items: flex-start;
   }
+  .principal { flex: 1; min-width: 0; }
+  .lateral { width: 270px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px; }
 
-  /* Menu lateral */
-  .menu {
-    width: 200px; flex-shrink: 0;
+  .caixa {
     background: #fff; border: 1px solid #aaa; border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.2); overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,.18); margin-bottom: 14px;
   }
-  .menu-topo {
-    background: linear-gradient(to bottom, #2b2b2b, #050505);
-    color: #fff; font-weight: bold; padding: 8px 12px; font-size: 12px;
+  .lateral .caixa { margin-bottom: 0; }
+  .caixa-topo {
+    background: linear-gradient(to bottom, #2e2e2e, #050505); color: #fff;
+    padding: 8px 12px; font-weight: bold; font-size: 12px; border-radius: 3px 3px 0 0;
+    display: flex; justify-content: space-between; align-items: center;
   }
-  .menu button {
-    display: block; width: 100%; text-align: left;
-    background: #fff; border: none; border-bottom: 1px solid #e3e3e3;
-    padding: 9px 12px; font-family: inherit; font-size: 12px; color: #333; cursor: pointer;
-  }
-  .menu button:last-child { border-bottom: none; }
-  .menu button:hover { background: #f3f3f3; }
-  .menu button.ativo { background: #f0f0f0; font-weight: bold; color: #000; box-shadow: inset 3px 0 0 #b00000; }
-  .menu button:focus-visible { outline: 2px dotted #b00000; outline-offset: -3px; }
-  .menu .cadeado { color: #999; float: right; font-size: 11px; }
+  .caixa-topo.claro { background: linear-gradient(to bottom, #f6f6f6, #e0e0e0); color: #111; border-bottom: 1px solid #c4c4c4; }
+  .caixa-topo span { font-weight: normal; color: #aaa; font-size: 11px; }
+  .caixa-corpo { padding: 14px; }
 
-  /* Painel principal */
-  .painel {
-    flex: 1; min-width: 0;
-    background: #fff; border: 1px solid #aaa; border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.2);
-  }
-  .painel-topo {
-    background: linear-gradient(to bottom, #f6f6f6, #e2e2e2);
-    border-bottom: 1px solid #c4c4c4; padding: 9px 14px;
-    font-weight: bold; border-radius: 4px 4px 0 0;
-  }
-  .painel-conteudo { padding: 16px 16px 20px; }
   .aba { display: none; }
   .aba.ativa { display: block; }
 
-  h2 {
-    font-family: Georgia, "Times New Roman", serif; font-weight: normal;
-    font-size: 20px; margin: 0 0 10px;
-  }
-  h3 { font-size: 13px; margin: 18px 0 8px; color: #111; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
-  p { line-height: 1.6; margin: 0 0 10px; max-width: 70ch; }
+  h2 { font-family: Georgia, "Times New Roman", serif; font-weight: normal; font-size: 22px; margin: 0 0 6px; color: #111; }
+  h3 { font-family: Georgia, "Times New Roman", serif; font-weight: normal; font-size: 18px; margin: 0 0 6px; color: #111; }
+  h4 { font-size: 13px; margin: 18px 0 8px; color: #111; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  p { line-height: 1.65; margin: 0 0 10px; max-width: 72ch; }
+  .meta { font-size: 11px; color: #888; margin-bottom: 10px; }
+  .btn-link { background: none; border: none; padding: 0; font: inherit; font-size: 12px; color: #8a0000; text-decoration: underline; cursor: pointer; }
 
-  .resumo { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
-  .resumo div {
-    flex: 1; min-width: 120px; border: 1px solid #d0d0d0; background: #fafafa;
-    padding: 10px; border-radius: 3px; font-size: 12px; color: #555;
+  /* Fotos provisórias */
+  .foto {
+    background: #2a2a2a linear-gradient(135deg, #3a3a3a, #161616);
+    color: #888; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; text-align: center; border: 1px solid #000; overflow: hidden;
   }
-  .resumo b { display: block; font-size: 20px; color: #111; font-family: Georgia, serif; font-weight: normal; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .legenda { font-size: 11px; color: #777; margin: 4px 0 12px; font-style: italic; }
 
+  /* Destaque */
+  .destaque { display: flex; gap: 14px; }
+  .destaque .foto { width: 260px; height: 170px; flex-shrink: 0; }
+  .selo { display: inline-block; background: #b00000; color: #fff; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 2px; margin-bottom: 6px; }
+  .selo.cinza { background: #555; }
+  .selo.amarelo { background: #c99a00; }
+
+  /* Lista de notícias */
+  .lista-noticias { list-style: none; margin: 0; padding: 0; }
+  .lista-noticias li { padding: 9px 0; border-bottom: 1px dotted #ccc; display: flex; gap: 10px; }
+  .lista-noticias li:last-child { border-bottom: none; }
+  .lista-noticias .data { font-size: 11px; color: #888; white-space: nowrap; min-width: 42px; padding-top: 1px; }
+
+  /* Artigos */
+  .artigo { border-bottom: 1px solid #ddd; padding-bottom: 18px; margin-bottom: 18px; }
+  .artigo:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .artigo .foto { width: 100%; max-width: 560px; height: 230px; }
+
+  /* Mundo */
+  .mundo li { padding: 8px 0; border-bottom: 1px dotted #ccc; font-size: 12px; line-height: 1.45; }
+  .mundo li:last-child { border-bottom: none; }
+  .mundo b { display: block; font-size: 10px; color: #8a0000; margin-bottom: 2px; }
+  .mundo ul { list-style: none; margin: 0; padding: 0; }
+
+  /* Calendário */
+  .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .cal-nav button {
+    background: linear-gradient(to bottom, #fafafa, #dedede); border: 1px solid #b5b5b5; border-radius: 2px;
+    font-family: inherit; font-size: 12px; padding: 3px 9px; cursor: pointer;
+  }
+  .cal-nav button:disabled { opacity: .4; cursor: default; }
+  .cal-nav strong { font-family: Georgia, serif; font-weight: normal; font-size: 16px; }
+  .cal { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .cal th { background: #222; color: #fff; font-size: 11px; padding: 5px 0; border: 1px solid #000; }
+  .cal td { border: 1px solid #d4d4d4; vertical-align: top; height: 74px; padding: 4px; font-size: 11px; background: #fff; }
+  .cal td.vazio { background: #f2f2f2; }
+  .cal td.fds { background: #fafafa; }
+  .cal td.hoje { background: #fff4f4; box-shadow: inset 0 0 0 2px #b00000; }
+  .cal .num { font-weight: bold; color: #333; }
+  .cal .ev { display: block; margin-top: 3px; padding: 2px 3px; border-radius: 2px; font-size: 10px; line-height: 1.25; background: #eee; color: #333; border-left: 2px solid #777; }
+  .cal .ev.feriado { background: #eef7e8; border-color: #5c9a3a; }
+  .cal .ev.interno { background: #f0f0f0; border-color: #222; }
+  .cal .ev.alerta { background: #ffecec; border-color: #b00000; color: #7a0000; }
+  .cal-legenda { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11px; color: #666; margin-top: 8px; }
+  .cal-legenda i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; vertical-align: -1px; }
+  .mini-cal td { height: auto; text-align: center; padding: 3px 0; }
+  .mini-cal .tem { font-weight: bold; color: #8a0000; text-decoration: underline; }
+
+  .agenda li { padding: 7px 0; border-bottom: 1px dotted #ccc; font-size: 12px; display: flex; gap: 8px; }
+  .agenda li:last-child { border-bottom: none; }
+  .agenda ul { list-style: none; margin: 0; padding: 0; }
+  .agenda b { min-width: 38px; color: #8a0000; }
+
+  /* Tabelas */
   .tabela-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 520px; }
-  th {
-    background: linear-gradient(to bottom, #4a4a4a, #1a1a1a); color: #fff;
-    text-align: left; padding: 7px 8px; font-weight: bold; border: 1px solid #000;
-  }
-  td { padding: 7px 8px; border: 1px solid #d6d6d6; vertical-align: top; }
-  tr:nth-child(even) td { background: #f6f6f6; }
+  table.dados { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 480px; }
+  table.dados th { background: linear-gradient(to bottom, #4a4a4a, #1a1a1a); color: #fff; text-align: left; padding: 7px 8px; border: 1px solid #000; }
+  table.dados td { padding: 7px 8px; border: 1px solid #d6d6d6; vertical-align: top; }
+  table.dados tr:nth-child(even) td { background: #f6f6f6; }
+  td.valor { text-align: right; white-space: nowrap; }
+  .neg { color: #9a0000; }
 
   .status { display: inline-block; padding: 1px 6px; border-radius: 2px; font-size: 11px; border: 1px solid; white-space: nowrap; }
   .st-ok { background: #eef7e8; border-color: #a9cf93; color: #2f6a14; }
@@ -121,33 +172,50 @@
   .st-ab { background: #ffecec; border-color: #e3a1a1; color: #9a0000; }
   .st-esp { background: #f0f0f0; border-color: #c8c8c8; color: #555; }
 
-  .comunicado { border: 1px solid #ddd; border-left: 3px solid #333; padding: 10px 12px; margin-bottom: 10px; background: #fcfcfc; }
-  .comunicado .data { font-size: 11px; color: #888; margin-bottom: 4px; }
-  .comunicado strong { display: block; margin-bottom: 4px; }
-  .comunicado p { margin: 0; }
+  .aviso { background: #fffbe0; border: 1px solid #e6d77a; color: #665c1e; padding: 10px 12px; font-size: 12px; line-height: 1.5; margin-bottom: 12px; }
+  .aviso.vermelho { background: #ffecec; border-color: #e3a1a1; color: #8a0000; }
+  .negado { border: 1px solid #e3a1a1; background: #ffecec; color: #9a0000; padding: 14px; line-height: 1.6; }
 
-  .perfil { width: 100%; max-width: 480px; min-width: 0; }
-  .perfil td:first-child { font-weight: bold; width: 40%; background: #f6f6f6; }
-  .perfil tr:nth-child(even) td { background: transparent; }
-  .perfil tr td:first-child { background: #f6f6f6; }
+  /* Relato */
+  .relato { border: 1px solid #bbb; background: #fdfdfb; }
+  .relato-cab { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); border-bottom: 1px solid #bbb; }
+  .relato-cab div { padding: 7px 10px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; font-size: 12px; }
+  .relato-cab b { display: block; font-size: 10px; color: #777; font-weight: normal; }
+  .relato-texto { padding: 14px; font-family: "Courier New", Courier, monospace; font-size: 13px; line-height: 1.7; }
+  .relato-texto p { max-width: 70ch; }
+  .tarja { background: #000; color: #000; padding: 0 2px; }
+  .tarja::selection { background: #000; color: #fff; }
 
-  .negado {
-    border: 1px solid #e3a1a1; background: #ffecec; color: #9a0000;
-    padding: 14px; line-height: 1.6; max-width: 60ch;
-  }
-  .negado strong { display: block; margin-bottom: 4px; }
+  /* Refeitório */
+  .cardapio td:first-child { font-weight: bold; width: 110px; }
+  .hoje-linha td { background: #fff4f4 !important; }
+
+  /* Colaboradores */
+  .pessoas { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .pessoa { border: 1px solid #ccc; background: #fafafa; padding: 10px; text-align: center; font-size: 12px; }
+  .pessoa .foto { width: 90px; height: 110px; margin: 0 auto 8px; }
+  .pessoa strong { display: block; font-size: 12px; }
+  .pessoa span { display: block; color: #777; font-size: 11px; margin-top: 2px; }
+
+  .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+  .galeria figure { margin: 0; }
+  .galeria .foto { width: 100%; height: 120px; }
+  .galeria figcaption { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.4; }
+
+  .perfil td:first-child { font-weight: bold; width: 40%; background: #f6f6f6 !important; }
 
   footer { background: #111; color: #888; font-size: 11px; }
-  .footer-inner {
-    max-width: 960px; margin: 0 auto; padding: 12px 16px;
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
-  }
+  .footer-inner { max-width: 1000px; margin: 0 auto; padding: 12px 16px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
 
-  @media (max-width: 720px) {
+  @media (max-width: 820px) {
     .corpo { flex-direction: column; }
-    .menu { width: 100%; }
-    .usuario-box span.setor { display: none; }
+    .lateral { width: 100%; }
+    .destaque { flex-direction: column; }
+    .destaque .foto { width: 100%; }
+    .usuario-box .setor { display: none; }
     .topo h1 { font-size: 18px; }
+    .cal td { height: 58px; }
+    .cal .ev { font-size: 9px; }
   }
 </style>
 </head>
@@ -156,123 +224,382 @@
 <header class="topo">
   <div class="topo-inner">
     <img src="simbolo.png" alt="Símbolo da Instituição Paradoxo">
-    <h1>Instituição Paradoxo</h1>
+    <h1>Instituição Paradoxo<small>Portal do Colaborador</small></h1>
     <div class="usuario-box">
-      <strong>Marcos Duarte</strong><br>
-      <span class="setor">Suporte Técnico · TI ·</span> <a href="index.html" id="sair">Sair</a>
+      <div>
+        <strong>Marcos Duarte</strong><br>
+        <span class="setor">Suporte Técnico · TI ·</span> <a href="index.html" id="sair">Sair</a>
+      </div>
+      <div class="foto avatar" data-avatar="MD"></div>
     </div>
   </div>
 </header>
 
-<div class="barra-info"><div id="data-hoje">Quinta-feira, 23 de novembro de 2023 · Último acesso: 22/11/2023 às 17:48</div></div>
+<nav class="nav" aria-label="Seções do portal">
+  <div class="nav-inner">
+    <button data-aba="inicio" class="ativo">Início</button>
+    <button data-aba="noticias">Notícias</button>
+    <button data-aba="calendario">Calendário</button>
+    <button data-aba="ocorrencias">Ocorrências</button>
+    <button data-aba="financeiro">Financeiro</button>
+    <button data-aba="refeitorio">Refeitório</button>
+    <button data-aba="colaboradores">Colaboradores</button>
+    <button data-aba="chamados">Meus chamados</button>
+    <button data-aba="perfil">Meu perfil</button>
+    <button data-aba="arquivos" class="bloq">Arquivos internos</button>
+  </div>
+</nav>
+
+<div class="migalha" id="migalha">Portal do Colaborador › Início · Quinta-feira, 23 de novembro de 2023</div>
 
 <div class="corpo">
-  <nav class="menu" aria-label="Menu do colaborador">
-    <div class="menu-topo">Menu</div>
-    <button data-aba="inicio" class="ativo">Início</button>
-    <button data-aba="chamados">Meus chamados</button>
-    <button data-aba="comunicados">Comunicados</button>
-    <button data-aba="perfil">Meu perfil</button>
-    <button data-aba="arquivos">Arquivos internos <span class="cadeado">restrito</span></button>
-  </nav>
+<div class="principal">
 
-  <section class="painel">
-    <div class="painel-topo" id="titulo-aba">Início</div>
-    <div class="painel-conteudo">
-
-      <!-- INÍCIO -->
-      <div class="aba ativa" id="aba-inicio">
-        <h2>Bom dia, Marcos.</h2>
-        <p>Você tem chamados pendentes no setor de Suporte Técnico. Confira a lista em "Meus chamados".</p>
-        <div class="resumo">
-          <div><b>3</b>Chamados abertos</div>
-          <div><b>1</b>Em andamento</div>
-          <div><b>4</b>Concluídos na semana</div>
-        </div>
-        <h3>Último comunicado</h3>
-        <div class="comunicado">
-          <div class="data">23/11/2023 · Diretoria Administrativa</div>
-          <strong>Sistema de cadastro em manutenção</strong>
-          <p>O cadastro de novos colaboradores pelo portal está suspenso até nova data. Solicitações de acesso devem ser encaminhadas ao setor responsável.</p>
+  <!-- ================= INÍCIO ================= -->
+  <div class="aba ativa" id="aba-inicio">
+    <div class="caixa">
+      <div class="caixa-topo">Destaque <span>23/11/2023</span></div>
+      <div class="caixa-corpo destaque">
+        <div class="foto" data-foto="fotos/equipe-omega.jpg">Foto da Equipe Omega</div>
+        <div>
+          <span class="selo">Novidade</span>
+          <h3>Instituição apresenta a Equipe Omega</h3>
+          <p>A Diretoria confirmou a formação de uma nova equipe dedicada a operações especiais. A apresentação oficial acontece na reunião geral do dia 27/11.</p>
+          <button class="btn-link" data-ir="noticias" data-alvo="n-omega">Ler notícia completa</button>
         </div>
       </div>
+    </div>
 
-      <!-- CHAMADOS -->
-      <div class="aba" id="aba-chamados">
-        <h2>Meus chamados</h2>
+    <div class="aviso vermelho">
+      <b>Atenção:</b> o acesso ao Setor Alpha segue restrito. Colaboradores sem autorização da Segurança não devem circular pelo corredor de acesso ao setor. <button class="btn-link" data-ir="noticias" data-alvo="n-alpha">Saiba mais</button>
+    </div>
+
+    <div class="caixa">
+      <div class="caixa-topo claro">Últimas notícias internas</div>
+      <div class="caixa-corpo">
+        <ul class="lista-noticias">
+          <li><span class="data">23/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-omega">Instituição apresenta a Equipe Omega</button></div></li>
+          <li><span class="data">22/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-alpha">Setor Alpha opera com restrições após falhas recorrentes</button></div></li>
+          <li><span class="data">21/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-financeiro">Diretoria Financeira anuncia medidas de contenção de despesas</button></div></li>
+          <li><span class="data">21/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-refeitorio">Refeitório fecha nesta sexta para dedetização</button></div></li>
+          <li><span class="data">17/11</span><div><button class="btn-link" data-ir="noticias" data-alvo="n-cracha">Segurança reforça uso obrigatório do crachá</button></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="caixa">
+      <div class="caixa-topo claro">Galeria · Nossa equipe</div>
+      <div class="caixa-corpo">
+        <div class="galeria">
+          <figure><div class="foto" data-foto="fotos/galeria-1.jpg">Foto</div><figcaption>Equipe do laboratório durante treinamento de segurança, outubro de 2023.</figcaption></figure>
+          <figure><div class="foto" data-foto="fotos/galeria-2.jpg">Foto</div><figcaption>Inauguração da nova ala administrativa.</figcaption></figure>
+          <figure><div class="foto" data-foto="fotos/galeria-3.jpg">Foto</div><figcaption>Confraternização de fim de ano de 2022.</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NOTÍCIAS ================= -->
+  <div class="aba" id="aba-noticias">
+    <div class="caixa">
+      <div class="caixa-topo">Notícias internas <span>Comunicação Institucional</span></div>
+      <div class="caixa-corpo">
+
+        <article class="artigo" id="n-omega">
+          <span class="selo">Novidade</span>
+          <h3>Instituição apresenta a Equipe Omega</h3>
+          <div class="meta">23/11/2023 · Diretoria Geral</div>
+          <div class="foto" data-foto="fotos/equipe-omega.jpg">Foto da Equipe Omega</div>
+          <div class="legenda">Integrantes da Equipe Omega. Imagem: Comunicação Institucional.</div>
+          <p>A Instituição Paradoxo tem o prazer de anunciar a formação da Equipe Omega, um novo grupo dedicado a operações especiais e atuação em campo. A equipe responderá diretamente à Diretoria Geral e terá prioridade de acesso a recursos e instalações.</p>
+          <p>Os integrantes foram selecionados entre colaboradores de diferentes setores, levando em conta desempenho, experiência e perfil. A apresentação oficial acontecerá durante a reunião geral do dia 27/11, às 9h, no auditório principal. A presença de todos os colaboradores é obrigatória.</p>
+          <p>As atividades da Equipe Omega têm início previsto para 01/12/2023. Mais informações serão divulgadas conforme autorização da Diretoria.</p>
+        </article>
+
+        <article class="artigo" id="n-alpha">
+          <span class="selo amarelo">Aviso</span>
+          <h3>Setor Alpha opera com restrições após falhas recorrentes</h3>
+          <div class="meta">22/11/2023 · Segurança Patrimonial e Manutenção</div>
+          <p>Desde o dia 18/11, o Setor Alpha vem registrando oscilações de energia, falhas no sistema de câmeras e alarmes disparando sem motivo aparente. Por precaução, o acesso ao setor foi limitado a colaboradores com autorização expressa da Segurança.</p>
+          <p>As equipes de Manutenção e TI estão trabalhando na identificação das causas. Os colaboradores lotados no Setor Alpha foram temporariamente realocados para a ala administrativa.</p>
+          <p>Pedimos que qualquer comportamento incomum observado nas proximidades do setor seja comunicado imediatamente à Segurança pelo ramal 2100 ou registrado na seção Ocorrências deste portal.</p>
+        </article>
+
+        <article class="artigo" id="n-financeiro">
+          <span class="selo cinza">Comunicado</span>
+          <h3>Diretoria Financeira anuncia medidas de contenção de despesas</h3>
+          <div class="meta">21/11/2023 · Diretoria Financeira</div>
+          <p>Em razão do cenário orçamentário do último trimestre, a Diretoria Financeira informa a adoção de medidas temporárias de contenção de despesas, válidas a partir de 01/12/2023. Entre elas estão a suspensão de horas extras não autorizadas, a revisão de contratos com fornecedores e o adiamento de novas contratações.</p>
+          <p>A Diretoria reforça que os salários seguem sendo pagos normalmente. Os detalhes estão disponíveis na seção Financeiro deste portal.</p>
+          <button class="btn-link" data-ir="financeiro">Ver seção Financeiro</button>
+        </article>
+
+        <article class="artigo" id="n-refeitorio">
+          <span class="selo cinza">Serviços Gerais</span>
+          <h3>Refeitório fecha nesta sexta para dedetização</h3>
+          <div class="meta">21/11/2023 · Serviços Gerais</div>
+          <p>No dia 24/11 o refeitório ficará fechado para dedetização. O vale-refeição do dia será creditado normalmente. O cardápio da semana está disponível na seção Refeitório.</p>
+        </article>
+
+        <article class="artigo" id="n-cracha">
+          <span class="selo cinza">Segurança</span>
+          <h3>Segurança reforça uso obrigatório do crachá</h3>
+          <div class="meta">17/11/2023 · Segurança Patrimonial</div>
+          <p>O crachá deve estar visível durante todo o expediente. Colaboradores sem identificação não terão acesso às alas internas. Em caso de perda, procure a Segurança imediatamente.</p>
+        </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CALENDÁRIO ================= -->
+  <div class="aba" id="aba-calendario">
+    <div class="caixa">
+      <div class="caixa-topo">Calendário institucional</div>
+      <div class="caixa-corpo">
+        <div class="cal-nav">
+          <button id="cal-ant" aria-label="Mês anterior">‹ Anterior</button>
+          <strong id="cal-titulo"></strong>
+          <button id="cal-prox" aria-label="Próximo mês">Próximo ›</button>
+        </div>
+        <div class="tabela-wrap"><table class="cal" id="cal-grande"></table></div>
+        <div class="cal-legenda">
+          <span><i style="background:#5c9a3a"></i>Feriado</span>
+          <span><i style="background:#222"></i>Evento interno</span>
+          <span><i style="background:#b00000"></i>Aviso</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= OCORRÊNCIAS ================= -->
+  <div class="aba" id="aba-ocorrencias">
+    <div class="caixa">
+      <div class="caixa-topo">Registro de ocorrências <span>Segurança Patrimonial</span></div>
+      <div class="caixa-corpo">
+        <p>Ocorrências registradas por colaboradores nos últimos 7 dias. Registros classificados como confidenciais não aparecem nesta lista.</p>
         <div class="tabela-wrap">
-          <table>
-            <thead>
-              <tr><th>Nº</th><th>Data</th><th>Solicitante</th><th>Descrição</th><th>Status</th></tr>
-            </thead>
+          <table class="dados">
+            <thead><tr><th>Nº</th><th>Data</th><th>Local</th><th>Assunto</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>0112</td><td>22/11/2023</td><td>Corredor B</td><td><button class="btn-link" id="abrir-relato">Comportamento incomum de colaborador</button></td><td><span class="status st-and">Em análise</span></td></tr>
+              <tr><td>0111</td><td>21/11/2023</td><td>Setor Alpha</td><td>Alarme disparado sem causa identificada</td><td><span class="status st-and">Em análise</span></td></tr>
+              <tr><td>0109</td><td>20/11/2023</td><td>Estacionamento</td><td>Veículo com farol aceso</td><td><span class="status st-ok">Resolvido</span></td></tr>
+              <tr><td>0108</td><td>19/11/2023</td><td>Setor Alpha</td><td>Queda de energia por 4 minutos</td><td><span class="status st-and">Em análise</span></td></tr>
+              <tr><td>0106</td><td>17/11/2023</td><td>Recepção</td><td>Visitante sem agendamento</td><td><span class="status st-ok">Resolvido</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="caixa" id="relato-0112">
+      <div class="caixa-topo claro">Ocorrência nº 0112/2023</div>
+      <div class="caixa-corpo">
+        <div class="relato">
+          <div class="relato-cab">
+            <div><b>Registrado por</b>Vigilante do turno noturno</div>
+            <div><b>Data e hora</b>22/11/2023, 02:47</div>
+            <div><b>Local</b>Corredor B, próximo ao acesso norte</div>
+            <div><b>Classificação</b>Comportamento incomum</div>
+          </div>
+          <div class="relato-texto">
+            <p>Durante a ronda das 02h30 encontrei um homem parado no meio do corredor B, de costas pra mim, olhando para a parede. Estava de uniforme da manutenção, mas sem crachá. Chamei duas vezes e ele não respondeu.</p>
+            <p>Fiquei observando por uns minutos. Ele não se mexia, não mudava o peso de perna, nada. Quando cheguei mais perto ele virou o rosto devagar. Os olhos estavam abertos demais, fixos, e ele não piscou nenhuma vez enquanto eu falava com ele.</p>
+            <p>Perguntei o nome e o setor. Ele demorou para responder e disse que estava vindo do <span class="tarja">Setor Alpha</span> e que "ainda não era a hora". Depois sorriu e foi andando em direção ao acesso norte. Quando virei a esquina atrás dele, o corredor estava vazio.</p>
+            <p>Conferi as câmeras do corredor B no horário. A gravação entre 02:31 e 02:44 está <span class="tarja">corrompida</span>.</p>
+            <p>Solicito que a ocorrência seja encaminhada à supervisão.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FINANCEIRO ================= -->
+  <div class="aba" id="aba-financeiro">
+    <div class="caixa">
+      <div class="caixa-topo">Financeiro <span>Diretoria Financeira</span></div>
+      <div class="caixa-corpo">
+        <div class="aviso">Medidas de contenção de despesas válidas a partir de 01/12/2023, até nova revisão da Diretoria.</div>
+        <h4>Medidas adotadas</h4>
+        <div class="tabela-wrap">
+          <table class="dados">
+            <thead><tr><th>Medida</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Suspensão de horas extras sem autorização prévia da Diretoria</td><td><span class="status st-ab">Em vigor a partir de 01/12</span></td></tr>
+              <tr><td>Adiamento de novas contratações e reposições</td><td><span class="status st-ab">Em vigor</span></td></tr>
+              <tr><td>Revisão de contratos com fornecedores (limpeza, alimentação e manutenção)</td><td><span class="status st-and">Em andamento</span></td></tr>
+              <tr><td>Redução de gastos com material de escritório</td><td><span class="status st-and">Em andamento</span></td></tr>
+              <tr><td>Pagamento do 13º salário</td><td><span class="status st-ok">Mantido em duas parcelas</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Resumo orçamentário do 3º trimestre</h4>
+        <div class="tabela-wrap">
+          <table class="dados">
+            <thead><tr><th>Área</th><th>Previsto</th><th>Realizado</th><th>Diferença</th></tr></thead>
+            <tbody>
+              <tr><td>Administrativo</td><td class="valor">R$ 1.240.000</td><td class="valor">R$ 1.198.000</td><td class="valor">R$ 42.000</td></tr>
+              <tr><td>Pesquisa e Laboratórios</td><td class="valor">R$ 3.800.000</td><td class="valor">R$ 4.910.000</td><td class="valor neg">-R$ 1.110.000</td></tr>
+              <tr><td>Segurança Patrimonial</td><td class="valor">R$ 620.000</td><td class="valor">R$ 780.000</td><td class="valor neg">-R$ 160.000</td></tr>
+              <tr><td>Manutenção e Infraestrutura</td><td class="valor">R$ 540.000</td><td class="valor">R$ 702.000</td><td class="valor neg">-R$ 162.000</td></tr>
+              <tr><td>Projetos especiais</td><td class="valor">R$ 0</td><td class="valor">R$ 2.350.000</td><td class="valor neg">-R$ 2.350.000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:10px;font-size:12px;color:#777;">Dúvidas sobre folha de pagamento devem ser encaminhadas ao RH pelo ramal 2050.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= REFEITÓRIO ================= -->
+  <div class="aba" id="aba-refeitorio">
+    <div class="caixa">
+      <div class="caixa-topo">Refeitório <span>Cardápio da semana · 20 a 24/11</span></div>
+      <div class="caixa-corpo">
+        <div class="aviso">Sexta-feira, 24/11: refeitório fechado para dedetização. O vale-refeição será creditado normalmente.</div>
+        <div class="tabela-wrap">
+          <table class="dados cardapio">
+            <thead><tr><th>Dia</th><th>Prato principal</th><th>Acompanhamentos</th><th>Sobremesa</th></tr></thead>
+            <tbody>
+              <tr><td>Segunda, 20/11</td><td>Frango assado</td><td>Arroz, feijão, salada de alface</td><td>Gelatina</td></tr>
+              <tr><td>Terça, 21/11</td><td>Carne de panela</td><td>Arroz, purê de batata, legumes</td><td>Banana</td></tr>
+              <tr><td>Quarta, 22/11</td><td>Peixe empanado</td><td>Arroz, feijão, salada de tomate</td><td>Pudim</td></tr>
+              <tr class="hoje-linha"><td>Quinta, 23/11</td><td>Strogonoff de frango</td><td>Arroz, batata palha, salada verde</td><td>Doce de leite</td></tr>
+              <tr><td>Sexta, 24/11</td><td colspan="3"><span class="status st-esp">Fechado para dedetização</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Horários</h4>
+        <p>Café da manhã: 7h às 8h30 · Almoço: 11h30 às 14h · Café da tarde: 16h às 16h30</p>
+        <h4>Recados dos colaboradores</h4>
+        <ul class="lista-noticias">
+          <li><span class="data">22/11</span><div>"A máquina de café do 2º andar está sem café desde segunda." · Financeiro</div></li>
+          <li><span class="data">21/11</span><div>"Alguém deixou uma marmita sem nome na geladeira há duas semanas." · RH</div></li>
+          <li><span class="data">20/11</span><div>"Voltem com o pudim de quarta, por favor." · TI</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= COLABORADORES ================= -->
+  <div class="aba" id="aba-colaboradores">
+    <div class="caixa">
+      <div class="caixa-topo">Colaboradores <span>Diretório interno</span></div>
+      <div class="caixa-corpo">
+        <p>Exibindo colaboradores com nível de acesso compatível ao seu.</p>
+        <div class="pessoas">
+          <div class="pessoa"><div class="foto" data-foto="fotos/marcos.jpg" data-avatar="MD"></div><strong>Marcos Duarte</strong><span>Técnico de Suporte em TI</span><span>Ramal 2214</span></div>
+          <div class="pessoa"><div class="foto" data-foto="fotos/pessoa-2.jpg" data-avatar="RS"></div><strong>Renata Siqueira</strong><span>Coordenadora de TI</span><span>Ramal 2210</span></div>
+          <div class="pessoa"><div class="foto" data-foto="fotos/pessoa-3.jpg" data-avatar="PL"></div><strong>Paulo Lemos</strong><span>Supervisor de Segurança</span><span>Ramal 2100</span></div>
+          <div class="pessoa"><div class="foto" data-foto="fotos/pessoa-4.jpg" data-avatar="CA"></div><strong>Cláudia Andrade</strong><span>Analista de RH</span><span>Ramal 2050</span></div>
+          <div class="pessoa"><div class="foto" data-foto="fotos/pessoa-5.jpg" data-avatar="JF"></div><strong>João Ferraz</strong><span>Técnico de Manutenção</span><span>Ramal 2330</span></div>
+          <div class="pessoa"><div class="foto" data-foto="fotos/pessoa-6.jpg" data-avatar="BT"></div><strong>Beatriz Toledo</strong><span>Recepcionista</span><span>Ramal 2001</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CHAMADOS ================= -->
+  <div class="aba" id="aba-chamados">
+    <div class="caixa">
+      <div class="caixa-topo">Meus chamados <span>Suporte Técnico</span></div>
+      <div class="caixa-corpo">
+        <div class="tabela-wrap">
+          <table class="dados">
+            <thead><tr><th>Nº</th><th>Data</th><th>Solicitante</th><th>Descrição</th><th>Status</th></tr></thead>
             <tbody>
               <tr><td>4490</td><td>23/11/2023</td><td>Sala de servidores</td><td>Relógio do servidor principal voltando para 00:00 após reinício</td><td><span class="status st-ab">Aberto</span></td></tr>
               <tr><td>4488</td><td>22/11/2023</td><td>Almoxarifado</td><td>Ramal 2307 sem sinal</td><td><span class="status st-ab">Aberto</span></td></tr>
+              <tr><td>4486</td><td>22/11/2023</td><td>Segurança</td><td>Recuperar gravação corrompida das câmeras do corredor B</td><td><span class="status st-ab">Aberto</span></td></tr>
               <tr><td>4485</td><td>21/11/2023</td><td>Financeiro</td><td>Troca de teclado com teclas falhando</td><td><span class="status st-esp">Aguardando peça</span></td></tr>
               <tr><td>4483</td><td>21/11/2023</td><td>Recepção</td><td>Câmera da entrada principal sem imagem no monitor</td><td><span class="status st-ab">Aberto</span></td></tr>
               <tr><td>4480</td><td>20/11/2023</td><td>Ala administrativa</td><td>Lentidão na rede no período da tarde</td><td><span class="status st-and">Em andamento</span></td></tr>
               <tr><td>4478</td><td>20/11/2023</td><td>Recursos Humanos</td><td>Instalação de segundo monitor</td><td><span class="status st-ok">Concluído</span></td></tr>
               <tr><td>4473</td><td>17/11/2023</td><td>Recepção</td><td>Redefinição de senha do portal</td><td><span class="status st-ok">Concluído</span></td></tr>
               <tr><td>4471</td><td>16/11/2023</td><td>2º andar</td><td>Impressora atolando papel</td><td><span class="status st-ok">Concluído</span></td></tr>
-              <tr><td>4469</td><td>16/11/2023</td><td>Refeitório</td><td>Troca de cabo de rede do terminal de pagamento</td><td><span class="status st-ok">Concluído</span></td></tr>
             </tbody>
           </table>
         </div>
       </div>
+    </div>
+  </div>
 
-      <!-- COMUNICADOS -->
-      <div class="aba" id="aba-comunicados">
-        <h2>Comunicados</h2>
-        <div class="comunicado">
-          <div class="data">23/11/2023 · Diretoria Administrativa</div>
-          <strong>Sistema de cadastro em manutenção</strong>
-          <p>O cadastro de novos colaboradores pelo portal está suspenso até nova data. Solicitações de acesso devem ser encaminhadas ao setor responsável.</p>
-        </div>
-        <div class="comunicado">
-          <div class="data">21/11/2023 · Serviços Gerais</div>
-          <strong>Refeitório fechado na sexta-feira</strong>
-          <p>No dia 24/11 o refeitório ficará fechado para dedetização. O vale-refeição do dia será creditado normalmente.</p>
-        </div>
-        <div class="comunicado">
-          <div class="data">17/11/2023 · Segurança Patrimonial</div>
-          <strong>Uso obrigatório do crachá</strong>
-          <p>Lembramos que o crachá deve estar visível durante todo o expediente. Colaboradores sem identificação não terão acesso às alas internas.</p>
-        </div>
-        <div class="comunicado">
-          <div class="data">10/11/2023 · Recursos Humanos</div>
-          <strong>Confraternização de fim de ano</strong>
-          <p>A confraternização acontecerá no dia 15/12, a partir das 18h, no salão principal. Confirme presença com o RH até 08/12.</p>
-        </div>
-      </div>
-
-      <!-- PERFIL -->
-      <div class="aba" id="aba-perfil">
-        <h2>Meu perfil</h2>
+  <!-- ================= PERFIL ================= -->
+  <div class="aba" id="aba-perfil">
+    <div class="caixa">
+      <div class="caixa-topo">Meu perfil</div>
+      <div class="caixa-corpo">
         <div class="tabela-wrap">
-          <table class="perfil">
+          <table class="dados perfil" style="max-width:480px">
             <tr><td>Nome</td><td>Marcos Vinícius Duarte</td></tr>
             <tr><td>Matrícula</td><td>0417</td></tr>
             <tr><td>Cargo</td><td>Técnico de Suporte em TI</td></tr>
             <tr><td>Setor</td><td>Tecnologia da Informação</td></tr>
+            <tr><td>Supervisora</td><td>Renata Siqueira</td></tr>
             <tr><td>Ramal</td><td>2214</td></tr>
             <tr><td>Admissão</td><td>08/03/2021</td></tr>
             <tr><td>Nível de acesso</td><td>1</td></tr>
           </table>
         </div>
-        <p style="margin-top:12px; font-size:12px; color:#777;">Para alterar seus dados, procure o setor de Recursos Humanos.</p>
+        <p style="margin-top:12px;font-size:12px;color:#777;">Para alterar seus dados, procure o setor de Recursos Humanos.</p>
       </div>
-
-      <!-- ARQUIVOS -->
-      <div class="aba" id="aba-arquivos">
-        <h2>Arquivos internos</h2>
-        <div class="negado">
-          <strong>Acesso negado</strong>
-          Seu nível de acesso não permite visualizar esta área. Nível necessário: 3. Se você acredita que isso é um erro, contate seu supervisor.
-        </div>
-      </div>
-
     </div>
-  </section>
+  </div>
+
+  <!-- ================= ARQUIVOS ================= -->
+  <div class="aba" id="aba-arquivos">
+    <div class="caixa">
+      <div class="caixa-topo">Arquivos internos</div>
+      <div class="caixa-corpo">
+        <div class="negado"><b>Acesso negado.</b> Seu nível de acesso não permite visualizar esta área. Nível necessário: 3. Se você acredita que isso é um erro, contate seu supervisor.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= LATERAL ================= -->
+<aside class="lateral">
+  <div class="caixa">
+    <div class="caixa-topo">Agenda <span>Novembro</span></div>
+    <div class="caixa-corpo">
+      <table class="cal mini-cal" id="cal-mini"></table>
+      <div class="agenda" style="margin-top:10px">
+        <ul>
+          <li><b>24/11</b>Refeitório fechado</li>
+          <li><b>27/11</b>Reunião geral · Apresentação da Equipe Omega</li>
+          <li><b>30/11</b>Fechamento da folha</li>
+          <li><b>01/12</b>Início das atividades da Equipe Omega</li>
+        </ul>
+      </div>
+      <button class="btn-link" data-ir="calendario">Ver calendário completo</button>
+    </div>
+  </div>
+
+  <div class="caixa mundo">
+    <div class="caixa-topo">Notícias do mundo</div>
+    <div class="caixa-corpo">
+      <ul>
+        <li><b>22/11 · Oriente Médio</b>Israel e Hamas acertam trégua temporária com troca de reféns e prisioneiros.</li>
+        <li><b>22/11 · Tecnologia</b>Sam Altman volta ao comando da OpenAI dias depois de ser demitido pelo conselho.</li>
+        <li><b>21/11 · Futebol</b>Argentina vence o Brasil por 1 a 0 no Maracanã, em jogo atrasado por confusão nas arquibancadas.</li>
+        <li><b>19/11 · Argentina</b>Javier Milei é eleito presidente da Argentina no segundo turno.</li>
+        <li><b>Novembro · Clima</b>Onda de calor intensa atinge várias regiões do Brasil e bate recordes de temperatura.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="caixa">
+    <div class="caixa-topo">Aniversariantes</div>
+    <div class="caixa-corpo agenda">
+      <ul>
+        <li><b>25/11</b>Cláudia Andrade · RH</li>
+        <li><b>29/11</b>João Ferraz · Manutenção</li>
+      </ul>
+    </div>
+  </div>
+</aside>
 </div>
 
 <footer>
@@ -283,26 +610,150 @@
 </footer>
 
 <script>
-  var titulos = {
-    inicio: "Início",
-    chamados: "Meus chamados",
-    comunicados: "Comunicados",
-    perfil: "Meu perfil",
-    arquivos: "Arquivos internos"
-  };
+  /* ==========================================================
+     FOTOS
+     Coloque as imagens na pasta "fotos" com os nomes indicados
+     em data-foto (ex: fotos/equipe-omega.jpg). Enquanto a foto
+     não existir, aparece uma silhueta no lugar.
+     ========================================================== */
+  function silhueta(iniciais) {
+    var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 110'>" +
+      "<rect width='90' height='110' fill='#d4d4d4'/>" +
+      "<circle cx='45' cy='40' r='19' fill='#a8a8a8'/>" +
+      "<path d='M8 110c2-28 18-42 37-42s35 14 37 42z' fill='#a8a8a8'/>" +
+      (iniciais ? "<text x='45' y='104' font-family='Tahoma' font-size='11' text-anchor='middle' fill='#666'>" + iniciais + "</text>" : "") +
+      "</svg>";
+    return "data:image/svg+xml," + encodeURIComponent(svg);
+  }
 
-  var botoes = document.querySelectorAll(".menu button");
-  for (var i = 0; i < botoes.length; i++) {
-    botoes[i].addEventListener("click", function () {
-      var alvo = this.getAttribute("data-aba");
-      for (var j = 0; j < botoes.length; j++) botoes[j].classList.remove("ativo");
-      this.classList.add("ativo");
-      var abas = document.querySelectorAll(".aba");
-      for (var k = 0; k < abas.length; k++) abas[k].classList.remove("ativa");
-      document.getElementById("aba-" + alvo).classList.add("ativa");
-      document.getElementById("titulo-aba").textContent = titulos[alvo];
+  var fotos = document.querySelectorAll("[data-foto], [data-avatar]");
+  for (var f = 0; f < fotos.length; f++) {
+    (function (el) {
+      var src = el.getAttribute("data-foto");
+      var ini = el.getAttribute("data-avatar");
+      if (ini) {
+        el.style.background = "url(\"" + silhueta(ini) + "\") center/cover";
+      }
+      if (src) {
+        var img = new Image();
+        img.alt = "";
+        img.onload = function () { el.innerHTML = ""; el.style.background = "none"; el.appendChild(img); };
+        img.src = src;
+      }
+    })(fotos[f]);
+  }
+
+  /* ==========================================================
+     NAVEGAÇÃO ENTRE SEÇÕES
+     ========================================================== */
+  var NOMES = {
+    inicio: "Início", noticias: "Notícias", calendario: "Calendário",
+    ocorrencias: "Ocorrências", financeiro: "Financeiro", refeitorio: "Refeitório",
+    colaboradores: "Colaboradores", chamados: "Meus chamados",
+    perfil: "Meu perfil", arquivos: "Arquivos internos"
+  };
+  var botoesNav = document.querySelectorAll(".nav button");
+
+  function abrir(aba, alvo) {
+    for (var i = 0; i < botoesNav.length; i++) {
+      botoesNav[i].classList.toggle("ativo", botoesNav[i].getAttribute("data-aba") === aba);
+    }
+    var abas = document.querySelectorAll(".aba");
+    for (var j = 0; j < abas.length; j++) abas[j].classList.remove("ativa");
+    document.getElementById("aba-" + aba).classList.add("ativa");
+    document.getElementById("migalha").textContent =
+      "Portal do Colaborador › " + NOMES[aba] + " · Quinta-feira, 23 de novembro de 2023";
+    if (alvo) {
+      document.getElementById(alvo).scrollIntoView();
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  for (var b = 0; b < botoesNav.length; b++) {
+    botoesNav[b].addEventListener("click", function () { abrir(this.getAttribute("data-aba")); });
+  }
+  var links = document.querySelectorAll("[data-ir]");
+  for (var l = 0; l < links.length; l++) {
+    links[l].addEventListener("click", function () {
+      abrir(this.getAttribute("data-ir"), this.getAttribute("data-alvo"));
     });
   }
+  document.getElementById("abrir-relato").addEventListener("click", function () {
+    document.getElementById("relato-0112").scrollIntoView();
+  });
+
+  /* ==========================================================
+     CALENDÁRIO
+     Para adicionar eventos: "AAAA-MM-DD": [["texto", "tipo"]]
+     Tipos: feriado, interno, alerta
+     ========================================================== */
+  var EVENTOS = {
+    "2023-10-12": [["Nossa Senhora Aparecida", "feriado"]],
+    "2023-10-31": [["Treinamento de segurança", "interno"]],
+    "2023-11-02": [["Finados", "feriado"]],
+    "2023-11-10": [["Inscrições para a confraternização", "interno"]],
+    "2023-11-15": [["Proclamação da República", "feriado"]],
+    "2023-11-18": [["Primeira falha no Setor Alpha", "alerta"]],
+    "2023-11-20": [["Consciência Negra (ponto facultativo)", "feriado"]],
+    "2023-11-22": [["Setor Alpha com acesso restrito", "alerta"]],
+    "2023-11-24": [["Refeitório fechado", "alerta"]],
+    "2023-11-27": [["Reunião geral · Equipe Omega", "interno"]],
+    "2023-11-30": [["Fechamento da folha", "interno"]],
+    "2023-12-01": [["Início da Equipe Omega", "interno"], ["Contenção de despesas", "alerta"]],
+    "2023-12-08": [["Prazo para confirmar confraternização", "interno"]],
+    "2023-12-15": [["Confraternização de fim de ano", "interno"]],
+    "2023-12-20": [["Pagamento 2ª parcela do 13º", "interno"]],
+    "2023-12-25": [["Natal", "feriado"]]
+  };
+  var MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  var SEMANA = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+  var HOJE = "2023-11-23";
+  var mesAtual = 10; // novembro (0 = janeiro)
+  var MES_MIN = 9, MES_MAX = 11; // outubro a dezembro
+
+  function chave(m, d) { return "2023-" + String(m + 1).padStart(2, "0") + "-" + String(d).padStart(2, "0"); }
+
+  function desenhar(tabela, mes, mini) {
+    var html = "<thead><tr>";
+    for (var s = 0; s < 7; s++) html += "<th>" + (mini ? SEMANA[s].charAt(0) : SEMANA[s]) + "</th>";
+    html += "</tr></thead><tbody><tr>";
+    var inicio = new Date(2023, mes, 1).getDay();
+    var dias = new Date(2023, mes + 1, 0).getDate();
+    for (var v = 0; v < inicio; v++) html += "<td class='vazio'></td>";
+    for (var d = 1; d <= dias; d++) {
+      var pos = (inicio + d - 1) % 7;
+      var k = chave(mes, d);
+      var ev = EVENTOS[k] || [];
+      var cls = [];
+      if (pos === 0 || pos === 6) cls.push("fds");
+      if (k === HOJE) cls.push("hoje");
+      html += "<td class='" + cls.join(" ") + "'>";
+      if (mini) {
+        html += ev.length ? "<span class='tem' title='" + ev.map(function (e) { return e[0]; }).join(" / ") + "'>" + d + "</span>" : d;
+      } else {
+        html += "<span class='num'>" + d + "</span>";
+        for (var e = 0; e < ev.length; e++) html += "<span class='ev " + ev[e][1] + "'>" + ev[e][0] + "</span>";
+      }
+      html += "</td>";
+      if (pos === 6 && d < dias) html += "</tr><tr>";
+    }
+    var resto = (7 - ((inicio + dias) % 7)) % 7;
+    for (var r = 0; r < resto; r++) html += "<td class='vazio'></td>";
+    html += "</tr></tbody>";
+    tabela.innerHTML = html;
+  }
+
+  function atualizarCalendario() {
+    desenhar(document.getElementById("cal-grande"), mesAtual, false);
+    document.getElementById("cal-titulo").textContent = MESES[mesAtual] + " de 2023";
+    document.getElementById("cal-ant").disabled = mesAtual <= MES_MIN;
+    document.getElementById("cal-prox").disabled = mesAtual >= MES_MAX;
+  }
+  document.getElementById("cal-ant").addEventListener("click", function () { mesAtual--; atualizarCalendario(); });
+  document.getElementById("cal-prox").addEventListener("click", function () { mesAtual++; atualizarCalendario(); });
+  atualizarCalendario();
+  desenhar(document.getElementById("cal-mini"), 10, true);
 
   document.getElementById("sair").addEventListener("click", function () {
     try { sessionStorage.removeItem("paradoxo_usuario"); } catch (e) {}
