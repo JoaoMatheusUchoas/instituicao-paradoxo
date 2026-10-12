@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instituição Paradoxo | Portal do Colaborador</title>
+<link rel="icon" type="image/png" href="simbolo.png">
+<script>
+  /* Bloqueia acesso direto sem login */
+  try {
+    if (sessionStorage.getItem("paradoxo_usuario") !== "marcos.duarte") {
+      window.location.replace("index.html");
+    }
+  } catch (e) { window.location.replace("index.html"); }
+</script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e4e4e4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23e4e4e4'/%3E%3Crect width='1' height='1' fill='%23dadada'/%3E%3C/svg%3E");
+    font-family: Tahoma, Verdana, "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topo {
+    background: linear-gradient(to bottom, #3a3a3a 0%, #1a1a1a 50%, #000 51%, #111 100%);
+    border-bottom: 3px solid #b00000;
+    box-shadow: 0 1px 4px rgba(0,0,0,.5);
+  }
+  .topo-inner {
+    max-width: 960px; margin: 0 auto; padding: 10px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .topo img { width: 44px; height: 44px; }
+  .topo h1 {
+    margin: 0; font-family: Georgia, "Times New Roman", serif; font-weight: normal;
+    font-size: 22px; color: #fff; text-shadow: 0 1px 0 #000;
+  }
+  .usuario-box { margin-left: auto; text-align: right; color: #aaa; font-size: 11px; line-height: 1.5; }
+  .usuario-box strong { color: #fff; font-size: 12px; }
+  .usuario-box a { color: #ddd; }
+
+  .barra-info {
+    background: linear-gradient(to bottom, #fafafa, #e1e1e1);
+    border-bottom: 1px solid #bbb;
+    font-size: 11px; color: #666;
+  }
+  .barra-info div { max-width: 960px; margin: 0 auto; padding: 6px 16px; }
+
+  .corpo {
+    flex: 1; max-width: 960px; width: 100%; margin: 0 auto;
+    padding: 24px 16px; display: flex; gap: 20px; align-items: flex-start;
+  }
+
+  /* Menu lateral */
+  .menu {
+    width: 200px; flex-shrink: 0;
+    background: #fff; border: 1px solid #aaa; border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2); overflow: hidden;
+  }
+  .menu-topo {
+    background: linear-gradient(to bottom, #2b2b2b, #050505);
+    color: #fff; font-weight: bold; padding: 8px 12px; font-size: 12px;
+  }
+  .menu button {
+    display: block; width: 100%; text-align: left;
+    background: #fff; border: none; border-bottom: 1px solid #e3e3e3;
+    padding: 9px 12px; font-family: inherit; font-size: 12px; color: #333; cursor: pointer;
+  }
+  .menu button:last-child { border-bottom: none; }
+  .menu button:hover { background: #f3f3f3; }
+  .menu button.ativo { background: #f0f0f0; font-weight: bold; color: #000; box-shadow: inset 3px 0 0 #b00000; }
+  .menu button:focus-visible { outline: 2px dotted #b00000; outline-offset: -3px; }
+  .menu .cadeado { color: #999; float: right; font-size: 11px; }
+
+  /* Painel principal */
+  .painel {
+    flex: 1; min-width: 0;
+    background: #fff; border: 1px solid #aaa; border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  }
+  .painel-topo {
+    background: linear-gradient(to bottom, #f6f6f6, #e2e2e2);
+    border-bottom: 1px solid #c4c4c4; padding: 9px 14px;
+    font-weight: bold; border-radius: 4px 4px 0 0;
+  }
+  .painel-conteudo { padding: 16px 16px 20px; }
+  .aba { display: none; }
+  .aba.ativa { display: block; }
+
+  h2 {
+    font-family: Georgia, "Times New Roman", serif; font-weight: normal;
+    font-size: 20px; margin: 0 0 10px;
+  }
+  h3 { font-size: 13px; margin: 18px 0 8px; color: #111; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  p { line-height: 1.6; margin: 0 0 10px; max-width: 70ch; }
+
+  .resumo { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0 4px; }
+  .resumo div {
+    flex: 1; min-width: 120px; border: 1px solid #d0d0d0; background: #fafafa;
+    padding: 10px; border-radius: 3px; font-size: 12px; color: #555;
+  }
+  .resumo b { display: block; font-size: 20px; color: #111; font-family: Georgia, serif; font-weight: normal; }
+
+  .tabela-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 520px; }
+  th {
+    background: linear-gradient(to bottom, #4a4a4a, #1a1a1a); color: #fff;
+    text-align: left; padding: 7px 8px; font-weight: bold; border: 1px solid #000;
+  }
+  td { padding: 7px 8px; border: 1px solid #d6d6d6; vertical-align: top; }
+  tr:nth-child(even) td { background: #f6f6f6; }
+
+  .status { display: inline-block; padding: 1px 6px; border-radius: 2px; font-size: 11px; border: 1px solid; white-space: nowrap; }
+  .st-ok { background: #eef7e8; border-color: #a9cf93; color: #2f6a14; }
+  .st-and { background: #fffbe0; border-color: #e6d77a; color: #665c1e; }
+  .st-ab { background: #ffecec; border-color: #e3a1a1; color: #9a0000; }
+  .st-esp { background: #f0f0f0; border-color: #c8c8c8; color: #555; }
+
+  .comunicado { border: 1px solid #ddd; border-left: 3px solid #333; padding: 10px 12px; margin-bottom: 10px; background: #fcfcfc; }
+  .comunicado .data { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .comunicado strong { display: block; margin-bottom: 4px; }
+  .comunicado p { margin: 0; }
+
+  .perfil { width: 100%; max-width: 480px; min-width: 0; }
+  .perfil td:first-child { font-weight: bold; width: 40%; background: #f6f6f6; }
+  .perfil tr:nth-child(even) td { background: transparent; }
+  .perfil tr td:first-child { background: #f6f6f6; }
+
+  .negado {
+    border: 1px solid #e3a1a1; background: #ffecec; color: #9a0000;
+    padding: 14px; line-height: 1.6; max-width: 60ch;
+  }
+  .negado strong { display: block; margin-bottom: 4px; }
+
+  footer { background: #111; color: #888; font-size: 11px; }
+  .footer-inner {
+    max-width: 960px; margin: 0 auto; padding: 12px 16px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+  }
+
+  @media (max-width: 720px) {
+    .corpo { flex-direction: column; }
+    .menu { width: 100%; }
+    .usuario-box span.setor { display: none; }
+    .topo h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-inner">
+    <img src="simbolo.png" alt="Símbolo da Instituição Paradoxo">
+    <h1>Instituição Paradoxo</h1>
+    <div class="usuario-box">
+      <strong>Marcos Duarte</strong><br>
+      <span class="setor">Suporte Técnico · TI ·</span> <a href="index.html" id="sair">Sair</a>
+    </div>
+  </div>
+</header>
+
+<div class="barra-info"><div id="data-hoje">Quinta-feira, 23 de novembro de 2023 · Último acesso: 22/11/2023 às 17:48</div></div>
+
+<div class="corpo">
+  <nav class="menu" aria-label="Menu do colaborador">
+    <div class="menu-topo">Menu</div>
+    <button data-aba="inicio" class="ativo">Início</button>
+    <button data-aba="chamados">Meus chamados</button>
+    <button data-aba="comunicados">Comunicados</button>
+    <button data-aba="perfil">Meu perfil</button>
+    <button data-aba="arquivos">Arquivos internos <span class="cadeado">restrito</span></button>
+  </nav>
+
+  <section class="painel">
+    <div class="painel-topo" id="titulo-aba">Início</div>
+    <div class="painel-conteudo">
+
+      <!-- INÍCIO -->
+      <div class="aba ativa" id="aba-inicio">
+        <h2>Bom dia, Marcos.</h2>
+        <p>Você tem chamados pendentes no setor de Suporte Técnico. Confira a lista em "Meus chamados".</p>
+        <div class="resumo">
+          <div><b>3</b>Chamados abertos</div>
+          <div><b>1</b>Em andamento</div>
+          <div><b>4</b>Concluídos na semana</div>
+        </div>
+        <h3>Último comunicado</h3>
+        <div class="comunicado">
+          <div class="data">23/11/2023 · Diretoria Administrativa</div>
+          <strong>Sistema de cadastro em manutenção</strong>
+          <p>O cadastro de novos colaboradores pelo portal está suspenso até nova data. Solicitações de acesso devem ser encaminhadas ao setor responsável.</p>
+        </div>
+      </div>
+
+      <!-- CHAMADOS -->
+      <div class="aba" id="aba-chamados">
+        <h2>Meus chamados</h2>
+        <div class="tabela-wrap">
+          <table>
+            <thead>
+              <tr><th>Nº</th><th>Data</th><th>Solicitante</th><th>Descrição</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>4490</td><td>23/11/2023</td><td>Sala de servidores</td><td>Relógio do servidor principal voltando para 00:00 após reinício</td><td><span class="status st-ab">Aberto</span></td></tr>
+              <tr><td>4488</td><td>22/11/2023</td><td>Almoxarifado</td><td>Ramal 2307 sem sinal</td><td><span class="status st-ab">Aberto</span></td></tr>
+              <tr><td>4485</td><td>21/11/2023</td><td>Financeiro</td><td>Troca de teclado com teclas falhando</td><td><span class="status st-esp">Aguardando peça</span></td></tr>
+              <tr><td>4483</td><td>21/11/2023</td><td>Recepção</td><td>Câmera da entrada principal sem imagem no monitor</td><td><span class="status st-ab">Aberto</span></td></tr>
+              <tr><td>4480</td><td>20/11/2023</td><td>Ala administrativa</td><td>Lentidão na rede no período da tarde</td><td><span class="status st-and">Em andamento</span></td></tr>
+              <tr><td>4478</td><td>20/11/2023</td><td>Recursos Humanos</td><td>Instalação de segundo monitor</td><td><span class="status st-ok">Concluído</span></td></tr>
+              <tr><td>4473</td><td>17/11/2023</td><td>Recepção</td><td>Redefinição de senha do portal</td><td><span class="status st-ok">Concluído</span></td></tr>
+              <tr><td>4471</td><td>16/11/2023</td><td>2º andar</td><td>Impressora atolando papel</td><td><span class="status st-ok">Concluído</span></td></tr>
+              <tr><td>4469</td><td>16/11/2023</td><td>Refeitório</td><td>Troca de cabo de rede do terminal de pagamento</td><td><span class="status st-ok">Concluído</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COMUNICADOS -->
+      <div class="aba" id="aba-comunicados">
+        <h2>Comunicados</h2>
+        <div class="comunicado">
+          <div class="data">23/11/2023 · Diretoria Administrativa</div>
+          <strong>Sistema de cadastro em manutenção</strong>
+          <p>O cadastro de novos colaboradores pelo portal está suspenso até nova data. Solicitações de acesso devem ser encaminhadas ao setor responsável.</p>
+        </div>
+        <div class="comunicado">
+          <div class="data">21/11/2023 · Serviços Gerais</div>
+          <strong>Refeitório fechado na sexta-feira</strong>
+          <p>No dia 24/11 o refeitório ficará fechado para dedetização. O vale-refeição do dia será creditado normalmente.</p>
+        </div>
+        <div class="comunicado">
+          <div class="data">17/11/2023 · Segurança Patrimonial</div>
+          <strong>Uso obrigatório do crachá</strong>
+          <p>Lembramos que o crachá deve estar visível durante todo o expediente. Colaboradores sem identificação não terão acesso às alas internas.</p>
+        </div>
+        <div class="comunicado">
+          <div class="data">10/11/2023 · Recursos Humanos</div>
+          <strong>Confraternização de fim de ano</strong>
+          <p>A confraternização acontecerá no dia 15/12, a partir das 18h, no salão principal. Confirme presença com o RH até 08/12.</p>
+        </div>
+      </div>
+
+      <!-- PERFIL -->
+      <div class="aba" id="aba-perfil">
+        <h2>Meu perfil</h2>
+        <div class="tabela-wrap">
+          <table class="perfil">
+            <tr><td>Nome</td><td>Marcos Vinícius Duarte</td></tr>
+            <tr><td>Matrícula</td><td>0417</td></tr>
+            <tr><td>Cargo</td><td>Técnico de Suporte em TI</td></tr>
+            <tr><td>Setor</td><td>Tecnologia da Informação</td></tr>
+            <tr><td>Ramal</td><td>2214</td></tr>
+            <tr><td>Admissão</td><td>08/03/2021</td></tr>
+            <tr><td>Nível de acesso</td><td>1</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:12px; font-size:12px; color:#777;">Para alterar seus dados, procure o setor de Recursos Humanos.</p>
+      </div>
+
+      <!-- ARQUIVOS -->
+      <div class="aba" id="aba-arquivos">
+        <h2>Arquivos internos</h2>
+        <div class="negado">
+          <strong>Acesso negado</strong>
+          Seu nível de acesso não permite visualizar esta área. Nível necessário: 3. Se você acredita que isso é um erro, contate seu supervisor.
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2023 Instituição Paradoxo. Todos os direitos reservados.</span>
+    <span>Portal do Colaborador v2.3</span>
+  </div>
+</footer>
+
+<script>
+  var titulos = {
+    inicio: "Início",
+    chamados: "Meus chamados",
+    comunicados: "Comunicados",
+    perfil: "Meu perfil",
+    arquivos: "Arquivos internos"
+  };
+
+  var botoes = document.querySelectorAll(".menu button");
+  for (var i = 0; i < botoes.length; i++) {
+    botoes[i].addEventListener("click", function () {
+      var alvo = this.getAttribute("data-aba");
+      for (var j = 0; j < botoes.length; j++) botoes[j].classList.remove("ativo");
+      this.classList.add("ativo");
+      var abas = document.querySelectorAll(".aba");
+      for (var k = 0; k < abas.length; k++) abas[k].classList.remove("ativa");
+      document.getElementById("aba-" + alvo).classList.add("ativa");
+      document.getElementById("titulo-aba").textContent = titulos[alvo];
+    });
+  }
+
+  document.getElementById("sair").addEventListener("click", function () {
+    try { sessionStorage.removeItem("paradoxo_usuario"); } catch (e) {}
+  });
+</script>
+</body>
+</html>
