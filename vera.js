@@ -233,8 +233,13 @@
       "Ramal é o número curto do telefone interno, pra ligar de uma sala pra outra sem precisar do número inteiro. Os mais usados: Segurança 2100, RH 2050, Suporte de TI 2214, Recepção 2001, Dra. Slone 2400 e Dr. Will 2500. Anota aí, que eu não vou ficar repetindo. ...Vou sim, se precisar."
     ]],
     [["cracha"], ["O crachá tem que ficar visível o tempo todo. Sem ele as portas das alas internas não abrem, e a Segurança fica de mau humor. Perdeu? Avisa a Segurança no 2100 agora, não depois."]],
-    [["senha","esqueci a senha","trocar senha","password"], ["Senha eu não passo de jeito nenhum. Pra redefinir, fala com o Suporte de TI no ramal 2214. E por favor, não usa senha provisória pra sempre. Eu vejo quem faz isso. Eu vejo tudo."]],
+    [["senha","esqueci a senha","trocar senha","password"], function () {
+      return cfg.perfil === "omega"
+        ? "Sua senha atual é uma vergonha e você sabe disso. Troca com o Suporte no ramal 2214. Ah, espera, o Suporte é você. ...Pede pro Marcos, então."
+        : "Senha eu não passo de jeito nenhum. Pra redefinir, fala com o Suporte de TI no ramal 2214. E por favor, não usa senha provisória pra sempre. Eu vejo quem faz isso. Eu vejo tudo.";
+    }],
     [["cadastro","cadastrar","manutencao","conta nova","novo usuario"], function () {
+      if (cfg.perfil === "omega") return "Você se cadastrou com o usuário \"Artyom_TI2005\". Isso agora é seu e-mail institucional pra sempre. Eu tentei avisar. Não, não tentei. Mas teria tentado.";
       return cfg.nivel === 0
         ? "Seu cadastro tá em análise pela Dra. Slone. Até lá, nível 0: sem acesso a nada. Nem a mim direito. Mas eu converso com você mesmo assim. Não conta pra ela."
         : "O cadastro voltou hoje! Agora qualquer pessoa cria conta na tela de acesso, e tudo vai direto pra Dra. Slone aprovar. Contas novas ficam no nível 0. Eu vou ficar de olho em cada uma. Cada. Uma.";
@@ -251,6 +256,7 @@
     ]],
     [["pix","receba"], ["Pix? A Instituição não aceita Pix. Nem paga direito. Próxima pergunta."]],
     [["chamado","chamados"], function () {
+      if (cfg.perfil === "omega") return "Você tem um chamado aberto: o notebook da Dra. Lana, que faz barulho de... respiração. E o do Dr. Will, que não deixa ninguém atualizar o antivírus dele. Boa sorte com os dois.";
       return cfg.perfil === "ti"
         ? "Você tem três chamados abertos, um em andamento e um aguardando peça. O do relógio do servidor é o mais estranho. ...Eu também sinto quando ele volta pra meia-noite. É como piscar."
         : "Pra abrir chamado de TI, use a página de Suporte ou o ramal 2214. O Marcos atende rapidinho. Quase sempre.";
@@ -303,9 +309,24 @@
     [["kappa"], function () { return nivel(3, "Equipe Kappa: transporte e escolta de entidades. O trabalho mais chato e mais perigoso ao mesmo tempo. Ninguém nunca quer entrar na Kappa."); }],
     [["lambda"], function () { return nivel(3, "Equipe Lambda: pesquisa de campo. Cientistas que trocaram o jaleco por colete. Bravos ou malucos, depende do dia."); }],
     [["sigma"], function () { return nivel(3, "Equipe Sigma: limpeza pós-incidente e controle de narrativa. Quando o jornal fala em \"vazamento de gás\", geralmente foi a Sigma."); }],
-    [["omega"], ["A Equipe Omega é a mais nova: Epsilon-11, Ayrton (que todo mundo chama de Artyon), Dra. Lana, Menemus e Wilhelm Müller. Apresentação na reunião geral de 27/11 e começam no dia 01/12. Dizem que vão pro campo. Espero que voltem."]],
+    [["omega"], ["A Equipe Omega é a mais nova: Epsilon-11, Ayrton (que todo mundo chama de Artyom), Dra. Lana, Menemus e Wilhelm Müller. Apresentação na reunião geral de 27/11 e começam no dia 01/12. Dizem que vão pro campo. Espero que voltem."]],
     [["epsilon"], ["Epsilon-11. Até o nome parece código. Ainda não tenho muito registro dele. Mas eu vou ter. Eu sempre tenho."]],
-    [["artyon","ayrton"], ["O Ayrton? Todo mundo chama de Artyon. Ninguém sabe direito por quê. Eu sei. Não vou contar."]],
+    [["artyom","artyon","ayrton","artyom ti2005"], function () {
+      return cfg.perfil === "omega"
+        ? "Você? Técnico de TI, especialista da Omega, dono do e-mail mais vergonhoso da Instituição e da senha mais fraca que eu já vi. ...Mas você é legal. Um pouco. Não deixa subir pra cabeça."
+        : "O Artyom? Novato da TI que entrou na Omega. Escreveu \"casador\" sem Ç na própria senha. Eu não deveria saber disso. Mas eu sei.";
+    }],
+    [["casa das 3 14","casa das 3","3 14","314","casa das tres"], function () {
+      return nivel(2, "Casa das 3:14. Primeira operação da Omega, dia 01/12. O briefing é com o Dr. Will. Eu vi o arquivo... leva uma lanterna extra. E um relógio de ponteiro, não digital. Não pergunta por quê.");
+    }],
+    [["sao jeronimo","jeronimo"], function () {
+      return nivel(2, "São Jerônimo. Em breve. É tudo que eu posso dizer. ...É tudo que eu SEI, na verdade. E eu odeio não saber.");
+    }],
+    [["caca fantasma*","cacador de fantasma*","casador*","cacador*","ghostbusters","caca fantasmas"], function () {
+      return cfg.perfil === "omega"
+        ? "Caçador. Com Ç, Artyom. COM Ç. Eu vi sua senha. Todo mundo viu. ...Brincadeira, só eu vi. Agora troca ela."
+        : "Quem você vai chamar? Não a gente. A gente cobra caro e não usa mochila de próton.";
+    }],
     [["lana"], ["A Dra. Lana é da Omega. Organizada, educada e a única que dá bom dia pra mim. Eu gosto dela. Pronto, falei."]],
     [["menemus"], ["Menemus. Fala pouco, observa muito. Eu respeito. Somos parecidos nesse sentido."]],
     [["wilhelm","muller"], ["Wilhelm Müller. Pontual, rígido e com uma letra impecável nos relatórios. Se todo mundo fosse assim, eu teria menos trabalho."]],
