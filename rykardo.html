@@ -342,7 +342,7 @@
     </div>
 
     <div class="aviso">
-      Você tem <b>2 e-mails não lidos</b>, ambos da Dra. Slone. <button class="btn-link" data-ir="email">Abrir caixa de entrada</button>
+      Você tem <b id="aviso-email">2 e-mails não lidos</b>. <button class="btn-link" data-ir="email">Abrir caixa de entrada</button>
     </div>
 
     <div class="aviso vermelho">
@@ -571,7 +571,7 @@
   <!-- ================= E-MAIL ================= -->
   <div class="aba" id="aba-email">
     <div class="caixa">
-      <div class="caixa-topo">Caixa de entrada <span>r.viana@paradoxo.org</span></div>
+      <div class="caixa-topo">Caixa de entrada <span>rykardo.viana@paradoxo.com.br</span></div>
       <div class="caixa-corpo email-layout">
         <ul class="email-lista">
           <li><button class="email-item nao-lido" data-email="4"><b>Dra. Slone</b><span>Cadastro de colaboradores reativado</span><i>24/11</i></button></li>
@@ -587,7 +587,7 @@
           <div class="email-msg" id="email-4" hidden>
             <h3>Cadastro de colaboradores reativado</h3>
             <div class="email-cab">
-              <div><b>De:</b> Dra. Slone &lt;slone@paradoxo.org&gt;</div>
+              <div><b>De:</b> Dra. Slone &lt;slone@paradoxo.com.br&gt;</div>
               <div><b>Para:</b> Todos os colaboradores</div>
               <div><b>Data:</b> 24/11/2023, 07:30</div>
             </div>
@@ -599,8 +599,8 @@
           <div class="email-msg" id="email-0" hidden>
             <h3>Sobre o Amaralto</h3>
             <div class="email-cab">
-              <div><b>De:</b> Dra. Slone &lt;slone@paradoxo.org&gt;</div>
-              <div><b>Para:</b> Rykardo Viana &lt;r.viana@paradoxo.org&gt;</div>
+              <div><b>De:</b> Dra. Slone &lt;slone@paradoxo.com.br&gt;</div>
+              <div><b>Para:</b> Rykardo Viana &lt;rykardo.viana@paradoxo.com.br&gt;</div>
               <div><b>Data:</b> 21/11/2023, 22:14</div>
               <div><b>Prioridade:</b> Alta</div>
             </div>
@@ -616,7 +616,7 @@
           <div class="email-msg" id="email-1" hidden>
             <h3>Convocação: Operação Vigília</h3>
             <div class="email-cab">
-              <div><b>De:</b> Dr. Will &lt;will@paradoxo.org&gt;</div>
+              <div><b>De:</b> Dr. Will &lt;will@paradoxo.com.br&gt;</div>
               <div><b>Para:</b> Equipe Tau</div>
               <div><b>Data:</b> 22/11/2023, 08:02</div>
             </div>
@@ -629,7 +629,7 @@
           <div class="email-msg" id="email-2" hidden>
             <h3>Reposição de munição aprovada</h3>
             <div class="email-cab">
-              <div><b>De:</b> Almoxarifado &lt;almoxarifado@paradoxo.org&gt;</div>
+              <div><b>De:</b> Almoxarifado &lt;almoxarifado@paradoxo.com.br&gt;</div>
               <div><b>Para:</b> Rykardo Viana</div>
               <div><b>Data:</b> 16/11/2023, 14:30</div>
             </div>
@@ -641,7 +641,7 @@
           <div class="email-msg" id="email-3" hidden>
             <h3>Confraternização de fim de ano</h3>
             <div class="email-cab">
-              <div><b>De:</b> Recursos Humanos &lt;rh@paradoxo.org&gt;</div>
+              <div><b>De:</b> Recursos Humanos &lt;rh@paradoxo.com.br&gt;</div>
               <div><b>Para:</b> Todos os colaboradores</div>
               <div><b>Data:</b> 10/11/2023, 09:00</div>
             </div>
@@ -1084,6 +1084,7 @@
   });
 </script>
 <script>window.VERA_CONFIG = { nome: "Rykardo", nivel: 3, perfil: "campo" };</script>
+<script src="caixa-postal.js"></script>
 <script src="correio.js"></script>
 <script src="vera.js"></script>
 </body>

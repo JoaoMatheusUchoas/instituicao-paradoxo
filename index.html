@@ -230,6 +230,10 @@
     color: #2f6a14;
   }
 
+  .campo-email { display: flex; align-items: stretch; margin-bottom: 6px; }
+  .login .campo-email input[type="text"] { margin-bottom: 0; border-radius: 2px 0 0 2px; min-width: 0; }
+  .campo-email span { display: flex; align-items: center; padding: 0 7px; font-size: 12px; color: #555; background: linear-gradient(to bottom, #f4f4f4, #e2e2e2); border: 1px solid #999; border-left: none; border-radius: 0 2px 2px 0; white-space: nowrap; }
+  .cad-info b { color: #333; word-break: break-all; }
   .cad-info { font-size: 11px; color: #666; margin: 0 0 12px; line-height: 1.5; }
   .btn:disabled { opacity: .6; cursor: wait; }
   .login-rodape {
@@ -370,8 +374,12 @@
       <label for="cad-usuario">Usuário</label>
       <input type="text" id="cad-usuario" autocapitalize="off" spellcheck="false" placeholder="nome.sobrenome">
 
-      <label for="cad-email">E-mail</label>
-      <input type="email" id="cad-email" autocapitalize="off" spellcheck="false">
+      <label for="cad-email">E-mail institucional</label>
+      <div class="campo-email">
+        <input type="text" id="cad-email" autocapitalize="off" spellcheck="false" aria-describedby="cad-email-dica">
+        <span>@paradoxo.com.br</span>
+      </div>
+      <p class="cad-info" id="cad-email-dica">Seu e-mail interno é criado junto com o cadastro. Por padrão ele usa o seu usuário: <b id="cad-email-previa">usuario@paradoxo.com.br</b></p>
 
       <label for="cad-senha">Senha</label>
       <input type="password" id="cad-senha">
@@ -443,6 +451,7 @@
 
     if (achou) { entrar(achou.usuario, achou.destino); return; }
 
+    if (typeof Correio === "undefined") { errou(); return; }
     Correio.conferirSenha(u, s).then(function (conta) {
       if (conta) entrar(conta.usuario, "novo.html");
       else errou();
@@ -558,16 +567,36 @@
   document.getElementById("btn-cadastro").addEventListener("click", function () { trocarPainel(true); });
   document.getElementById("cad-voltar").addEventListener("click", function () { trocarPainel(false); });
 
+  var campoUsuarioCad = document.getElementById("cad-usuario");
+  var campoEmailCad = document.getElementById("cad-email");
+  var previaEmail = document.getElementById("cad-email-previa");
+  var emailEditado = false;
+
+  function atualizarPrevia() {
+    previaEmail.textContent = (campoEmailCad.value.trim().toLowerCase() || "usuario") + "@paradoxo.com.br";
+  }
+  campoUsuarioCad.addEventListener("input", function () {
+    if (!emailEditado) campoEmailCad.value = campoUsuarioCad.value.trim().toLowerCase();
+    atualizarPrevia();
+  });
+  campoEmailCad.addEventListener("input", function () {
+    emailEditado = campoEmailCad.value.trim() !== "";
+    atualizarPrevia();
+  });
+
   formCad.addEventListener("submit", function (e) {
     e.preventDefault();
-    var u = document.getElementById("cad-usuario").value.trim().toLowerCase();
-    var em = document.getElementById("cad-email").value.trim();
+    if (typeof Correio === "undefined") return mostrarCad("erro", "Sistema de cadastro indisponível no momento.");
+
+    var u = campoUsuarioCad.value.trim().toLowerCase();
+    var prefixo = campoEmailCad.value.trim().toLowerCase().replace(/@.*$/, "") || u;
+    var em = prefixo + "@paradoxo.com.br";
     var s1 = document.getElementById("cad-senha").value;
     var s2 = document.getElementById("cad-senha2").value;
 
-    if (!u || !em || !s1 || !s2) return mostrarCad("erro", "Preencha todos os campos.");
+    if (!u || !s1 || !s2) return mostrarCad("erro", "Preencha usuário e senha.");
     if (!/^[a-z0-9._-]{3,30}$/.test(u)) return mostrarCad("erro", "Usuário inválido. Use de 3 a 30 caracteres: letras minúsculas, números, ponto, hífen ou sublinhado.");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) return mostrarCad("erro", "Informe um e-mail válido.");
+    if (!/^[a-z0-9._-]{3,30}$/.test(prefixo)) return mostrarCad("erro", "E-mail inválido. Use de 3 a 30 caracteres: letras minúsculas, números, ponto, hífen ou sublinhado.");
     if (s1.length < 6) return mostrarCad("erro", "A senha precisa ter pelo menos 6 caracteres.");
     if (s1 !== s2) return mostrarCad("erro", "As senhas não conferem.");
     for (var i = 0; i < USUARIOS.length; i++) {
@@ -579,22 +608,29 @@
     botaoCad.disabled = true;
     mostrarCad("manut", "Registrando cadastro...");
 
-    Correio.enviar("Novo cadastro: " + u, {
-      "Usuário": u,
-      "E-mail informado": em,
-      "Encaminhado para": "Dra. Slone (Instalações e Colaboradores)"
-    }, em).then(function (ok) {
-      if (!ok) {
-        botaoCad.disabled = false;
-        return mostrarCad("erro", "Não foi possível registrar o cadastro agora. Tente novamente em alguns instantes.");
-      }
-      Correio.criarConta(u, em, s1).then(function () {
-        botaoCad.disabled = false;
-        formCad.reset();
-        trocarPainel(false);
-        document.getElementById("usuario").value = u;
-        mostrar("ok", "Cadastro registrado e encaminhado à Dra. Slone. Você já pode entrar com seu usuário e senha.");
+    // 1. A conta é criada na hora, mesmo que o aviso por e-mail falhe
+    Correio.criarConta(u, em, s1).then(function (salvou) {
+      botaoCad.disabled = false;
+      if (!salvou) return mostrarCad("erro", "Não foi possível registrar o cadastro neste navegador. Verifique se o modo anônimo está desativado.");
+
+      // 2. Aviso para o mestre, em segundo plano
+      Correio.enviar("Novo cadastro: " + u, {
+        "Usuário": u,
+        "E-mail institucional": em,
+        "Encaminhado para": "Dra. Slone (Instalações e Colaboradores)"
+      }).then(function (ok) {
+        if (!ok && window.console) console.warn("Aviso de cadastro não enviado. Confira a ativação do FormSubmit.");
       });
+
+      formCad.reset();
+      emailEditado = false;
+      atualizarPrevia();
+      trocarPainel(false);
+      document.getElementById("usuario").value = u;
+      mostrar("ok", "Cadastro registrado e encaminhado à Dra. Slone. Seu e-mail institucional é " + em + ". Você já pode entrar com seu usuário e senha.");
+    }).catch(function () {
+      botaoCad.disabled = false;
+      mostrarCad("erro", "Não foi possível registrar o cadastro agora. Tente novamente.");
     });
   });
 </script>

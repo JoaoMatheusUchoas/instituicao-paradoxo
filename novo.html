@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Instituição Paradoxo | Portal do Colaborador</title>
 <link rel="icon" type="image/png" href="simbolo.png">
+<script src="caixa-postal.js"></script>
 <script src="correio.js"></script>
 <script>
   /* Só entra quem tem uma conta criada pelo cadastro neste navegador */
@@ -44,6 +45,11 @@
   table { border-collapse: collapse; font-size: 12px; margin-top: 8px; }
   td { padding: 7px 10px; border: 1px solid #d6d6d6; }
   td:first-child { font-weight: bold; background: #f6f6f6; }
+  .sub { font-family: Georgia, serif; font-weight: normal; font-size: 17px; margin: 20px 0 8px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  .msg-novo { border: 1px solid #ccc; border-left: 3px solid #b00000; background: #fcfcfc; padding: 10px 12px; margin-bottom: 10px; }
+  .msg-novo .cab { font-size: 11px; color: #777; margin-bottom: 6px; }
+  .msg-novo strong { display: block; margin-bottom: 4px; }
+  .msg-novo p { margin: 0 0 8px; }
   .vazio { text-align: center; color: #999; padding: 40px 10px; border: 1px dashed #ccc; margin-top: 16px; font-size: 12px; }
   footer { background: #111; color: #888; font-size: 11px; }
   .footer-inner { max-width: 1000px; margin: 0 auto; padding: 12px 16px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
@@ -72,12 +78,16 @@
       <p>Seu cadastro foi recebido e encaminhado à Diretoria de Instalações e Colaboradores. Até a liberação do seu acesso, nenhum conteúdo está disponível para o seu perfil.</p>
       <table>
         <tr><td>Usuário</td><td id="t-usuario"></td></tr>
-        <tr><td>E-mail</td><td id="t-email"></td></tr>
+        <tr><td>E-mail institucional</td><td id="t-email"></td></tr>
         <tr><td>Cadastro</td><td id="t-data"></td></tr>
         <tr><td>Nível de acesso</td><td>0 · Pendente</td></tr>
         <tr><td>Responsável</td><td>Dra. Slone</td></tr>
       </table>
       <div class="aviso">Você será contatado pelo e-mail informado quando houver uma atualização sobre o seu acesso.</div>
+      <div id="mensagens-novo" hidden>
+        <h3 class="sub">Mensagens recebidas</h3>
+        <div id="lista-novo"></div>
+      </div>
       <div class="vazio">Nenhum conteúdo disponível.</div>
     </div>
   </div>
@@ -96,6 +106,26 @@
     document.getElementById("t-email").textContent = CONTA_ATUAL.email;
     document.getElementById("t-data").textContent = CONTA_ATUAL.criado;
     window.VERA_CONFIG = { nome: CONTA_ATUAL.usuario, nivel: 0, perfil: "novo" };
+
+    /* Respostas do mestre (caixa-postal.js) */
+    var recebidas = Correio.caixaPostal(CONTA_ATUAL.usuario);
+    if (recebidas.length) {
+      document.getElementById("mensagens-novo").hidden = false;
+      var alvo = document.getElementById("lista-novo");
+      recebidas.slice().reverse().forEach(function (m) {
+        var d = document.createElement("div"); d.className = "msg-novo";
+        var c = document.createElement("div"); c.className = "cab";
+        c.textContent = "De: " + (m.de || "") + (m.email ? " <" + m.email + ">" : "") + " · " + (m.data || "");
+        var s = document.createElement("strong"); s.textContent = m.assunto || "(sem assunto)";
+        d.appendChild(c); d.appendChild(s);
+        String(m.texto || "").split(/\n\s*\n/).forEach(function (par) {
+          var p = document.createElement("p");
+          par.split("\n").forEach(function (l, k) { if (k) p.appendChild(document.createElement("br")); p.appendChild(document.createTextNode(l)); });
+          d.appendChild(p);
+        });
+        alvo.appendChild(d);
+      });
+    }
   }
   document.getElementById("sair").addEventListener("click", function () {
     try { sessionStorage.removeItem("paradoxo_usuario"); } catch (e) {}

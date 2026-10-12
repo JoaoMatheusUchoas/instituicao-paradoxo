@@ -241,7 +241,7 @@
     }],
     [["email","e mail","correio","mandar mensagem","escrever"], function () {
       return cfg.nivel === 0
-        ? "O e-mail interno ainda não tá liberado pro seu nível. Paciência."
+        ? "Seu e-mail institucional já existe, mas a caixa de escrever ainda não tá liberada pro nível 0. Se a Diretoria te responder, a mensagem aparece aqui no seu portal. Paciência."
         : "Pra mandar e-mail, vai na aba E-mail do portal e usa a caixa \"Escrever mensagem\". Escolhe o destinatário, escreve e envia. E escreve direito, que todo mundo lê. Inclusive eu.";
     }],
     [["black friday","blackfriday","promocao","desconto"], ["Hoje é Black Friday, né? Metade da ala administrativa tá comprando coisa escondido no horário de trabalho. Eu vejo a rede. Eu só não denuncio porque também queria uma promoção. De RAM."]],

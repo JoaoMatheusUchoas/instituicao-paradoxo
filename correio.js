@@ -12,6 +12,9 @@
    ========================================================== */
 var CORREIO_DESTINO = "suporteparadoxo114@gmail.com";
 
+/* Domínio dos e-mails fictícios da Instituição */
+var DOMINIO_PARADOXO = "@paradoxo.com.br";
+
 var Correio = (function () {
   var DATA_JOGO = "24/11/2023";
 
@@ -149,11 +152,12 @@ var Correio = (function () {
 
       var conta = buscarConta(remetente);
       enviar(remetente + " → " + para + ": " + assunto, {
-        "De": nomeRemetente + " (" + remetente + ")",
+        "De": nomeRemetente + " <" + (conta ? conta.email : remetente + DOMINIO_PARADOXO) + ">",
+        "Login": remetente,
         "Para": para,
         "Assunto": assunto,
         "Mensagem": msg
-      }, conta ? conta.email : null).then(function (ok) {
+      }).then(function (ok) {
         botao.disabled = false;
         if (ok) {
           var itens = lerEnviados();
@@ -169,14 +173,95 @@ var Correio = (function () {
     });
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ligarFormulario);
-  else ligarFormulario();
+  /* ---------- Respostas do mestre (caixa-postal.js) ---------- */
+  function caixaPostal(usuario) {
+    var lista = window.CAIXA_POSTAL || [];
+    var u = (usuario || "").toLowerCase();
+    return lista.filter(function (m) {
+      var p = (m.para || "").toLowerCase();
+      return p === u || p === "todos";
+    });
+  }
+
+  function contarNaoLidos() {
+    var n = document.querySelectorAll(".email-item.nao-lido").length;
+    var nav = document.getElementById("nav-email");
+    if (nav) nav.textContent = n ? "E-mail (" + n + ")" : "E-mail";
+    var aviso = document.getElementById("aviso-email");
+    if (aviso) aviso.textContent = n === 1 ? "1 e-mail não lido" : n + " e-mails não lidos";
+  }
+
+  /* Coloca as respostas do mestre no topo da caixa de entrada do portal */
+  function mostrarRespostas() {
+    var form = document.getElementById("correio-form");
+    var listaEl = document.querySelector(".email-lista");
+    var leitura = document.querySelector(".email-leitura");
+    if (!form || !listaEl || !leitura) return;
+    var usuario = form.getAttribute("data-remetente");
+    var msgs = caixaPostal(usuario);
+    msgs.forEach(function (m, i) {
+      var id = "mestre-" + i;
+      var li = document.createElement("li");
+      var bt = document.createElement("button");
+      bt.className = "email-item nao-lido";
+      bt.setAttribute("data-email", id);
+      var b = document.createElement("b"); b.textContent = m.de || "Instituição Paradoxo";
+      var s = document.createElement("span"); s.textContent = m.assunto || "(sem assunto)";
+      var it = document.createElement("i"); it.textContent = (m.data || "").slice(0, 5);
+      bt.appendChild(b); bt.appendChild(s); bt.appendChild(it);
+      li.appendChild(bt);
+      listaEl.insertBefore(li, listaEl.firstChild);
+
+      var div = document.createElement("div");
+      div.className = "email-msg";
+      div.id = "email-" + id;
+      div.hidden = true;
+      var h3 = document.createElement("h3"); h3.textContent = m.assunto || "(sem assunto)";
+      var cab = document.createElement("div"); cab.className = "email-cab";
+      [["De:", (m.de || "") + (m.email ? " <" + m.email + ">" : "")],
+       ["Para:", usuario + DOMINIO_PARADOXO],
+       ["Data:", m.data || ""]].forEach(function (par) {
+        var d = document.createElement("div");
+        var bb = document.createElement("b"); bb.textContent = par[0] + " ";
+        d.appendChild(bb); d.appendChild(document.createTextNode(par[1]));
+        cab.appendChild(d);
+      });
+      div.appendChild(h3); div.appendChild(cab);
+      String(m.texto || "").split(/\n\s*\n/).forEach(function (par) {
+        var p = document.createElement("p");
+        par.split("\n").forEach(function (linha, k) {
+          if (k) p.appendChild(document.createElement("br"));
+          p.appendChild(document.createTextNode(linha));
+        });
+        div.appendChild(p);
+      });
+      leitura.appendChild(div);
+
+      bt.addEventListener("click", function () {
+        var todas = document.querySelectorAll(".email-msg");
+        for (var x = 0; x < todas.length; x++) todas[x].hidden = true;
+        div.hidden = false;
+        var itens = document.querySelectorAll(".email-item");
+        for (var y = 0; y < itens.length; y++) itens[y].classList.remove("aberto");
+        bt.classList.add("aberto");
+        bt.classList.remove("nao-lido");
+        contarNaoLidos();
+      });
+    });
+    if (msgs.length) contarNaoLidos();
+  }
+
+  function iniciar() { ligarFormulario(); mostrarRespostas(); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", iniciar);
+  else iniciar();
 
   return {
     enviar: enviar,
     buscarConta: buscarConta,
     criarConta: criarConta,
     conferirSenha: conferirSenha,
+    caixaPostal: caixaPostal,
+    dominio: DOMINIO_PARADOXO,
     dataJogo: DATA_JOGO
   };
 })();
