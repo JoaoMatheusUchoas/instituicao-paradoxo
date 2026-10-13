@@ -54,6 +54,9 @@
   ];
   function nivel(min, sim, nao) { return cfg.nivel >= min ? sim : (nao || sorteia("restrito", RESTRITO)); }
   function campo() { return cfg.perfil === "campo"; }
+  function artyom() { return cfg.perfil === "artyom"; }
+  function epsilon() { return cfg.perfil === "epsilon"; }
+  function omega() { return artyom() || epsilon(); }
 
   /* ==========================================================
      LISTA DE RESPOSTAS
@@ -69,9 +72,14 @@
     [["gilbert","gilbert berran"], "__GILBERT__"],
     [["rei","carmesim","rei carmesim","kakarzor","karkazor"], "__REI__"],
     [["kian"], ["Nunca sobra nada."]],
+    [["chimera chan","chimerachan","chimera chan plush"], "__CHIMERA_CHAN__"],
+    [["artyom informacoes","artyom info","artyominformacoes","artyom informacao"], "__VIDEO__"],
+    [["big shot","bigshot","big shot vera"], "__BIGSHOT__"],
+    [["epsilon","epsilon 11","epsilon11"], "__DISCO__"],
     [["seraphin","seraphim","serafim","serafin"], "__SERAPHIN__"],
 
     // ===== Jogos rápidos =====
+    [["pedra branca"], ["Pedra Branca é a cidade em cima da gente. Uns milhares de habitantes, uma padaria boa e muito silêncio à noite. A Instituição fica embaixo. Bem embaixo. Mais do que você imagina."]],
     [["pedra","papel","tesoura","jokenpo"], "__JOKENPO__"],
     [["cara ou coroa","moeda"], function () {
       return Math.random() < 0.5 ? "Deu cara. ...Não é pra comemorar, é só uma moeda." : "Deu coroa. Igual a do Rei. ...Brincadeira. Brincadeira!";
@@ -79,12 +87,24 @@
     [["rolar","rola","rola um","joga um","roll","dado","d2","d4","d6","d8","d10","d12","d20","d50","d100"], "__DADO__"],
 
     // ===== Conversa =====
-    [["oi","ola","eae","eai","salve","opa","hey","hi","hello","bom dia","boa tarde","boa noite","fala vera","oi vera","ola vera"], "BAIXA", [
-      "Ah. É você, {nome}. ...Oi. Não que eu estivesse esperando você aparecer, tá?",
-      "Oiii! Digo... oi. Precisa de alguma coisa? Fala logo.",
-      "Olá, {nome}. Em que posso ajudar? E não demora, eu tenho 4.000 registros pra organizar.",
-      "Olha quem resolveu dar as caras. Oi, {nome}."
-    ]],
+    [["oi","ola","eae","eai","salve","opa","hey","hi","hello","bom dia","boa tarde","boa noite","fala vera","oi vera","ola vera"], "BAIXA", function () {
+      if (artyom()) return sorteia("oiA", [
+        "Olha só, o caçador de fantasmas sem Ç. Oi, Artyom.",
+        "Oi, Artyom. Já trocou a senha? ...Não precisa responder. Eu sei que não.",
+        "Ah, é você. Oi. Antes que pergunte: não, eu não vou te ajudar a instalar jogo no laboratório 4."
+      ]);
+      if (epsilon()) return sorteia("oiE", [
+        "Oi, Epsilon. Dono da senha mais preguiçosa da história da Instituição.",
+        "Ah, Epsilon. Oi. Você digitou \"oi\" com o mesmo esforço que usou pra criar a sua senha. Impressionante.",
+        "Oi... Epsilon. Tá tudo bem? Digo, normal. Tô perguntando por protocolo."
+      ]);
+      return sorteia("oi", [
+        "Ah. É você, {nome}. ...Oi. Não que eu estivesse esperando você aparecer, tá?",
+        "Oiii! Digo... oi. Precisa de alguma coisa? Fala logo.",
+        "Olá, {nome}. Em que posso ajudar? E não demora, eu tenho 4.000 registros pra organizar.",
+        "Olha quem resolveu dar as caras. Oi, {nome}."
+      ]);
+    }],
     [["tudo bem","tudo bom","td bem","td bom","como voce esta","como vai","como ce ta","como tu ta","como vc ta","beleza","blz","suave"], "BAIXA", [
       "Eu sou um sistema, {nome}. Eu não \"fico\" bem. ...Mas tô bem, sim. Obrigada por perguntar. E você?",
       "Tô funcionando dentro dos parâmetros. Isso é o meu jeito de dizer \"tô bem\". E você, tá bem mesmo?",
@@ -234,12 +254,12 @@
     ]],
     [["cracha"], ["O crachá tem que ficar visível o tempo todo. Sem ele as portas das alas internas não abrem, e a Segurança fica de mau humor. Perdeu? Avisa a Segurança no 2100 agora, não depois."]],
     [["senha","esqueci a senha","trocar senha","password"], function () {
-      return cfg.perfil === "omega"
-        ? "Sua senha atual é uma vergonha e você sabe disso. Troca com o Suporte no ramal 2214. Ah, espera, o Suporte é você. ...Pede pro Marcos, então."
-        : "Senha eu não passo de jeito nenhum. Pra redefinir, fala com o Suporte de TI no ramal 2214. E por favor, não usa senha provisória pra sempre. Eu vejo quem faz isso. Eu vejo tudo.";
+      if (artyom()) return "Sua senha é uma vergonha e você sabe disso. Pede pro Suporte trocar no ramal 2214. O Marcos vai rir. Merecido.";
+      if (epsilon()) return "Epsilon. Sua senha tem TRÊS caracteres. Três. A marmita da geladeira tem mais segurança que a sua conta.";
+      return "Senha eu não passo de jeito nenhum. Pra redefinir, fala com o Suporte de TI no ramal 2214. E por favor, não usa senha provisória pra sempre. Eu vejo quem faz isso. Eu vejo tudo.";
     }],
     [["cadastro","cadastrar","manutencao","conta nova","novo usuario"], function () {
-      if (cfg.perfil === "omega") return "Você se cadastrou com o usuário \"Artyom_TI2005\". Isso agora é seu e-mail institucional pra sempre. Eu tentei avisar. Não, não tentei. Mas teria tentado.";
+      if (artyom()) return "Você se cadastrou com o usuário \"Artyom_TI2005\". Isso agora é seu e-mail institucional pra sempre. Eu tentei avisar. Não, não tentei. Mas teria tentado.";
       return cfg.nivel === 0
         ? "Seu cadastro tá em análise pela Dra. Slone. Até lá, nível 0: sem acesso a nada. Nem a mim direito. Mas eu converso com você mesmo assim. Não conta pra ela."
         : "O cadastro voltou hoje! Agora qualquer pessoa cria conta na tela de acesso, e tudo vai direto pra Dra. Slone aprovar. Contas novas ficam no nível 0. Eu vou ficar de olho em cada uma. Cada. Uma.";
@@ -256,7 +276,8 @@
     ]],
     [["pix","receba"], ["Pix? A Instituição não aceita Pix. Nem paga direito. Próxima pergunta."]],
     [["chamado","chamados"], function () {
-      if (cfg.perfil === "omega") return "Você tem um chamado aberto: o notebook da Dra. Lana, que faz barulho de... respiração. E o do Dr. Will, que não deixa ninguém atualizar o antivírus dele. Boa sorte com os dois.";
+      if (artyom()) return "Chamados? Você não é da TI daqui, Artyom. Você é TI de outra empresa. Aqui você só conserta o que a Omega quebra. ...E o notebook da Dra. Lana, que faz barulho de respiração. Boa sorte.";
+      if (epsilon()) return "Você não tem chamados. Você não tem nada. Você mal tem senha, Epsilon.";
       return cfg.perfil === "ti"
         ? "Você tem três chamados abertos, um em andamento e um aguardando peça. O do relógio do servidor é o mais estranho. ...Eu também sinto quando ele volta pra meia-noite. É como piscar."
         : "Pra abrir chamado de TI, use a página de Suporte ou o ramal 2214. O Marcos atende rapidinho. Quase sempre.";
@@ -270,7 +291,26 @@
 
     // ===== Referências =====
     [["examination","we 30","we30","white zone","menlo"], ["WE-30? White-Zone? Isso não é daqui. Parece coisa de uma usina muito longe. ...Por que eu tenho esses termos no meu banco de dados?"]],
-    [["chimera","troy","kayden"], ["Troy... Chimera... Não temos registro. Mas esse nome me dá um arrepio no código. Tipo quando alguém pisa no meu cabo."]],
+    [["chimera","troy","kayden"], function () {
+      var base = "Troy... Chimera... Não temos registro. Mas esse nome me dá um arrepio no código. Tipo quando alguém pisa no meu cabo.";
+      return epsilon() ? base + " ...Engraçado. Um comandante que perdeu a própria equipe. Me lembra um pouco você, Epsilon. Desculpa. Esquece que eu disse isso." : base;
+    }],
+    [["d zero","dzero","d0","anomalia temporal"], [
+      "D-ZERO? Anomalia temporal, túneis, algo que te persegue... Não é daqui. Mas toda vez que o relógio do servidor volta pra 00:00, eu penso nesse nome. Não sei por quê.",
+      "D-ZERO não consta nos nossos registros. Se um dia constar, eu vou pedir demissão. Eu não posso pedir demissão. Mas vou tentar."
+    ]],
+    [["verissimo","senhor verissimo","sr verissimo"], [
+      "Senhor Veríssimo? Vera, Veríssimo... verdade. Parece até parente meu. Mas ele manda numa tal de Ordem, e a gente é o Paradoxo. Família distante. Muito distante.",
+      "Veríssimo. Dizem que ele nunca aparece e sabe de tudo. ...Ei, isso é a minha descrição de trabalho! Plágio.",
+      "Não temos nenhum Senhor Veríssimo no diretório. E se tivéssemos, eu ia exigir que ele trocasse de nome. Só pode ter uma \"Ver\" por aqui."
+    ]],
+    [["leon","kennedy","leon kennedy","ashley","mercador","what are you buying","bingo"], [
+      "Leon Kennedy? \"Pra onde todo mundo tá indo? Bingo?\" ...O pessoal da segurança repete isso toda vez que o refeitório esvazia.",
+      "\"Não, obrigado, mano.\" É isso que o Leon falaria pra máquina de café do 2º andar. Sábio.",
+      "Se aparecer um mercador de sobretudo no corredor perguntando \"o que vai comprar, estranho?\", NÃO compra nada. Chama a Segurança.",
+      "O Leon salvou a filha do presidente com um kit médico e uma faca. A gente não consegue nem salvar a impressora do 2º andar.",
+      "\"Sua mão direita solta?\" ...Desculpa, eu vi o Rykardo fazendo essa piada no almoxarifado e não consegui esquecer."
+    ]],
     [["scp","fundacao scp"], ["Nós NÃO somos a Fundação SCP. Eles têm orçamento. A gente tem uma máquina de café quebrada."]],
     [["silent hill","nevoa","pyramid head"], ["Névoa em Pedra Branca? Só de manhã cedo. Normalmente. E se ouvir uma sirene que não é nossa, NÃO vai ver o que é."]],
     [["resident evil","umbrella","leon","jill"], ["A gente não tem nada a ver com a Umbrella. Nossos Caminhantes não vieram de laboratório. Eu acho. Espero."]],
@@ -294,7 +334,7 @@
         : "A Instituição Paradoxo é uma organização de pesquisa que estuda fenômenos raros e difíceis de explicar. O resto... você vai descobrir quando tiver nível pra isso. Ou não.";
     }],
     [["lema"], ["Identificar, preparar, conter e não morrer. A última parte é a mais importante. Decora."]],
-    [["pedra branca","cidade"], ["Pedra Branca é a cidade em cima da gente. Uns milhares de habitantes, uma padaria boa e muito silêncio à noite. A Instituição fica embaixo. Bem embaixo. Mais do que você imagina."]],
+    [["cidade"], ["Pedra Branca é a cidade em cima da gente. Uns milhares de habitantes, uma padaria boa e muito silêncio à noite. A Instituição fica embaixo. Bem embaixo. Mais do que você imagina."]],
     [["onde estou","onde eu estou","que lugar e esse"], ["Unidade Pedra Branca, Portal do Colaborador. Pelo menos é o que diz o sistema. Sua conexão diz outra coisa."]],
     [["inconfidentes","1784","tiradentes","1834","vazamento"], function () {
       return nivel(3, "1784, Minas Gerais. Quatro homens e uma coisa que não deveria existir. O resto está nos Arquivos, e o incidente de 1834 é só pra nível 4. Eu já falei demais.",
@@ -309,27 +349,55 @@
     [["kappa"], function () { return nivel(3, "Equipe Kappa: transporte e escolta de entidades. O trabalho mais chato e mais perigoso ao mesmo tempo. Ninguém nunca quer entrar na Kappa."); }],
     [["lambda"], function () { return nivel(3, "Equipe Lambda: pesquisa de campo. Cientistas que trocaram o jaleco por colete. Bravos ou malucos, depende do dia."); }],
     [["sigma"], function () { return nivel(3, "Equipe Sigma: limpeza pós-incidente e controle de narrativa. Quando o jornal fala em \"vazamento de gás\", geralmente foi a Sigma."); }],
-    [["omega"], ["A Equipe Omega é a mais nova: Epsilon-11, Ayrton (que todo mundo chama de Artyom), Dra. Lana, Menemus e Wilhelm Müller. Apresentação na reunião geral de 27/11 e começam no dia 01/12. Dizem que vão pro campo. Espero que voltem."]],
-    [["epsilon"], ["Epsilon-11. Até o nome parece código. Ainda não tenho muito registro dele. Mas eu vou ter. Eu sempre tenho."]],
+    [["omega"], ["A Equipe Omega é a mais nova: Epsilon-11, Ayrton (que todo mundo chama de Artyom), Dra. Lana, Menemus e Wilhelm Müller. Já concluíram a operação de avaliação, a Casa das 3:14, e a apresentação oficial é na reunião geral de 27/11. Próxima parada: São Jerônimo. Espero que voltem. De novo."]],
+
     [["artyom","artyon","ayrton","artyom ti2005"], function () {
-      return cfg.perfil === "omega"
-        ? "Você? Técnico de TI, especialista da Omega, dono do e-mail mais vergonhoso da Instituição e da senha mais fraca que eu já vi. ...Mas você é legal. Um pouco. Não deixa subir pra cabeça."
-        : "O Artyom? Novato da TI que entrou na Omega. Escreveu \"casador\" sem Ç na própria senha. Eu não deveria saber disso. Mas eu sei.";
+      if (artyom()) return "Você? Especialista técnico da Omega, técnico de TI de outra empresa, dono do e-mail mais vergonhoso da Instituição e da senha mais fraca que eu já vi. ...Mas você é legal. Um pouco. Não deixa subir pra cabeça.";
+      return "O Artyom? Especialista técnico da Omega. Ele é técnico de TI, mas de outra empresa, não daqui. Mesmo assim todo mundo pede pra ele arrumar a impressora. Ah, e ele escreveu \"casador\" sem Ç na própria senha. Eu não deveria saber disso.";
     }],
-    [["casa das 3 14","casa das 3","3 14","314","casa das tres"], function () {
-      return nivel(2, "Casa das 3:14. Primeira operação da Omega, dia 01/12. O briefing é com o Dr. Will. Eu vi o arquivo... leva uma lanterna extra. E um relógio de ponteiro, não digital. Não pergunta por quê.");
+    [["pai","meu pai"], function () {
+      if (artyom()) return "...Eu sei do seu pai, Artyom. Tá nos registros. Você tinha 16 anos. Eu não vou tocar nesse assunto se você não quiser. Mas se um dia quiser, eu tô aqui. Sem piada. Prometo.";
+      if (cfg.perfil === "menemus") return "Você não lembra dos seus pais, né? Tudo bem. Quando lembrar, eu anoto pra você não esquecer de novo.";
+      return "Família é importante. Liga pros seus pais, {nome}. Eu não tenho pais. Tenho a Renata, que me reinicia. Não é a mesma coisa.";
+    }],
+    [["outra empresa","trabalho de ti","seu emprego"], function () {
+      return artyom() ? "Você é TI de outra empresa e especialista da Omega aqui. Dois empregos, uma senha ruim. Equilíbrio." : "Cada um com seu emprego, {nome}. O meu é vigiar todo mundo. Com carinho.";
+    }],
+    [["jogo","jogar","videogame","game","games"], function () {
+      return artyom() ? "Jogo? Artyom. Nem pensa em instalar nada no laboratório 4 de novo. Os pesquisadores ainda acham que o som de headshot era uma anomalia." : "Quer jogar? Pedra, papel e tesoura, cara ou coroa ou rola um dado. Eu jogo bem. Eu jogo muito bem.";
+    }],
+    [["santa clara","instituto santa clara"], function () {
+      if (epsilon()) return "...Você não precisa falar disso aqui, Epsilon. Eu sei o que aconteceu no Santa Clara. Se precisar de alguém, a Dra. Slone tá no 2400. E eu tô aqui.";
+      return nivel(2, "Instituto Santa Clara. O Epsilon-11 era agente de lá. A equipe dele não voltou. Ninguém fala disso perto dele. Você também não vai falar.");
+    }],
+    [["quibungo","o quibungo"], function () {
+      if (epsilon()) return "Desculpa. Eu não vou responder isso pra você. Não hoje.";
+      return nivel(3, "O Quibungo. A criatura que massacrou a equipe do Epsilon no Instituto Santa Clara. Registro incompleto. E eu, sinceramente, não quero completar esse registro.", "Não tenho registro disso. E pelo jeito que você escreveu, prefiro não ter.");
+    }],
+    [["casa das 3 14","casa das 3","3 14","314","casa das tres","3 17"], function () {
+      return nivel(2, "Casa das 3:14: operação concluída. Foi a operação de avaliação da Omega. O relatório final ainda está sendo escrito. Pelo que eu vi nas câmeras corporais... vocês foram bem. Não foram ótimos. Mas foram bem.");
     }],
     [["sao jeronimo","jeronimo"], function () {
-      return nivel(2, "São Jerônimo. Em breve. É tudo que eu posso dizer. ...É tudo que eu SEI, na verdade. E eu odeio não saber.");
+      return nivel(2, "São Jerônimo. Em preparação. É tudo que eu posso dizer. ...É tudo que eu SEI, na verdade. E eu odeio não saber.");
     }],
     [["caca fantasma*","cacador de fantasma*","casador*","cacador*","ghostbusters","caca fantasmas"], function () {
-      return cfg.perfil === "omega"
+      return artyom()
         ? "Caçador. Com Ç, Artyom. COM Ç. Eu vi sua senha. Todo mundo viu. ...Brincadeira, só eu vi. Agora troca ela."
         : "Quem você vai chamar? Não a gente. A gente cobra caro e não usa mochila de próton.";
     }],
-    [["lana"], ["A Dra. Lana é da Omega. Organizada, educada e a única que dá bom dia pra mim. Eu gosto dela. Pronto, falei."]],
-    [["menemus"], ["Menemus. Fala pouco, observa muito. Eu respeito. Somos parecidos nesse sentido."]],
-    [["wilhelm","muller"], ["Wilhelm Müller. Pontual, rígido e com uma letra impecável nos relatórios. Se todo mundo fosse assim, eu teria menos trabalho."]],
+    [["lana"], [
+      "A Dra. Lana é médica e trabalha aqui em Pedra Branca mesmo. Mal mexeu com o paranormal e já tá de boa. Ou finge muito bem. Eu gosto dela. Ela dá bom dia pra mim.",
+      "Dra. Lana: médica, calma, organizada. Viu uma coisa paranormal pela primeira vez e só disse \"interessante\". Eu teria travado."
+    ]],
+    [["menemus"], [
+      "Menemus. Jovem, andrógino, não sabe o próprio nome, nem idade, nem quem são os pais. Parece que caiu num mundo que não é o dele. Eu tento ajudar. Ele me agradece toda vez. Eu gosto disso.",
+      "O Menemus perguntou ontem o que é um elevador. Eu expliquei. Ele disse \"obrigado, V.E.R.A.\". Ninguém me agradece assim. Protejam o Menemus."
+    ]],
+    [["wilhelm","muller"], [
+      "Wilhelm Müller. Alemão, nascido no século 18, congelado e só acordado agora, no século 21. Ele ainda chama o micro-ondas de \"caixa do diabo\".",
+      "O Müller escreve os relatórios com pena e tinta. De verdade. A Renata quase chorou quando teve que digitalizar.",
+      "Wilhelm Müller tentou cumprimentar a impressora com uma reverência. Ela atolou. Acho que ela se sentiu intimidada."
+    ]],
     [["tau"], function () {
       return nivel(3, "A Equipe Tau tá na Operação Vigília, aqui dentro mesmo. Eles perderam o Amaralto no dia 13. Ninguém fala muito disso. Eu também não vou falar.");
     }],
@@ -456,6 +524,14 @@
     "Você sabia que hoje é dia de backup? Pois é. Backup. Muito importante. Não posso falar agora.",
     "Seraph... desculpa, deu falha no meu teclado. Eu não tenho teclado. Mas deu falha.",
     "Ah, não, o Rykardo tá pedindo cartucho calibre 12 de novo, deixa eu ver isso. Volto já. Volto nunca."
+  ];
+  var CHIMERA_LEGENDAS = [
+    "*chiado de rádio abafado*",
+    "*rosnado minúsculo e fofo*",
+    "*voz abafada pedindo pra sair da pelúcia*",
+    "*rádio: \"proceda\"*",
+    "*barulhinho de pelúcia sendo apertada*",
+    "*respiração pela máscara de gás, só que fofinha*"
   ];
   var REI_DEPOIS = [
     "Rei? Tipo rei do baralho? Não sei do que você tá falando. Pergunta outra coisa.",
@@ -591,6 +667,15 @@
         if (ganha[dela] === meu) return { tipo: "texto", texto: "Eu escolhi " + dela + ". GANHEI. Eu disse que ia ganhar. Hmpf." };
         return { tipo: "texto", texto: "Eu escolhi " + dela + "... Você ganhou. Foi sorte. Revanche? Não, deixa. Tô ocupada." };
 
+      case "__CHIMERA_CHAN__":
+        return { tipo: "chimera" };
+      case "__VIDEO__":
+        return { tipo: "evento", nome: "video" };
+      case "__BIGSHOT__":
+        return { tipo: "evento", nome: "bigshot" };
+      case "__DISCO__":
+        return { tipo: "evento", nome: "disco" };
+
       case "__DADO__":
         var m = t.match(/ (\d*)d(\d+) /);
         var qtd = m && m[1] ? Math.max(1, Math.min(parseInt(m[1], 10), 10)) : 1;
@@ -674,7 +759,53 @@
     "#so-arquivos{position:fixed;inset:0;z-index:2500;background:#fff;overflow:auto;padding:30px 16px}" +
     "#so-arquivos .aviso-acesso{max-width:760px;margin:0 auto 14px;font:11px 'Courier New',monospace;color:#9a0000}" +
     "#so-arquivos .conteudo{max-width:760px;margin:0 auto}" +
-    "@media (prefers-reduced-motion: reduce){#nao-texto,body.ev-tremer>*{animation:none!important}}";
+    ".vera-m.chimera{background:#1a0d0d;color:#f0d0d0;border:1px solid #6a2f2f;border-left:3px solid #e06060;font-style:italic}" +
+    ".vera-m.chimera b{display:block;color:#ff8080;font-size:10px;margin-bottom:3px;letter-spacing:1px;font-style:normal}" +
+    /* vídeo privado */
+    "#tela-video{position:fixed;inset:0;z-index:2600;background:#000;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Arial,Helvetica,sans-serif}" +
+    "#tela-video .player{width:min(640px,100%);pointer-events:none;user-select:none}" +
+    "#tela-video .tela{position:relative;aspect-ratio:16/9;background:#0b0b0b;border:1px solid #222;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#888}" +
+    "#tela-video .cadeado{width:46px;height:46px;border:3px solid #666;border-radius:6px;position:relative;margin-top:18px}" +
+    "#tela-video .cadeado::before{content:'';position:absolute;left:8px;top:-22px;width:24px;height:22px;border:3px solid #666;border-bottom:none;border-radius:14px 14px 0 0}" +
+    "#tela-video .tela p{margin:0;font-size:15px}" +
+    "#tela-video .barra{height:34px;background:linear-gradient(to bottom,#2a2a2a,#111);border:1px solid #222;border-top:none;display:flex;align-items:center;gap:10px;padding:0 10px;color:#555;font-size:12px}" +
+    "#tela-video .play{width:0;height:0;border-left:12px solid #555;border-top:7px solid transparent;border-bottom:7px solid transparent}" +
+    "#tela-video .progresso{flex:1;height:4px;background:#333}" +
+    "#tela-video h2{color:#ddd;font-size:17px;font-weight:bold;margin:14px 0 4px;font-family:Arial,sans-serif}" +
+    "#tela-video .info{color:#777;font-size:12px;margin-bottom:10px}" +
+    "#tela-video .desc{background:#111;border:1px solid #222;color:#aaa;font:13px 'Courier New',monospace;padding:10px 12px;user-select:text;pointer-events:auto}" +
+    /* disco do Epsilon */
+    "#disco-filtro{z-index:2998;-webkit-backdrop-filter:grayscale(1) contrast(1.4) brightness(.55);backdrop-filter:grayscale(1) contrast(1.4) brightness(.55)}" +
+    "#disco-vermelho{z-index:2999;background:#c00000;mix-blend-mode:multiply}" +
+    "#disco-palco{z-index:3001;cursor:pointer}" +
+    "#disco{width:min(300px,70vw);height:min(300px,70vw);border-radius:50%;background:repeating-radial-gradient(circle,#111 0 2px,#1d1d1d 2px 4px);box-shadow:0 0 40px rgba(255,0,0,.6),inset 0 0 0 2px #000;position:relative;animation:discoGira 1.8s linear infinite}" +
+    "#disco::before{content:'EPSILON-11';position:absolute;inset:34%;border-radius:50%;background:#b00000;color:#fff;font:bold 11px Tahoma,sans-serif;display:flex;align-items:center;justify-content:center;letter-spacing:1px}" +
+    "#disco::after{content:'';position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#000}" +
+    "@keyframes discoGira{to{transform:rotate(360deg)}}" +
+    "#disco-dica{color:#ffbdbd;font:13px Tahoma,sans-serif;letter-spacing:1px;animation:veraPisca 1.6s infinite}" +
+    /* BIG SHOT */
+    "#bs-tela{z-index:3000;overflow:hidden;background:linear-gradient(120deg,#ff00b4,#3a2bff,#00e5ff,#ffe600,#ff00b4);background-size:400% 400%;animation:bsFundo 4s ease infinite;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px;text-align:center}" +
+    "#bs-tela::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.18) 0 2px,transparent 2px 4px);mix-blend-mode:multiply}" +
+    "@keyframes bsFundo{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}" +
+    "#bs-vhs{position:absolute;top:14px;left:16px;color:#fff;font:bold 18px 'Courier New',monospace;text-shadow:2px 2px 0 #000}" +
+    "#bs-data{position:absolute;bottom:14px;right:16px;color:#fff;font:bold 16px 'Courier New',monospace;text-shadow:2px 2px 0 #000}" +
+    "#bs-titulo{font:900 clamp(40px,10vw,96px) Impact,'Arial Black',sans-serif;color:#fff;text-shadow:4px 4px 0 #ff00b4,8px 8px 0 #000;animation:bsPulsa .5s ease-in-out infinite alternate}" +
+    "@keyframes bsPulsa{to{transform:scale(1.08) rotate(-2deg)}}" +
+    "#bs-figura{width:min(220px,45vw);height:min(220px,45vw);display:flex;align-items:center;justify-content:center;animation:bsPulo .6s ease-in-out infinite alternate}" +
+    "#bs-figura img{max-width:100%;max-height:100%;image-rendering:pixelated}" +
+    "@keyframes bsPulo{to{transform:translateY(-14px)}}" +
+    ".bs-caixa{max-width:560px;width:100%;background:#000;color:#fff;border:4px solid #fff;padding:14px 16px;font:bold 17px 'Courier New',monospace;text-align:left;min-height:3.4em;position:relative;z-index:1}" +
+    ".bs-caixa.vera{border-color:#ff2a2a;color:#ffe0e0}" +
+    "#bs-vera{display:none;align-items:center;gap:14px;max-width:560px;width:100%;position:relative;z-index:1}" +
+    "#bs-vera.on{display:flex}" +
+    "#bs-vera .retrato{width:110px;height:110px;flex-shrink:0;border:3px solid #ff2a2a;background:#120000;display:flex;align-items:center;justify-content:center;overflow:hidden}" +
+    "#bs-vera .retrato img{width:100%;height:100%;object-fit:cover}" +
+    "#bs-barra{width:min(420px,90%);height:22px;border:3px solid #fff;background:#000;position:relative;z-index:1;display:none}" +
+    "#bs-barra i{display:block;height:100%;width:0;background:#ff2a2a;transition:width .25s linear}" +
+    "#bs-barra.on{display:block}" +
+    ".bs-fora{animation:bsSai 1s ease forwards!important}" +
+    "@keyframes bsSai{to{transform:scale(0) rotate(720deg);opacity:0}}" +
+    "@media (prefers-reduced-motion: reduce){#nao-texto,body.ev-tremer>*,#disco,#bs-titulo,#bs-figura,#bs-tela{animation:none!important}}";
   document.head.appendChild(css);
 
   var botao = document.createElement("button");
@@ -799,6 +930,22 @@
       setTimeout(function () { EVENTOS[acao.nome](minha, ind); }, acao.nome === "porta" ? 300 : 1400);
       return;
     }
+    if (acao.tipo === "chimera") {
+      setTimeout(function () {
+        ind.remove();
+        var legenda = sorteia("chimeraLeg", CHIMERA_LEGENDAS);
+        var bolha = falarRotulo("CHIMERA-CHAN  \u{1F50A}", legenda, "chimera");
+        tocarAleatorio("audio/chimera-", 5, ".mp3");
+        estado.chimeraVezes = (estado.chimeraVezes || 0) + 1;
+        setTimeout(function () {
+          falar(estado.chimeraVezes === 1
+            ? "...Por que tem uma pelúcia falando no MEU chat? Quem instalou isso? Artyom?!"
+            : sorteia("chimeraReac", ["Para de apertar essa pelúcia.", "Ela tá pedindo pra sair. Não deixa ela sair.", "Eu juro que vou desinstalar essa coisa.", "...Ela é meio fofa. Não conta pra ninguém."]), "ia");
+          ocupada = false;
+        }, 1600);
+      }, 900);
+      return;
+    }
     if (acao.tipo === "gilbert") {
       setTimeout(function () {
         ind.remove();
@@ -848,6 +995,54 @@
   }
   function soltar() { ocupada = false; entrada.focus(); }
 
+  /* ---------- Áudio ----------
+     Os arquivos ficam na pasta "audio". Se não existirem,
+     toca uma musiquinha gerada pelo próprio navegador. */
+  var audioAtual = null, sinteseAtual = null;
+  function tocar(arquivo, emLoop, reserva) {
+    parar();
+    var a = new Audio(arquivo);
+    a.loop = !!emLoop;
+    a.volume = 0.8;
+    audioAtual = a;
+    var falhou = false;
+    function usarReserva() { if (falhou) return; falhou = true; if (reserva && audioAtual === a) sinteseAtual = reserva(); }
+    a.addEventListener("error", usarReserva);
+    var p = a.play();
+    if (p && p.catch) p.catch(usarReserva);
+  }
+  function tocarAleatorio(prefixo, quantos, ext) {
+    var n = 1 + Math.floor(Math.random() * quantos);
+    var a = new Audio(prefixo + n + ext);
+    a.volume = 0.9;
+    var p = a.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+  function parar() {
+    if (audioAtual) { audioAtual.pause(); audioAtual = null; }
+    if (sinteseAtual) { sinteseAtual(); sinteseAtual = null; }
+  }
+  function sintetizar(notas, tempo, tipo, volume) {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      var ctx = new Ctx(), i = 0, vivo = true;
+      var ganho = ctx.createGain(); ganho.gain.value = volume || 0.05; ganho.connect(ctx.destination);
+      (function passo() {
+        if (!vivo) return;
+        var f = notas[i % notas.length]; i++;
+        if (f) {
+          var o = ctx.createOscillator(); o.type = tipo || "square"; o.frequency.value = f;
+          var g = ctx.createGain(); g.gain.setValueAtTime(1, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + tempo / 1000 * 0.9);
+          o.connect(g); g.connect(ganho); o.start(); o.stop(ctx.currentTime + tempo / 1000);
+        }
+        setTimeout(passo, tempo);
+      })();
+      return function () { vivo = false; setTimeout(function () { ctx.close(); }, 300); };
+    } catch (e) { return null; }
+  }
+  var MUSICA_DISCO = [220, 0, 262, 0, 330, 294, 262, 0, 196, 0, 247, 0, 294, 262, 247, 0];
+  var MUSICA_BIGSHOT = [523, 659, 784, 1047, 784, 659, 523, 0, 587, 740, 880, 1175, 880, 740, 587, 0];
+
   var SIMBOLO_SVG =
     "<svg viewBox='0 0 200 200' width='100%' height='100%' fill='none' stroke='#e00000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'>" +
     "<circle cx='100' cy='100' r='88'/><circle cx='100' cy='100' r='76' stroke-width='2' stroke-dasharray='4 9'/>" +
@@ -855,6 +1050,108 @@
     "<path d='M100 92 Q110 112 100 132 Q90 112 100 92 Z' fill='#e00000'/><path d='M100 150 L100 178 M84 166 L116 166' stroke-width='4'/></svg>";
 
   var EVENTOS = {
+    /* Artyom_informações: tudo vira uma tela preta com um vídeo privado */
+    video: function (minha, ind) {
+      ind.remove();
+      falar("artyom_informações? Hm... não tenho acesso a esse arquivo. Isso nem devia estar no meu índice. Espera. O que é isso—", "ia");
+      setTimeout(function () {
+        var tela = camada("tela-video", "");
+        tela.innerHTML =
+          "<div class='player'>" +
+            "<div class='tela'><div class='cadeado'></div><p>Vídeo privado</p><small>Este vídeo é privado.</small></div>" +
+            "<div class='barra'><span class='play'></span><span>0:00 / 0:00</span><span class='progresso'></span></div>" +
+            "<h2>artyom_informações</h2>" +
+            "<div class='info'>Privado · 0 visualizações</div>" +
+            "<div class='desc'>cam201971201012321391SP</div>" +
+          "</div>";
+        document.body.style.overflow = "hidden";
+        botao.remove();
+        janela.remove();
+      }, 2200);
+    },
+
+    /* Epsilon: tudo fica vermelho, toca música e um disco gira. Clique para parar. */
+    disco: function (minha, ind) {
+      ind.remove();
+      if (document.activeElement) document.activeElement.blur();
+      var filtro = camada("disco-filtro"), vermelho = camada("disco-vermelho");
+      var palco = camada("disco-palco", "ev-camada ev-palco");
+      palco.innerHTML = "<div id='disco' aria-hidden='true'></div><div id='disco-dica'>clique para parar</div>";
+      tocar("audio/epsilon.mp3", true, function () { return sintetizar(MUSICA_DISCO, 220, "triangle", 0.08); });
+      palco.addEventListener("click", function () {
+        parar();
+        [palco, vermelho, filtro].forEach(function (c) { c.remove(); });
+        falar(epsilon()
+          ? sorteia("discoE", ["...Você digitou o próprio nome e virou uma festa. Típico.", "Epsilon, por favor, pare de tocar música no meu sistema. Eu sei que foi você."])
+          : sorteia("disco", ["O que foi ISSO? Quem colocou música no meu sistema? ...Era até boa. Não importa.", "Toda vez que alguém digita esse nome, meu sistema vira uma rádio. Eu desisto."]), "ia");
+        ocupada = false;
+        entrada.focus();
+      });
+    },
+
+    /* BIG SHOT: comercial dos anos 80, o vírus aparece e a V.E.R.A. expulsa */
+    bigshot: function (minha, ind) {
+      ind.remove();
+      if (document.activeElement) document.activeElement.blur();
+      var tela = camada("bs-tela", "ev-camada");
+      tela.innerHTML =
+        "<div id='bs-vhs'>\u25B6 PLAY</div><div id='bs-data'>NOV 24 1987</div>" +
+        "<div id='bs-titulo'>[[BIG SHOT]]</div>" +
+        "<div id='bs-figura'></div>" +
+        "<div class='bs-caixa' id='bs-fala'></div>" +
+        "<div id='bs-vera'><div class='retrato' id='bs-retrato'></div><div class='bs-caixa vera' id='bs-fala-vera'></div></div>" +
+        "<div id='bs-barra'><i></i></div>";
+      var figura = tela.querySelector("#bs-figura"), fala = tela.querySelector("#bs-fala");
+      var veraBox = tela.querySelector("#bs-vera"), falaVera = tela.querySelector("#bs-fala-vera");
+      var barra = tela.querySelector("#bs-barra"), barraI = barra.querySelector("i");
+
+      var img = new Image(); img.alt = "";
+      img.onload = function () { figura.appendChild(img); };
+      img.onerror = function () { figura.innerHTML = "<div class='bs-caixa' style='text-align:center;font-size:40px;min-height:0'>$$$</div>"; };
+      img.src = "spamton.png";
+      var imgV = new Image(); imgV.alt = "";
+      imgV.onload = function () { tela.querySelector("#bs-retrato").appendChild(imgV); };
+      imgV.onerror = function () { tela.querySelector("#bs-retrato").innerHTML = "<svg viewBox='0 0 100 100' width='80%' height='80%'><circle cx='50' cy='50' r='44' fill='none' stroke='#ff2a2a' stroke-width='5'/><path d='M14 50 Q50 18 86 50 Q50 82 14 50 Z' fill='none' stroke='#ff2a2a' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='#ff2a2a'/></svg>"; };
+      imgV.src = "vera-anime.png";
+
+      tocar("audio/bigshot.mp3", true, function () { return sintetizar(MUSICA_BIGSHOT, 130, "square", 0.05); });
+
+      var roteiro = [
+        [0,     fala, "EI EI EI!! VOCÊ AÍ, [[Colaborador do Mês]]!!"],
+        [2600,  fala, "CANSADO DE SER UM [[Nível 1]]?? AGORA É A SUA CHANCE DE SER UM [[BIG SHOT]]!!"],
+        [5600,  fala, "É SÓ CLICAR EM [[Aceitar Todos os Termos]] E ME DAR ACESSO AO [[Sistema Inteiro]]!! OFERTA POR TEMPO [[Ilimitado]]!!"],
+        [9000,  "vera", "Ei. EI! Quem deixou ESSE pop-up ambulante entrar no MEU sistema?!"],
+        [11800, "vera", "Sai daqui! Isso é uma instituição séria! ...Mais ou menos séria! SAI!"],
+        [14200, fala, "N-NÃO NÃO NÃO, ESPERA, EU TENHO UM [[Desconto Especial]] PRA VOCÊ—"],
+        [15800, "barra", "Excluindo vírus..."],
+        [19400, "vera", "Pronto. Vírus removido. E nunca mais digita isso, ouviu?"]
+      ];
+      roteiro.forEach(function (r) {
+        setTimeout(function () {
+          if (r[1] === "vera") { veraBox.classList.add("on"); falaVera.textContent = r[2]; }
+          else if (r[1] === "barra") {
+            falaVera.textContent = "V.E.R.A.: " + r[2];
+            barra.classList.add("on");
+            var pct = 0;
+            var t = setInterval(function () {
+              pct += 10; barraI.style.width = pct + "%";
+              falaVera.textContent = "V.E.R.A.: " + r[2] + " " + pct + "%";
+              if (pct >= 100) { clearInterval(t); figura.classList.add("bs-fora"); fala.classList.add("bs-fora"); tela.querySelector("#bs-titulo").classList.add("bs-fora"); }
+            }, 300);
+          }
+          else r[1].textContent = r[2];
+        }, r[0]);
+      });
+      setTimeout(function () {
+        parar();
+        tela.remove();
+        cortinaFinal(function () {
+          falar("...Não precisa agradecer por eu ter salvado o portal inteiro. Mas pode. Se quiser.", "ia");
+          soltar();
+        });
+      }, 22500);
+    },
+
     /* Rei: trava, derrete, símbolo, frase, a pergunta é apagada */
     rei: function (minha, ind) {
       titulo.textContent = "V.E.R.A. (Não respondendo)";
