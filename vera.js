@@ -928,22 +928,34 @@
   }
 
   /* ---------- Envio de mensagens ---------- */
+  /* Mensagens enviadas enquanto um evento está rodando entram numa fila
+     e são respondidas logo depois, em vez de serem ignoradas. */
+  var fila = [];
+  function liberar() {
+    ocupada = false;
+    if (fila.length) setTimeout(function () { if (!ocupada && fila.length) tratar(fila.shift()); }, 500);
+  }
+
   janela.querySelector("#vera-form").addEventListener("submit", function (ev) {
     ev.preventDefault();
-    if (ocupada) return;
     var texto = entrada.value.trim();
     if (!texto) return;
-    var minha = falar(texto, "eu");
     entrada.value = "";
+    if (ocupada) { fila.push(texto); return; }
+    tratar(texto);
+  });
+
+  function tratar(texto) {
+    var minha = falar(texto, "eu");
     var acao = processar(texto);
 
     if (acao.tipo === "apagar") { apagarDevagar(minha, 900); return; }
 
-    ocupada = true;
     var ind = digitando();
+    if (acao.tipo !== "texto") ocupada = true;
 
     if (acao.tipo === "silencio") {
-      setTimeout(function () { ind.remove(); ocupada = false; }, 2200);
+      setTimeout(function () { ind.remove(); liberar(); }, 2200);
       return;
     }
     if (acao.tipo === "evento") {
@@ -961,7 +973,7 @@
           falar(estado.chimeraVezes === 1
             ? "...Por que tem uma pelúcia falando no MEU chat? Quem instalou isso? Artyom?!"
             : sorteia("chimeraReac", ["Para de apertar essa pelúcia.", "Ela tá pedindo pra sair. Não deixa ela sair.", "Eu juro que vou desinstalar essa coisa.", "...Ela é meio fofa. Não conta pra ninguém."]), "ia");
-          ocupada = false;
+          liberar();
         }, 1600);
       }, 900);
       return;
@@ -971,8 +983,8 @@
         ind.remove();
         falarRotulo("GILBERT", acao.fala, "gilbert");
         if (acao.reacao) {
-          setTimeout(function () { falar(acao.reacao, "ia"); ocupada = false; }, 1300);
-        } else ocupada = false;
+          setTimeout(function () { falar(acao.reacao, "ia"); liberar(); }, 1300);
+        } else liberar();
       }, 900);
       return;
     }
@@ -983,9 +995,9 @@
       if (estado.total === 15) {
         setTimeout(function () { falar(n("Você conversa bastante comigo, hein, {nome}. ...Não que eu esteja reclamando. Pode continuar."), "ia"); }, 900);
       }
-      ocupada = false;
+      liberar();
     }, espera);
-  });
+  }
 
   /* ==========================================================
      EVENTOS
@@ -1013,7 +1025,7 @@
       setTimeout(letra, frase.charAt(i - 1) === "." ? pausa : normal);
     })();
   }
-  function soltar() { ocupada = false; entrada.focus(); }
+  function soltar() { liberar(); entrada.focus(); }
 
   /* ---------- Áudio ----------
      Os arquivos ficam na pasta "audio". Se não existirem,
@@ -1104,7 +1116,7 @@
         falar(epsilon()
           ? sorteia("discoE", ["...Você digitou o próprio nome e virou uma festa. Típico.", "Epsilon, por favor, pare de tocar música no meu sistema. Eu sei que foi você."])
           : sorteia("disco", ["O que foi ISSO? Quem colocou música no meu sistema? ...Era até boa. Não importa.", "Toda vez que alguém digita esse nome, meu sistema vira uma rádio. Eu desisto."]), "ia");
-        ocupada = false;
+        liberar();
         entrada.focus();
       });
     },
