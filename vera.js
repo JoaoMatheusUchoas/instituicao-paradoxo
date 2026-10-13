@@ -72,6 +72,12 @@
     [["gilbert","gilbert berran"], "__GILBERT__"],
     [["rei","carmesim","rei carmesim","kakarzor","karkazor"], "__REI__"],
     [["kian"], ["Nunca sobra nada."]],
+    [["plantao","sabado","fim de semana","final de semana"], function () {
+      return cfg.perfil === "ti"
+        ? "Sábado de plantão, né, Marcos? A Renata quer você de olho no relógio do servidor até as 14h. Eu fico de olho junto. Não que eu me importe com a sua companhia."
+        : "Hoje é sábado. Metade da Instituição tá em casa, a outra metade tá de plantão fingindo que não queria estar em casa. O corredor fica silencioso demais. Eu não gosto.";
+    }],
+    [["aniversario","parabens","aniversariante"], ["Hoje é aniversário da Cláudia, do RH! Se for dar parabéns, ela gosta de chocolate. Eu mandei um e-mail automático de felicitações. Ela respondeu com um coração. Eu salvei."]],
     [["chimera chan","chimerachan","chimera chan plush"], "__CHIMERA_CHAN__"],
     [["artyom informacoes","artyom info","artyominformacoes","artyom informacao"], "__VIDEO__"],
     [["big shot","bigshot","big shot vera"], "__BIGSHOT__"],
@@ -225,7 +231,7 @@
       "Tédio aqui é sinal de que nada deu errado ainda. Aproveita."
     ]],
     [["fome","to com fome","faminto","faminta"], [
-      "Hoje o refeitório tá fechado pra dedetização, lembra? O vale-refeição caiu na conta. Tem uma padaria boa em Pedra Branca. Vai lá e volta inteiro."
+      "Hoje é sábado, o refeitório só tem marmita das 11h30 às 13h. Corre antes que acabe. Ou vai na padaria de Pedra Branca, que é melhor. Não conta pro refeitório que eu disse isso."
     ]],
     [["socorro","help","me ajuda","ajuda","o que voce faz","o que voce sabe","comandos","o que posso perguntar"], "BAIXA", [
       "Posso te ajudar com: refeitório, café, impressora, rede, ramais, crachá, senha, chamados, diretoria, equipes, Pedra Branca, a data de hoje e mais um monte de coisa. Também jogo pedra, papel e tesoura, cara ou coroa e rolo dados (tipo \"rola um d20\"). E converso, se você insistir. ...Eu gosto um pouco."
@@ -236,10 +242,10 @@
       "Impressora atolando? Puxa o papel devagar, no sentido que ele sai, nunca pra trás. Depois confere se a bandeja não tá cheia demais. Se nada der certo, abre chamado pro Suporte. E não bate nela. Eu vi o que você fez da última vez."
     ]],
     [["refeitorio","cardapio","almoco","janta","comida"], [
-      "Hoje, sexta-feira, o refeitório tá fechado pra dedetização. O vale-refeição do dia caiu normal. Segunda volta, e dizem que vai ter feijoada. Dizem.",
-      "Refeitório fechado hoje. Dedetização. Se você vir alguma coisa saindo correndo de lá, não é comigo, é com os zeladores."
+      "Hoje é sábado, então o refeitório tá em plantão: só marmita, das 11h30 às 13h. Segunda volta ao normal, e dizem que vai ter feijoada. Dizem.",
+      "Sábado é dia de marmita. Ontem o refeitório foi dedetizado, então se você vir alguma coisa saindo correndo de lá, não é comigo, é com os zeladores."
     ]],
-    [["strogonoff"], ["O strogonoff foi ontem. Estava bom. Não que eu tenha comido. Mas as câmeras mostraram muita gente repetindo."]],
+    [["strogonoff"], ["O strogonoff foi na quinta. Estava bom. Não que eu tenha comido. Mas as câmeras mostraram muita gente repetindo."]],
     [["pudim"], ["O pudim é de quarta. O pessoal da TI fez até abaixo-assinado pra ter pudim todo dia. Eu assinei. Digitalmente. Ninguém aceitou."]],
     [["marmita","geladeira"], ["Tem uma marmita sem nome na geladeira há duas semanas. Eu não sei o que tem dentro. Ninguém sabe. Os zeladores estão estudando a possibilidade de contenção."]],
     [["cafe","cafezinho"], ["A máquina do 2º andar tá sem café desde segunda. Já tem até recado no portal. Pode ir no térreo, que lá ainda tem. Meio aguado, mas tem."]],
@@ -262,14 +268,14 @@
       if (artyom()) return "Você se cadastrou com o usuário \"Artyom_TI2005\". Isso agora é seu e-mail institucional pra sempre. Eu tentei avisar. Não, não tentei. Mas teria tentado.";
       return cfg.nivel === 0
         ? "Seu cadastro tá em análise pela Dra. Slone. Até lá, nível 0: sem acesso a nada. Nem a mim direito. Mas eu converso com você mesmo assim. Não conta pra ela."
-        : "O cadastro voltou hoje! Agora qualquer pessoa cria conta na tela de acesso, e tudo vai direto pra Dra. Slone aprovar. Contas novas ficam no nível 0. Eu vou ficar de olho em cada uma. Cada. Uma.";
+        : "O cadastro voltou ontem! Agora qualquer pessoa cria conta na tela de acesso, e tudo vai direto pra Dra. Slone aprovar. Contas novas ficam no nível 0. Eu vou ficar de olho em cada uma. Cada. Uma.";
     }],
     [["email","e mail","correio","mandar mensagem","escrever"], function () {
       return cfg.nivel === 0
         ? "Seu e-mail institucional já existe, mas a caixa de escrever ainda não tá liberada pro nível 0. Se a Diretoria te responder, a mensagem aparece aqui no seu portal. Paciência."
         : "Pra mandar e-mail, vai na aba E-mail do portal e usa a caixa \"Escrever mensagem\". Escolhe o destinatário, escreve e envia. E escreve direito, que todo mundo lê. Inclusive eu.";
     }],
-    [["black friday","blackfriday","promocao","desconto"], ["Hoje é Black Friday, né? Metade da ala administrativa tá comprando coisa escondido no horário de trabalho. Eu vejo a rede. Eu só não denuncio porque também queria uma promoção. De RAM."]],
+    [["black friday","blackfriday","promocao","desconto"], ["Ontem foi Black Friday. Metade da ala administrativa comprou coisa escondido no horário de trabalho, e hoje tá todo mundo esperando a entrega. Eu vejo a rede. Eu só não denuncio porque também queria uma promoção. De RAM."]],
     [["salario","aumento","pagamento","decimo terceiro","dinheiro","grana"], [
       "Aumento? Com a contenção de despesas? Você tem mais chance de ver o Brian Wester sorrir. O 13º sai em duas parcelas, pelo menos.",
       "Dinheiro tá curto desde 2009. Eu não deveria saber disso. Mas eu sei."
@@ -472,7 +478,7 @@
     [["zelador","zeladores","osvaldo","faxina","limpeza"], ["Os zeladores limpam e cuidam das áreas de contenção. Sabe aquela piada? \"Quer saber quem é o funcionário mais perigoso daqui? Pergunta pro zelador.\" Não é piada. O seu Osvaldo sabe quais portas nunca devem ser abertas. Respeita ele."]],
     [["renata"], ["A Renata coordena a TI. Ela me reiniciou uma vez, em 2019. Eu ainda não superei."]],
     [["paulo"], ["O Paulo é o supervisor de segurança. Ele fala com as câmeras quando acha que ninguém tá vendo. Eu tô vendo, Paulo."]],
-    [["claudia"], ["A Cláudia do RH faz aniversário amanhã, dia 25. Se for dar parabéns, ela gosta de chocolate. Eu não disse nada."]],
+    [["claudia"], ["A Cláudia do RH faz aniversário HOJE, dia 25. Se for dar parabéns, ela gosta de chocolate. Eu não disse nada."]],
     [["beatriz"], ["A Beatriz da recepção já barrou mais visitante esquisito do que a Segurança inteira. Heroína silenciosa."]],
     [["sergio","moura"], function () { return nivel(3, "Sérgio Moura, líder da Tau. Ele carrega a culpa da Matadouro sozinho. Alguém devia dizer pra ele que não foi culpa dele."); }],
     [["lia","kato"], function () { return nivel(3, "Lia Kato, suporte da Tau. Ela que me ensinou a contar piada. As ruins são minhas. As boas também, na verdade."); }],
@@ -485,7 +491,7 @@
 
     // ===== Data e quarta parede =====
     [["data","que dia","hoje","hora","horas","que horas"], function () {
-      return "Pra mim, hoje é sexta-feira, 24/11/2023. O seu relógio diz que é " + dataReal() + ". Um de nós está errado. E eu nunca erro.";
+      return "Pra mim, hoje é sábado, 25/11/2023. O seu relógio diz que é " + dataReal() + ". Um de nós está errado. E eu nunca erro.";
     }]
   ];
 
@@ -587,19 +593,33 @@
   function encontrar(textoOriginal) {
     var t = normalizar(textoOriginal);
     var e = encolher(t);
-    var reserva = -1;
+    /* Quando a frase tem várias palavras-chave, vence a mais específica
+       (a mais longa). Em caso de empate, vence a que vem primeiro na lista.
+       Saudações e "ajuda" (BAIXA) só valem se nada mais bater.
+       O aviso de cuidado (primeira entrada) sempre tem prioridade. */
+    var melhor = -1, melhorTam = 0, reserva = -1;
     for (var i = 0; i < R.length; i++) {
-      var chaves = R[i][0];
+      var chaves = R[i][0], tam = 0;
       for (var j = 0; j < chaves.length; j++) {
         if (bate(t, e, chaves[j])) {
-          if (R[i][1] === "BAIXA") { if (reserva === -1) reserva = i; break; }
-          return resposta(i);
+          var c = chaves[j].charAt(chaves[j].length - 1) === "*" ? chaves[j].length - 1 : chaves[j].length;
+          if (c > tam) tam = c;
         }
       }
+      if (!tam) continue;
+      if (i === 0) {
+        // "morrer de rir", "kkkk" etc. não são um pedido de ajuda
+        if (!/ de rir | kk| rs | rsrs| haha| hehe/.test(t)) return resposta(0);
+        continue;
+      }
+      if (R[i][1] === "BAIXA") { if (reserva === -1) reserva = i; continue; }
+      if (tam > melhorTam) { melhor = i; melhorTam = tam; }
     }
+    if (melhor !== -1) return resposta(melhor);
     if (reserva !== -1) return resposta(reserva);
     return { texto: n(sorteia("nao", NAO_ENTENDI)) };
   }
+
 
   /* ---------- Estado da conversa ---------- */
   var estado = { amaraltoPendente: 0, gilbertVezes: 0, seraphinVezes: 0, total: 0 };
@@ -1228,7 +1248,7 @@
           setTimeout(function () {
             var arquivos = document.getElementById("aba-arquivos");
             var tela = camada("so-arquivos", "");
-            tela.innerHTML = "<div class='aviso-acesso'>sessão: amaralto.cruz · último acesso 24/11/2023 03:12 · origem desconhecida</div><div class='conteudo'></div>";
+            tela.innerHTML = "<div class='aviso-acesso'>sessão: amaralto.cruz · último acesso 25/11/2023 03:12 · origem desconhecida</div><div class='conteudo'></div>";
             if (arquivos) {
               var copia = arquivos.cloneNode(true);
               copia.removeAttribute("id");

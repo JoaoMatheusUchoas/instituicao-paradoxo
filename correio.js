@@ -16,7 +16,7 @@ var CORREIO_DESTINO = "suporteparadoxo114@gmail.com";
 var DOMINIO_PARADOXO = "@paradoxo.com.br";
 
 var Correio = (function () {
-  var DATA_JOGO = "24/11/2023";
+  var DATA_JOGO = "25/11/2023";
 
   function agoraReal() {
     var d = new Date();

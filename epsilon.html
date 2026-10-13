@@ -304,7 +304,7 @@
   </div>
 </nav>
 
-<div class="migalha" id="migalha">Portal do Colaborador › Início · Sexta-feira, 24 de novembro de 2023</div>
+<div class="migalha" id="migalha">Portal do Colaborador › Início · Sábado, 25 de novembro de 2023</div>
 
 <div class="corpo">
 <div class="principal">
@@ -707,7 +707,7 @@
     <div class="caixa">
       <div class="caixa-topo">Refeitório <span>Cardápio da semana · 20 a 24/11</span></div>
       <div class="caixa-corpo">
-        <div class="aviso">Hoje, sexta-feira (24/11), o refeitório está fechado para dedetização. O vale-refeição será creditado normalmente.</div>
+        <div class="aviso">Hoje é sábado (25/11): o refeitório funciona em regime de plantão, apenas com marmitas, das 11h30 às 13h. O cardápio completo volta na segunda-feira, 27/11.</div>
         <div class="tabela-wrap">
           <table class="dados cardapio">
             <thead><tr><th>Dia</th><th>Prato principal</th><th>Acompanhamentos</th><th>Sobremesa</th></tr></thead>
@@ -716,7 +716,8 @@
               <tr><td>Terça, 21/11</td><td>Carne de panela</td><td>Arroz, purê de batata, legumes</td><td>Banana</td></tr>
               <tr><td>Quarta, 22/11</td><td>Peixe empanado</td><td>Arroz, feijão, salada de tomate</td><td>Pudim</td></tr>
               <tr><td>Quinta, 23/11</td><td>Strogonoff de frango</td><td>Arroz, batata palha, salada verde</td><td>Doce de leite</td></tr>
-              <tr class="hoje-linha"><td>Sexta, 24/11</td><td colspan="3"><span class="status st-esp">Fechado para dedetização</span></td></tr>
+              <tr><td>Sexta, 24/11</td><td colspan="3"><span class="status st-esp">Fechado para dedetização</span></td></tr>
+              <tr class="hoje-linha"><td>Sábado, 25/11</td><td colspan="3">Plantão · marmitas das 11h30 às 13h</td></tr>
             </tbody>
           </table>
         </div>
@@ -800,7 +801,7 @@
       <table class="cal mini-cal" id="cal-mini"></table>
       <div class="agenda" style="margin-top:10px">
         <ul>
-          <li><b>24/11</b>Refeitório fechado</li>
+          <li><b>25/11</b>Plantão de sábado</li>
           <li><b>27/11</b>Reunião geral · Apresentação da Equipe Omega</li>
           <li><b>30/11</b>Fechamento da folha</li>
           <li><b>01/12</b>Início das atividades da Equipe Omega</li>
@@ -913,7 +914,7 @@
     for (var j = 0; j < abas.length; j++) abas[j].classList.remove("ativa");
     document.getElementById("aba-" + aba).classList.add("ativa");
     document.getElementById("migalha").textContent =
-      "Portal do Colaborador › " + NOMES[aba] + " · Sexta-feira, 24 de novembro de 2023";
+      "Portal do Colaborador › " + NOMES[aba] + " · Sábado, 25 de novembro de 2023";
     if (alvo) {
       document.getElementById(alvo).scrollIntoView();
     } else {
@@ -949,6 +950,7 @@
     "2023-11-20": [["Consciência Negra (ponto facultativo)", "feriado"]],
     "2023-11-22": [["Setor Alpha com acesso restrito", "alerta"]],
     "2023-11-24": [["Refeitório fechado", "alerta"], ["Cadastro reativado", "interno"]],
+    "2023-11-25": [["Plantão de sábado", "interno"], ["Aniversário: Cláudia (RH)", "interno"]],
     "2023-11-27": [["Reunião geral · Equipe Omega", "interno"]],
     "2023-11-30": [["Fechamento da folha", "interno"]],
     "2023-12-01": [["Início da Equipe Omega", "interno"], ["Contenção de despesas", "alerta"]],
@@ -959,7 +961,7 @@
   };
   var MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
   var SEMANA = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
-  var HOJE = "2023-11-24";
+  var HOJE = "2023-11-25";
   var mesAtual = 10; // novembro (0 = janeiro)
   var MES_MIN = 9, MES_MAX = 11; // outubro a dezembro
 
